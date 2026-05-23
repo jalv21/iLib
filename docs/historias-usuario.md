@@ -49,6 +49,11 @@
 - A **API de Transações** consumida pelo sistema vai realizar uma transação entre o leitor e o autor/editora, fazendo com que ele receba o valor do livro na sua conta bancária.
 - O valor do livro será registrado no seu histórico de vendas e aparecerá no seu dashboard integrando a quantia total vendida.
 
+**US09** - "Como leitor, quero poder aplicar os meus cupons de desconto para os livros que eu quero comprar."
+
+**Critérios de Aceitação**:
+- O leitor irá incluir um cupom na sua compra na tela de checkout. Um leitor só pode aplicar um cupom por livro.
+
 ## 🔃 Épico - Empréstimo de Livros
 
 ## 🔖 Épico - Leitura de Livros
