@@ -54,6 +54,11 @@
 **Critérios de Aceitação**:
 - O leitor irá incluir um cupom na sua compra na tela de checkout. Um leitor só pode aplicar um cupom por livro.
 
+**US10** - "Como leitor, quero poder adicionar livros que desejo comprar em um 'carrinho', para que não precise comprá-los separadamente em compras de múltiplos livros."
+
+**Critérios de Aceitação**:
+- O leitor irá clicar em um botão próximo de "Comprar" no card do livro que deseja, e isso o adicionará ao seu *Carrinho*, para que compre múltiplos livros de uma só vez.
+
 ## 🔃 Épico - Empréstimo de Livros
 
 ## 🔖 Épico - Leitura de Livros
