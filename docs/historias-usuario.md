@@ -22,6 +22,12 @@
 **US04** - "Como Autor/Editora, quero poder cadastrar meus livros no catálogo da aplicação para que leitores possam lê-los."
 
 **Critérios de Aceitação**:
-- O Autor/Editora clica em um botão "Novo livro" na sua página de "Livros cadastrados", O botão leva o usuário à um formulário de cadastro de livros, onde ele irá inserir os dados básicos de identificação **Título**, **Autor** e **ISBN**, e os dados adicionais **Gênero(s)** (da lista de gêneros do sistema), e uma **autodeclaração de dificuldade do livro**, escolhendo uma opção entre *Fácil*, *Médio* e *Dificíl*. Finalmente, ele irá fazer **upload do arquivo EPUB do livro**.
+- O Autor/Editora clica em um botão "Novo livro" na sua página de "Livros cadastrados", O botão leva o usuário à um formulário de cadastro de livros, onde ele irá inserir o **ISBN** e os dados adicionais **Gênero(s)** (da lista de gêneros do sistema) e a **autodeclaração de dificuldade do livro**, escolhendo uma opção entre *Fácil*, *Médio* e *Dificíl*. Finalmente, ele irá fazer **upload do arquivo EPUB do livro**, definirá um **preço para compra vitalícia** e a **duração do empréstimo gratuito** em dias.
 - Antes da castrar o livro, o Autor/Editora terá que confirmar sua identidade usando sua **Senha**.
 - Uma vez cadastrado, a **API de livros** (*Google Books API*, *OpenLibrary API*, etc.) consumida pela aplicação vai retornar os dados completos do livro na sua interface disponível para os leitores com base no ISBN inserido no cadastro.
+
+**US05** - "Como Autor/Editora, quero poder editar dados dos meus livros para corrigir informações incorretas ou atualizar detalhes"
+
+**Critérios de Aceitação**:
+- O Autor/Editora poderá editar diretamente dados como **Gênero(s) do livro**, a **autodeclarção de dificuldade**, o **preço para compra vitalícia** e a **duração do empréstimo gratuito**, porém para a edição de um livro a nível de conteúdo pode ser feita apenas **substituindo o arquivo EPUB**. O **ISBN** do livro deve ser um dado imutável.
+
