@@ -36,12 +36,18 @@
 **Critérios de Aceitação**: 
 - O Autor/Editora irá clicar na opção "arquivar livro",  confirmar sua identidade pela sua **Senha** e arquivar o livro, que será removido do catálogo do sistema e será movido para a seção *Livros Arquivados* até que ele restaure ou exclua o livro.
 
-## 🛒 Épico - Compra de Livros
+## 🛒 Épico - Catálogo de Livros
 
 **US07** - "Como leitor, quero poder selecionar o livro que quero ler e comprá-lo."
 
 **Critérios de Aceitação**:
 - O usuário deve selecionar um livro e clicar no seu botão "Comprar". Ele então vai selecionar a forma de pagamento em uma tela de checkout e confirmar a compra.
+
+**US08** - "Como Autor/Editora, quero receber pelos livros meus que forem comprados por leitores."
+
+**Critérios de Aceitação**:
+- A **API de Transações** consumida pelo sistema vai realizar uma transação entre o leitor e o autor/editora, fazendo com que ele receba o valor do livro na sua conta bancária.
+- O valor do livro será registrado no seu histórico de vendas e aparecerá no seu dashboard integrando a quantia total vendida.
 
 ## 🔃 Épico - Empréstimo de Livros
 
