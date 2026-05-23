@@ -1,6 +1,6 @@
 # 📗 iLib - Histórias de Usuário
 
-### 👨‍💻 Épico: Cadastro de Usuários
+## 👨‍💻 Épico: Cadastro de Usuários
 **US01** - "Como leitor, quero poder me cadastrar na aplicação para que eu possa ler livros."
 
 **Critérios de Aceitação**
