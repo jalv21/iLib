@@ -38,6 +38,11 @@
 
 ## 🛒 Épico - Compra de Livros
 
+**US07** - "Como leitor, quero poder selecionar o livro que quero ler e comprá-lo."
+
+**Critérios de Aceitação**:
+- O usuário deve selecionar um livro e clicar no seu botão "Comprar". Ele então vai selecionar a forma de pagamento em uma tela de checkout e confirmar a compra.
+
 ## 🔃 Épico - Empréstimo de Livros
 
 ## 🔖 Épico - Leitura de Livros
