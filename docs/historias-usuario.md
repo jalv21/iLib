@@ -36,5 +36,19 @@
 **Critérios de Aceitação**: 
 - O Autor/Editora irá clicar na opção "arquivar livro",  confirmar sua identidade pela sua **Senha** e arquivar o livro, que será removido do catálogo do sistema e será movido para a seção *Livros Arquivados* até que ele restaure ou exclua o livro.
 
+## 🛒 Épico - Compra de Livros
+
+## 🔃 Épico - Empréstimo de Livros
+
+## 🔖 Épico - Leitura de Livros
+
+## ⭐ Épico - Avaliação de Livros
+
+## 📚 Épico - Organização de Livros
+
+## 🏅 Épico - Sistema de XP
+
+## 📋 Épico - Dashboard de Autores e Editoras
+
 
 
