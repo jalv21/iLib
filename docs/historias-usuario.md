@@ -147,6 +147,18 @@
 
 ## 🔹 Épico - Sistema de XP
 
+**US24** - "Como leitor, quero que o sistema de gamificação de leitura da aplicação crie uma medida de progresso que permite ter acesso à benefícios maiores na loja"
+
+**Critérios de Aceitação**:
+- O sistema deve ter como uma funcionalidade gamificada o "Lit-XP" (***Lit**erary e***X***perience **P**oints*) O leitor ganha pontos de Lit-XP (abreviando para apenas XP por conveniência) ao ler livros, e à medida que ele ganha esses pontos de XP, seu nível de XP aumenta em 1.
+
+**US25** - "Como leitor, quero que a minha dedicação aos livros de um determinado gênero ou autor/editora seja recompensada de alguma forma pelo sistema de XP."
+
+**Critérios de Aceitação**:
+- Existirão pontuações de XP paralelas que afetam um escopo específico de benefícios, incluindo XP de Gênero Literário e XP de Autor/Editora. Caso haja uma promoção de livros de determinado gênero ou autor por parte de uma editora, essas pontuações podem garantir ao leitor uma série de benefícios especiais na loja.
+- O leitor terá uma tela dedicada à exibição das pontuações de XP no seu perfil, incluindo a pontuação de XP geral no topo da tela, e uma lista de pontuações de XP para cada gênero literário. O XP de Autor/Editora não exibido nessa tela, mas sim na interface dos livros, ao lado do nome do autor/editora.
+    
+
 ## 🪙 Épico - Sistema de Moedas
 
 ## 🛍️ Épico - Loja e Cupons
