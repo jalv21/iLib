@@ -188,7 +188,10 @@
 - O sistema terá uma seção "Loja" assível pelo menu do feed de livros.
 - A loja terá três tipos padrão de benefício, sendo eles: Cosméticos (para decoração de perfil, biblioteca e tema), Cupons de Empréstimo (aumentam o tempo de empréstimo de livros) e Cupons de Desconto (dão descontos na compra de livros), cada um com seu próprio preço em moedas.
 
+**US30** - "Como autor/editora, quero que os benefícios da loja relacionados ao empréstimo e compra de livros sejam limitados para não prejudicar a receita."
 
+**Critérios de Aceitação**:
+- O efeito dos benefícios na loja será compatível ao nível de XP do leitor, e mesmo nos níveis mais altos possíveis, terá um limite.
 
 ## 📋 Épico - Dashboard de Autores e Editoras
 
