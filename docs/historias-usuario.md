@@ -71,6 +71,13 @@
 
 ## 🔃 Épico - Empréstimo de Livros
 
+**US13** - "Como leitor, quero pegar livros emprestados por um determinado período de tempo antes de comprá-los de forma vitalícia. Caso eu não encerre a amostra manualmente até o fim do prazo, o sistema deve fazer isso por mim para impedir que eu contraia dívidas."
+
+**Critérios de Aceitação**:
+- O leitor irá clicar no botão "Pegar emprestado" no card do livro que deseja, e o livro será adicionado na sua tela "Minha Estante" com um contador regressivo em cima da capa, indicando quanto falta para o fim do empréstimo. O tempo padrão do empréstimo é definido pelo Autor/Editora no cadastro do livro, mas pode aumentar se o leitor aplicar **cupons especiais** comprados com **moedas do sistema** na **loja** (funcionalidades que serão detalhadas mais à frente no documento.)
+- Um leitor só pode pegar **um** livro emprestado por vez por padrão, mas ele pode aplicar **cupons da loja** para adicionar outro livro ao empréstimo.
+- Após o fim do prazo, o livro será automaticamente removido da sua estante e uma **notificação** será criada na **página de notificações** informando a expiração do empréstimo. Caso o leitor queira voltar a lê-lo, deverá **comprá-lo de forma vitalícia** ou **esperar o mesmo tempo do seu empréstimo** (excetuando tempo extra de cupons) para solicitar um novo.
+
 ## 🔖 Épico - Leitura de Livros
 
 ## ⭐ Épico - Avaliação de Livros
