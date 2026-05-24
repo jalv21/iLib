@@ -22,7 +22,7 @@
 **US04** - "Como Autor/Editora, quero poder cadastrar meus livros no catálogo da aplicação para que leitores possam lê-los."
 
 **Critérios de Aceitação**:
-- O Autor/Editora clica em um botão "Novo livro" na sua página de "Livros cadastrados", O botão leva o usuário à um formulário de cadastro de livros, onde ele irá inserir o **ISBN** e os dados adicionais **Gênero(s)** (da lista de gêneros do sistema) e a **autodeclaração de dificuldade do livro**, escolhendo uma opção entre *Fácil*, *Médio* e *Dificíl*. Finalmente, ele irá fazer **upload do arquivo EPUB do livro**, definirá um **preço para compra vitalícia** e a **duração do empréstimo gratuito** em dias.
+- O Autor/Editora clica em um botão "Novo livro" na sua página de "Livros cadastrados", O botão leva o usuário à um formulário de cadastro de livros, onde ele irá inserir o **ISBN** e os dados adicionais **Gênero(s)** (da lista de gêneros do sistema) e selecionará um **índice de dificuldade** do livro entre 1 e 100. Finalmente, ele irá fazer **upload do arquivo EPUB do livro**, definirá um **preço para compra vitalícia** e a **duração do empréstimo gratuito** em dias.
 - Antes da castrar o livro, o Autor/Editora terá que confirmar sua identidade usando sua **Senha**.
 - Uma vez cadastrado, a **API de livros** (*Google Books API*, *OpenLibrary API*, etc.) consumida pela aplicação vai retornar os dados completos do livro na sua interface front-end com base no ISBN inserido no cadastro.
 
@@ -164,10 +164,7 @@
 
 **Critérios de Aceitação**:
 - O leitor de livros contará com um contador de tempo de leitura baseado no tempo de leitura médio do leitor, calculado durante as primeiras páginas lidas em um livro na aplicação e sendo sempre atualizado. Caso o leitor demore menos de 20% do seu tempo de leitura habitual para ler uma página, a sua pontuação de XP é penalizada de acordo com o quão rápido ele foi, fazendo com que a virada instantânea de páginas não dê nenhum XP para o leitor e assim prevenindo o exploit.
-- A autodeclaração de dificuldade do livro, informada durante seu cadastro, será utilizada para regular o XP obtido pelas suas páginas.
-    - Livros fáceis irão dar menos XP por página.
-    - Livros médios irão dar a quantidade normal de XP por página.
-    - Livros difíceis irão dar o dobro de XP por página.
+- O índice de dificuldade do livro, informado durante seu cadastro, será utilizada para regular o XP obtido pelas suas páginas.
 
 **US27** - "Como leitor, quero poder folhear livros e mesmo assim manter a minha pontuação de XP intacta durante a leitura de fato. Não quero ter a minha leitura presa à um sistema de recompensas contra a minha vontade."
 
@@ -181,7 +178,7 @@
 **US28** - "Como leitor, quero que exista um sistema de gamificação complementar ao XP para adquirir de fato os benefícios que o XP desbloqueia para serem adquiridos na loja."
 
 **Critérios de Aceitação**:
-- O sistema terá uma moeda própria para adquirir benefícios da loja. As moedas são obtidas em menor quantidade como recompensa por subir de nível de XP e em maior quantidade por finalizar livros.
+- O sistema terá uma moeda própria para adquirir benefícios da loja. As moedas são obtidas em menor quantidade como recompensa por subir de nível de XP e em maior quantidade por finalizar livros, que variam de acordo com a dificuldade do livro em si.
 
 ## 🛍️ Épico - Loja e Cupons
 
