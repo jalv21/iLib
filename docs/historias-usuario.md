@@ -200,9 +200,24 @@
 **Critérios de Aceitação**
 - O autor/editora preencherá um formulário para criar uma promoção, informando o valor da promoção, o número de dias de empréstimo extra (caso aplicável), a duração da promoção e os livros da sua biblioteca que participarão dela.
 - A promoção deve ser exibida nas páginas dos livros participantes, e os dados dos livros devem ser atualizados de acordo.
-- Assim que a promoção acabar, serão restaurados os dados padrão do livro, informados durante a última edição desses dados via CRUD de livros.
+- A promoção deve ser registrada na seção "Minhas Promoções" na biblioteca do autor/editora, com o status definido como "Ativa".
+- Assim que a promoção acabar, serão restaurados os dados padrão do livro, salvos durante a última edição desses dados via CRUD de livros, e o status da promoção será atualizado para "Inativa".
 
+**US32** - "Como autor/editora, quero poder interromper promoções caso seja necessário."
 
+**Critérios de Aceitação**:
+- O autor/editora poderá clicar no botão "interromper" da promoção desejada, e a promoção será interrompida, com o status definido como "Inativa". Caso deseje retomá-la, basta clicar no botão "retomar", e a promoção terá seu status definido como "Ativa" novamente.
+
+**US33** - "Como autor/editora, quero poder editar detalhes da promoção enquanto ela está ativa."
+
+**Critérios de Aceitação**:
+- O autor/editora poderá editar o valor da promoção e adiar ou adiantar o seu vencimento, tal como adicionar e remover livros da promoção.
+
+**US34** - "Como autor/editora, quero poder excluir promoções da minha seção de promoções, caso decida que a promoção não será feita novamente."
+
+**Critérios de Aceitação**:
+- O autor/editora clicará no botão "Excluir" da promoção e ela será removida permanentemente.
+- O sistema irá exibir um modal de confirmação para prevenir exclusões acidentais.
 
 ## 📋 Épico - Dashboard de Autores e Editoras
 
