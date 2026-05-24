@@ -98,6 +98,19 @@
 - Na aplicação mobile, o leitor poderá deslizar a tela para baixo e para cima no canto superior direito da interface para colocar e retirar o marcador de página, respectivamente. Na aplicação web, ele poderá clicar no canto superior direito para fazer isso.
 
 ## ⭐ Épico - Avaliação de Livros
+> [!NOTE] Nota temporária (Apagar após o diagrama de componentes)
+> Devido à alta carga de I/O da funcionalidade, essa feature poderia ser implementada dentro de um microsserviço em uma linguagem performática como Go.
+
+**US17** - "Como leitor, quero poder avaliar os livros lidos em um sistema de 5 estrelas e dar meu feedback para o autor/editora."
+
+**Critérios de Aceitação**:
+- O leitor poderá avaliar o livro em uma seção "Avaliar", dando uma nota de 1 à 5 estrelas e deixando um comentário.
+- Leitores podem comentar nas avaliações de outros leitores, porém as respostas do autor/editora, caso existam, estarão sempre em destaque no topo da seção de comentários da avaliação.
+
+**US18** - "Como autor/editora, quero que as avaliações do meu livro sejam combinadas em uma média que será exibida junto com as informações gerais do livro."
+
+**Critérios de Aceitação**:
+- Será calculada uma média à partir das avaliações dos leitores, que será registrada como a média de avaliações do livro. Este dado então será usado para definir a prioridade do livro em pesquisas dos leitores, e vai passar a integrar o dashboard de autor/editora.
 
 ## 📚 Épico - Organização de Livros
 
