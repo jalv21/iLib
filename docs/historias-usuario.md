@@ -59,6 +59,16 @@
 **Critérios de Aceitação**:
 - O leitor irá clicar em um botão próximo de "Comprar" no card do livro que deseja, e isso o adicionará ao seu *Carrinho*, para que compre múltiplos livros de uma só vez.
 
+**US11** - "Como leitor, quero poder filtrar os livros que aparecem no feed por dados como faixa de preço, gênero, autor, editora e gênero, tal como selecionar filtros pré-estabelecidos, como 'Livros em Alta' ou 'Novidades'."
+
+**Critérios de Aceitação**:
+- O leitor irá selecionar filtros na barra de pesquisa selecionando os critérios de filtro desejados, ou selecionar no menu de filtros pré-estabelecidos no topo do feed o filtro que deseja.
+
+**US12** - "Como leitor, quero poder pesquisar livros de forma eficaz. Minha pesquisa deve retornar os livros mais populares que contém o texto pesquisado no título ou autor." 
+
+**Critérios de Aceitação**:
+- O leitor irá digitar o que procura na barra de pesquisa, e os livros correspondentes serão retornados em ordem de popularidade.
+
 ## 🔃 Épico - Empréstimo de Livros
 
 ## 🔖 Épico - Leitura de Livros
