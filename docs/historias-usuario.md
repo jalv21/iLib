@@ -93,6 +93,10 @@
 
 ## 🏅 Épico - Sistema de XP
 
+## 🪙 Épico - Sistema de Moedas
+
+## 🛍️ Épico - Loja e Cupons
+
 ## 📋 Épico - Dashboard de Autores e Editoras
 
 
