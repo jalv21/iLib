@@ -134,7 +134,13 @@
 **Critérios de Aceitação**:
 - O leitor pode definir sua estante como pública ou privada. Estantes públicas podem ser acessadas e salvas por outros leitores através da seção "Estantes" no feed de livros da aplicação. Estantes privadas só podem ser acessadas por quem as criou.
 
-**US22** - "Como Autor/Editora, quero poder criar minhas próprias estantes com meus livros, para que os leitores acessem através da seção 'Estantes' do feed de livros ou pela minha biblioteca de autor/editora."
+**US22** - "Como Autor/Editora, quero que os meus livros sejam organizados dentro da minha biblioteca para gerenciá-los de forma mais fácil e melhorar a minha experiência no sistema."
+
+**Critérios de Aceitação**:
+- Livros cadastrados no catálogo serão inseridos na seção "Meus livros" da biblioteca do autor/editora. 
+- Livros arquivados serão movidos para a seção "Arquivo"
+
+**US23** - "Como Autor/Editora, quero poder criar minhas próprias estantes com meus livros, para que os leitores acessem através da seção 'Estantes' do feed de livros ou pela minha biblioteca de autor/editora."
 
 **Critérios de Aceitação**:
 - O autor/editora pode adicionar seus livros à estantes assim como o leitor, porém todas as estantes criadas por autores/editores são necessariamente públicas, não sendo possível a criação de estantes privadas.
