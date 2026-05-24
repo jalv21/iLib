@@ -162,6 +162,13 @@
 
 **Critérios de Aceitação**:
 - O leitor de livros contará com um contador de tempo de leitura baseado no tempo de leitura médio do leitor, calculado durante as primeiras páginas lidas em um livro na aplicação e sendo sempre atualizado. Caso o leitor demore menos de 20% do seu tempo de leitura habitual para ler uma página, a sua pontuação de XP é penalizada de acordo com o quão rápido ele foi, fazendo com que a virada instantânea de páginas não dê nenhum XP para o leitor e assim prevenindo o exploit.
+
+**US27** - "Como leitor, quero poder folhear livros e mesmo assim manter a minha pontuação de XP intacta durante a leitura de fato."
+
+**Critérios de Avaliação**:
+- O sistema trata a leitura de livros valendo XP como opcional, sendo assim, para cada interface de leitura de livro irá existir um botão para alterar o modo de leitura de "casual" para "ranqueado" e vice-versa, com o primeiro sendo o modo padrão. Quando o leitor define o modo como casual, o sistema para de contar o seu tempo para prevenção de exploit e passa a usar o contador apenas para atualizar sua velocidade média de leitura.
+    - Por isso, a opção de leitura ranqueada só fica disponível à partir do instante em que o primeiro dado consistente sobre a velocidade média ser calculado.
+- O sistema deve dar instruções em forma de pop-up para o usuário sobre essas funcionalidades para melhorar a usabilidade.
     
 
 ## 🪙 Épico - Sistema de Moedas
