@@ -74,9 +74,9 @@
 **US13** - "Como leitor, quero pegar livros emprestados por um determinado período de tempo antes de comprá-los de forma vitalícia. Caso eu não encerre a amostra manualmente até o fim do prazo, o sistema deve fazer isso por mim para impedir que eu contraia dívidas."
 
 **Critérios de Aceitação**:
-- O leitor irá clicar no botão "Pegar emprestado" no card do livro que deseja, e o livro será adicionado na sua tela "Minha Estante" com um contador regressivo em cima da capa, indicando quanto falta para o fim do empréstimo. O tempo padrão do empréstimo é definido pelo Autor/Editora no cadastro do livro, mas pode aumentar se o leitor aplicar **cupons especiais** comprados com **moedas do sistema** na **loja** (funcionalidades que serão detalhadas mais à frente no documento.)
+- O leitor irá clicar no botão "Pegar emprestado" no card do livro que deseja, e o livro será adicionado na sua tela "*Minha Biblioteca*" com um contador regressivo em cima da capa, indicando quanto falta para o fim do empréstimo. O tempo padrão do empréstimo é definido pelo Autor/Editora no cadastro do livro, mas pode aumentar se o leitor aplicar **cupons especiais** comprados com **moedas do sistema** na **loja** (funcionalidades que serão detalhadas mais à frente no documento.)
 - Um leitor só pode pegar **um** livro emprestado por vez por padrão, mas ele pode aplicar **cupons da loja** para adicionar outro livro ao empréstimo.
-- Após o fim do prazo, o livro será automaticamente removido da sua estante e uma **notificação** será criada na **página de notificações** informando a expiração do empréstimo. Caso o leitor queira voltar a lê-lo, deverá **comprá-lo de forma vitalícia** ou **esperar o mesmo tempo do seu empréstimo** (excetuando tempo extra de cupons) para solicitar um novo.
+- Após o fim do prazo, o livro será automaticamente removido da sua biblioteca e uma **notificação** será criada na **página de notificações** informando a expiração do empréstimo. Caso o leitor queira voltar a lê-lo, deverá **comprá-lo de forma vitalícia** ou **esperar o mesmo tempo do seu empréstimo** (excetuando tempo extra de cupons) para solicitar um novo.
 
 **US14** - "Como Autor/Editora, quero que o sistema tenha regras para os empréstimos de livros para não prejudicar a minha receita na aplicação."
 
@@ -113,6 +113,22 @@
 - Será calculada uma média à partir das avaliações dos leitores, que será registrada como a média de avaliações do livro. Este dado então será usado para definir a prioridade do livro em pesquisas dos leitores, e vai passar a integrar o dashboard de autor/editora.
 
 ## 📚 Épico - Organização de Livros
+
+**US19** - "Como leitor, quero que os livros que eu interagi sejam categorizados de forma diferente dentro da minha biblioteca para poder gerenciá-los de forma mais fácil e melhorar a experiência de navegação no sistema."
+
+**Critérios de Aceitação**:
+- Ao interagir com um livro, seja comprando, pegando emprestado, avaliando ou comentando, esse livro será exibido de forma diferente na biblioteca do leitor.
+    - Livros que forem comprados pelo leitor irão para uma seção "Meus livros" dentro de "Minha Biblioteca"
+    - Livros que estiverem dentro de um empréstimo ativo serão colocados nessa seção até o empréstimo acabar.
+    - Livros que receberam uma avaliação do leitor serão colocados na seção "Minhas Avaliações"
+    - Livros que não foram adquiridos, não foram avaliados nem estão em um empréstimo ativo não estarão na biblioteca. Caso o livro seja parte de um empréstimo que expirou, ele será registrado no histórico de empréstimos.
+
+**US20** - "Como leitor, quero poder organizar os meus livros em pastas da forma que eu desejar."
+
+**Critérios de Aceitação**:
+- O leitor pode criar *Estantes* (pastas) para livros. Qualquer livro pode ser adicionado à qualquer estante, sem restrições.
+- Essas pastas podem ser divididas em subpastas para uma camada extra de organização. Ao fazer isso, a estante se torna um *Acervo*, com as subpastas recebendo o nome de *Estantes* agora.
+
 
 ## 🔹 Épico - Sistema de XP
 
