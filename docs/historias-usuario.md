@@ -167,9 +167,8 @@
 
 **Critérios de Avaliação**:
 - O sistema trata a leitura de livros valendo XP como opcional, sendo assim, para cada interface de leitura de livro irá existir um botão para alterar o modo de leitura de "casual" para "ranqueado" e vice-versa, com o primeiro sendo o modo padrão. Quando o leitor define o modo como casual, o sistema para de contar o seu tempo para prevenção de exploit e passa a usar o contador apenas para atualizar sua velocidade média de leitura.
-    - Por isso, a opção de leitura ranqueada só fica disponível à partir do instante em que o primeiro dado consistente sobre a velocidade média ser calculado.
+    - Por isso, a opção de leitura ranqueada só fica disponível à partir do instante em que o primeiro dado consistente sobre a velocidade média é calculado.
 - O sistema deve dar instruções em forma de pop-up para o usuário sobre essas funcionalidades para melhorar a usabilidade.
-    
 
 ## 🪙 Épico - Sistema de Moedas
 
