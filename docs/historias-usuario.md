@@ -87,6 +87,16 @@
 
 ## 🔖 Épico - Leitura de Livros
 
+**US15** - "Como leitor, quero poder ler os ebooks em formato EPUB diretamente na aplicação, com uma interface intuitiva em relação à experiência de leitura de livros físicos."
+
+**Critérios de Aceitação**:
+- O sistema deve fornecer uma interface de usuário para leitura dos arquivos EPUB dos livros. Na aplicação mobile, isso seria feito com movimentos como deslize (*scroll*) da tela para a esquerda e direita virem páginas para frente e para trás, respectivamente. Na aplicação web, as teclas de seta para esquerda e direita (e alternativamente as teclas A e D) fariam esse papel.
+
+**US16** - "Como leitor, quero poder marcar a página onde eu parei para que eu não tenha que procurá-la manualmente quando abrir novamente o livro depois de fechá-lo."
+
+**Critérios de Aceitação**:
+- Na aplicação mobile, o leitor poderá deslizar a tela para baixo e para cima no canto superior direito da interface para colocar e retirar o marcador de página, respectivamente. Na aplicação web, ele poderá clicar no canto superior direito para fazer isso.
+
 ## ⭐ Épico - Avaliação de Livros
 
 ## 📚 Épico - Organização de Livros
