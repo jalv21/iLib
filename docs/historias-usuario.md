@@ -146,6 +146,8 @@
 - O autor/editora pode adicionar seus livros à estantes assim como o leitor, porém todas as estantes criadas por autores/editores são necessariamente públicas, não sendo possível a criação de estantes privadas.
 
 ## 🔹 Épico - Sistema de XP
+>[!NOTE] Apagar depois do diagrama de componentes
+> Pode ser implementado como um microsserviço em Go assim como as avaliações.
 
 **US24** - "Como leitor, quero que o sistema de gamificação de leitura da aplicação crie uma medida de progresso que permite ter acesso à benefícios maiores na loja"
 
@@ -171,6 +173,11 @@
 - O sistema deve dar instruções em forma de pop-up para o usuário sobre essas funcionalidades para melhorar a usabilidade.
 
 ## 🪙 Épico - Sistema de Moedas
+
+**US28** - "Como leitor, quero que exista um sistema de gamificação complementar ao XP para adquirir de fato os benefícios que o XP desbloqueia para serem adquiridos na loja."
+
+**Critérios de Aceitação**:
+- O sistema terá uma moeda própria para adquirir benefícios da loja. As moedas são obtidas como recompensa por subir de nível de XP e por finalizar livros.
 
 ## 🛍️ Épico - Loja e Cupons
 
