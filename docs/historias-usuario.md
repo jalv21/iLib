@@ -157,6 +157,11 @@
 **Critérios de Aceitação**:
 - Existirão pontuações de XP paralelas que afetam um escopo específico de benefícios, incluindo XP de Gênero Literário e XP de Autor/Editora. Caso haja uma promoção de livros de determinado gênero ou autor por parte de uma editora, essas pontuações podem garantir ao leitor uma série de benefícios especiais na loja.
 - O leitor terá uma tela dedicada à exibição das pontuações de XP no seu perfil, incluindo a pontuação de XP geral no topo da tela, e uma lista de pontuações de XP para cada gênero literário. O XP de Autor/Editora não exibido nessa tela, mas sim na interface dos livros, ao lado do nome do autor/editora.
+
+**US26** - "Como autor/editora, quero que o sistema tenha mecanismos de prevenção de exploração da funcionalidade de XP pelos leitores para conseguirem benefícios de forma mais fácil"
+
+**Critérios de Aceitação**:
+- O leitor de livros contará com um contador de tempo de leitura baseado no tempo de leitura médio do leitor, calculado durante as primeiras páginas lidas em um livro na aplicação e sendo sempre atualizado. Caso o leitor demore menos de 20% do seu tempo de leitura habitual para ler uma página, a sua pontuação de XP é penalizada de acordo com o quão rápido ele foi, fazendo com que a virada instantânea de páginas não dê nenhum XP para o leitor e assim prevenindo o exploit.
     
 
 ## 🪙 Épico - Sistema de Moedas
