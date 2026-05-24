@@ -152,7 +152,7 @@
 **US24** - "Como leitor, quero que o sistema de gamificação de leitura da aplicação crie uma medida de progresso que permite ter acesso à benefícios maiores na loja"
 
 **Critérios de Aceitação**:
-- O sistema deve ter como uma funcionalidade gamificada o "Lit-XP" (***Lit**erary e***X***perience **P**oints*) O leitor ganha pontos de Lit-XP (abreviando para apenas XP por conveniência) ao ler livros, e à medida que ele ganha esses pontos de XP, seu nível de XP aumenta em 1.
+- O sistema deve ter como uma funcionalidade gamificada o "Lit-XP" (***Lit**erary e***X***perience **P**oints*) O leitor ganha pontos de Lit-XP (abreviando para apenas XP por conveniência) ao ler livros, e à medida que ele ganha esses pontos de XP, seu nível de XP aumenta em 1. Para cada novo nível alcançado, mais XP será necessário para subir para o próximo.
 
 **US25** - "Como leitor, quero que a minha dedicação aos livros de um determinado gênero ou autor/editora seja recompensada de alguma forma pelo sistema de XP."
 
@@ -164,6 +164,10 @@
 
 **Critérios de Aceitação**:
 - O leitor de livros contará com um contador de tempo de leitura baseado no tempo de leitura médio do leitor, calculado durante as primeiras páginas lidas em um livro na aplicação e sendo sempre atualizado. Caso o leitor demore menos de 20% do seu tempo de leitura habitual para ler uma página, a sua pontuação de XP é penalizada de acordo com o quão rápido ele foi, fazendo com que a virada instantânea de páginas não dê nenhum XP para o leitor e assim prevenindo o exploit.
+- A autodeclaração de dificuldade do livro, informada durante seu cadastro, será utilizada para regular o XP obtido pelas suas páginas.
+    - Livros fáceis irão dar menos XP por página.
+    - Livros médios irão dar a quantidade normal de XP por página.
+    - Livros difíceis irão dar o dobro de XP por página.
 
 **US27** - "Como leitor, quero poder folhear livros e mesmo assim manter a minha pontuação de XP intacta durante a leitura de fato. Não quero ter a minha leitura presa à um sistema de recompensas contra a minha vontade."
 
