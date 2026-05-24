@@ -178,9 +178,17 @@
 **US28** - "Como leitor, quero que exista um sistema de gamificação complementar ao XP para adquirir de fato os benefícios que o XP desbloqueia para serem adquiridos na loja."
 
 **Critérios de Aceitação**:
-- O sistema terá uma moeda própria para adquirir benefícios da loja. As moedas são obtidas em menor quantidade como recompensa por subir de nível de XP e em maior quantidade por finalizar livros, que variam de acordo com a dificuldade do livro em si.
+- O sistema terá uma moeda própria para adquirir benefícios da loja. As moedas são obtidas em menor quantidade como recompensa por subir de nível de XP e em maior quantidade por finalizar livros, que varia de acordo com a dificuldade do livro em si.
 
-## 🛍️ Épico - Loja e Cupons
+## 🛍️ Épico - Loja
+
+**US29** - "Como leitor, quero que exista uma funcionalidade do sistema para que eu possa trocar as moedas por alguma forma de benefício."
+
+**Critérios de Aceitação**:
+- O sistema terá uma seção "Loja" assível pelo menu do feed de livros.
+- A loja terá três tipos padrão de benefício, sendo eles: Cosméticos (para decoração de perfil, biblioteca e tema), Cupons de Empréstimo (aumentam o tempo de empréstimo de livros) e Cupons de Desconto (dão descontos na compra de livros), cada um com seu próprio preço em moedas.
+
+
 
 ## 📋 Épico - Dashboard de Autores e Editoras
 
