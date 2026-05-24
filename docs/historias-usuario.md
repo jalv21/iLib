@@ -91,7 +91,7 @@
 
 ## 📚 Épico - Organização de Livros
 
-## 🏅 Épico - Sistema de XP
+## 🔹 Épico - Sistema de XP
 
 ## 🪙 Épico - Sistema de Moedas
 
