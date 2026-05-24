@@ -220,6 +220,11 @@
 - O sistema irá exibir um modal de confirmação para prevenir exclusões acidentais.
 
 ## 📋 Épico - Dashboard de Autores e Editoras
+>[!NOTE] Apagar após diagrama de componentes
+> Considerar microsserviço implementado com Python pela análise pesada de dados nessa feature.
 
+**US35** - "Como autor/editora, quero ter acesso aos dados sobre as minhas vendas na aplicação, com análises avançadas relacionadas à receita obtida, as avaliações dos livros com dados sobre o nível de XP para aquele livro dos usuários que o avaliaram para que eu tenha noção sobre qual exatamente é o meu público de leitores, além de gráficos exibindo esses dados em relação ao tempo."
 
+**Critérios de Aceitação**
+- O sistema terá como página inicial para autores/editoras o seu Dashboard, com todas essas informações organizadas em um só lugar. Podem ser aplicados diversos filtros e análises por uma gama de critérios.
 
