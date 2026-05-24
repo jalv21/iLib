@@ -193,6 +193,17 @@
 **Critérios de Aceitação**:
 - O efeito dos benefícios na loja será compatível ao nível de XP do leitor, e mesmo nos níveis mais altos possíveis, terá um limite.
 
+## 💸 Épico - CRUD de Promoções
+
+**US31** - "Como autor/editora, quero poder criar promoções para determinados livros e anunciá-las nas páginas deles."
+
+**Critérios de Aceitação**
+- O autor/editora preencherá um formulário para criar uma promoção, informando o valor da promoção, o número de dias de empréstimo extra (caso aplicável), a duração da promoção e os livros da sua biblioteca que participarão dela.
+- A promoção deve ser exibida nas páginas dos livros participantes, e os dados dos livros devem ser atualizados de acordo.
+- Assim que a promoção acabar, serão restaurados os dados padrão do livro, informados durante a última edição desses dados via CRUD de livros.
+
+
+
 ## 📋 Épico - Dashboard de Autores e Editoras
 
 
