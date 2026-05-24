@@ -78,6 +78,13 @@
 - Um leitor só pode pegar **um** livro emprestado por vez por padrão, mas ele pode aplicar **cupons da loja** para adicionar outro livro ao empréstimo.
 - Após o fim do prazo, o livro será automaticamente removido da sua estante e uma **notificação** será criada na **página de notificações** informando a expiração do empréstimo. Caso o leitor queira voltar a lê-lo, deverá **comprá-lo de forma vitalícia** ou **esperar o mesmo tempo do seu empréstimo** (excetuando tempo extra de cupons) para solicitar um novo.
 
+**US14** - "Como Autor/Editora, quero que o sistema tenha regras para os empréstimos de livros para não prejudicar a minha receita na aplicação."
+
+**Critérios de Aceitação**:
+- A duração padrão do empréstimo de livros é definida diretamente pelos Autores/Editoras durante o cadastro dos livros.
+- Mesmo com cupons de tempo extra aplicados, esses cupons terão um limite de tempo que podem conceder ao leitor, e somente um cupom desse tipo pode ser aplicado por livro no empréstimo.
+- Cupons com maiores benefícios só estarão disponíveis para compra na loja para leitores acima de determinado nível de XP (funcionalidade será detalhada mais à frente).
+
 ## 🔖 Épico - Leitura de Livros
 
 ## ⭐ Épico - Avaliação de Livros
