@@ -129,6 +129,15 @@
 - O leitor pode criar *Estantes* (pastas) para livros. Qualquer livro pode ser adicionado à qualquer estante, sem restrições.
 - Essas pastas podem ser divididas em subpastas para uma camada extra de organização. Ao fazer isso, a estante se torna um *Acervo*, com as subpastas recebendo o nome de *Estantes* agora.
 
+**US21** - "Como leitor, quero poder visualizar e interagir com estantes de outros leitores, tal como deixar as minhas disponíveis para outros leitores fazerem o mesmo."
+
+**Critérios de Aceitação**:
+- O leitor pode definir sua estante como pública ou privada. Estantes públicas podem ser acessadas e salvas por outros leitores através da seção "Estantes" no feed de livros da aplicação. Estantes privadas só podem ser acessadas por quem as criou.
+
+**US22** - "Como Autor/Editora, quero poder criar minhas próprias estantes com meus livros, para que os leitores acessem através da seção 'Estantes' do feed de livros ou pela minha biblioteca de autor/editora."
+
+**Critérios de Aceitação**:
+- O autor/editora pode adicionar seus livros à estantes assim como o leitor, porém todas as estantes criadas por autores/editores são necessariamente públicas, não sendo possível a criação de estantes privadas.
 
 ## 🔹 Épico - Sistema de XP
 
