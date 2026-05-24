@@ -177,7 +177,7 @@
 **US28** - "Como leitor, quero que exista um sistema de gamificação complementar ao XP para adquirir de fato os benefícios que o XP desbloqueia para serem adquiridos na loja."
 
 **Critérios de Aceitação**:
-- O sistema terá uma moeda própria para adquirir benefícios da loja. As moedas são obtidas como recompensa por subir de nível de XP e por finalizar livros.
+- O sistema terá uma moeda própria para adquirir benefícios da loja. As moedas são obtidas em menor quantidade como recompensa por subir de nível de XP e em maior quantidade por finalizar livros.
 
 ## 🛍️ Épico - Loja e Cupons
 
