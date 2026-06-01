@@ -117,8 +117,11 @@ usecase "Remover da estante" as remover_livro_estante
 usecase "Criar sub-estante" as criar_sub_estante
 
 Leitor --> criar_estante
+UsuarioEditorial --> criar_estante
 Leitor --> adicionar_livro_estante
+UsuarioEditorial --> adicionar_livro_estante
 Leitor --> remover_livro_estante
+UsuarioEditorial --> remover_livro_estante
 
 criar_estante ..> criar_sub_estante : <<extend>>
 
