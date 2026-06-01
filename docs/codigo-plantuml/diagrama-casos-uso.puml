@@ -95,4 +95,21 @@ UsuarioEditorial --> responder_avaliacoes
 
 avaliar_livros ..> adicionar_comentario : <<extend>>
 
+' Feature - Organização de Livros
+
+actor "Subsistema de Bibliotecas" as SubsistemaBiblioteca
+
+usecase "Criar biblioteca" as criar_biblioteca
+usecase "Inserir na estante de adquiridos" as inserir_estante_adquiridos
+usecase "Remover empréstimo de adquiridos" as remover_emprestimo_adquiridos
+usecase "Inserir na estante de avaliados" as inserir_estante_avaliados
+usecase "Inserir no histórico de livros" as inserir_historico_livros
+
+SubsistemaBiblioteca --> criar_biblioteca
+SubsistemaBiblioteca --> inserir_estante_adquiridos
+inserir_estante_adquiridos ..> remover_emprestimo_adquiridos: <<extend>>
+SubsistemaBiblioteca --> inserir_estante_avaliados
+SubsistemaBiblioteca --> inserir_historico_livros
+
+
 @enduml
