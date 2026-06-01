@@ -129,18 +129,13 @@
 - O leitor pode criar *Estantes* (pastas) para livros. Qualquer livro pode ser adicionado à qualquer estante, sem restrições.
 - Essas pastas podem ser divididas em subpastas para uma camada extra de organização. Ao fazer isso, a estante se torna um *Acervo*, com as subpastas recebendo o nome de *Estantes* agora.
 
-**US21** - "Como leitor, quero poder visualizar e interagir com estantes de outros leitores, tal como deixar as minhas disponíveis para outros leitores fazerem o mesmo."
-
-**Critérios de Aceitação**:
-- O leitor pode definir sua estante como pública ou privada. Estantes públicas podem ser acessadas e salvas por outros leitores através da seção "Estantes" no feed de livros da aplicação. Estantes privadas só podem ser acessadas por quem as criou.
-
-**US22** - "Como Autor/Editora, quero que os meus livros sejam organizados dentro da minha biblioteca para gerenciá-los de forma mais fácil e melhorar a minha experiência no sistema."
+**US21** - "Como Autor/Editora, quero que os meus livros sejam organizados dentro da minha biblioteca para gerenciá-los de forma mais fácil e melhorar a minha experiência no sistema."
 
 **Critérios de Aceitação**:
 - Livros cadastrados no catálogo serão inseridos na seção "Meus livros" da biblioteca do autor/editora. 
 - Livros arquivados serão movidos para a seção "Arquivo"
 
-**US23** - "Como Autor/Editora, quero poder criar minhas próprias estantes com meus livros, para que os leitores acessem através da seção 'Estantes' do feed de livros ou pela minha biblioteca de autor/editora."
+**US22** - "Como Autor/Editora, quero poder criar minhas próprias estantes com meus livros, para que os leitores acessem através da seção 'Estantes' do feed de livros ou pela minha biblioteca de autor/editora."
 
 **Critérios de Aceitação**:
 - O autor/editora pode adicionar seus livros à estantes assim como o leitor, porém todas as estantes criadas por autores/editores são necessariamente públicas, não sendo possível a criação de estantes privadas.
@@ -149,24 +144,24 @@
 >[!NOTE] Apagar depois do diagrama de componentes
 > Pode ser implementado como um microsserviço em Go assim como as avaliações.
 
-**US24** - "Como leitor, quero que o sistema de gamificação de leitura da aplicação crie uma medida de progresso que permite ter acesso à benefícios maiores na loja"
+**US23** - "Como leitor, quero que o sistema de gamificação de leitura da aplicação crie uma medida de progresso que permite ter acesso à benefícios maiores na loja"
 
 **Critérios de Aceitação**:
 - O sistema deve ter como uma funcionalidade gamificada o "Lit-XP" (***Lit**erary e***X***perience **P**oints*) O leitor ganha pontos de Lit-XP (abreviando para apenas XP por conveniência) ao ler livros, e à medida que ele ganha esses pontos de XP, seu nível de XP aumenta em 1. Para cada novo nível alcançado, mais XP será necessário para subir para o próximo.
 
-**US25** - "Como leitor, quero que a minha dedicação aos livros de um determinado gênero ou autor/editora seja recompensada de alguma forma pelo sistema de XP."
+**US24** - "Como leitor, quero que a minha dedicação aos livros de um determinado gênero ou autor/editora seja recompensada de alguma forma pelo sistema de XP."
 
 **Critérios de Aceitação**:
 - Existirão pontuações de XP paralelas que afetam um escopo específico de benefícios, incluindo XP de Gênero Literário e XP de Autor/Editora. Caso haja uma promoção de livros de determinado gênero ou autor por parte de uma editora, essas pontuações podem garantir ao leitor uma série de benefícios especiais na loja.
 - O leitor terá uma tela dedicada à exibição das pontuações de XP no seu perfil, incluindo a pontuação de XP geral no topo da tela, e uma lista de pontuações de XP para cada gênero literário. O XP de Autor/Editora não exibido nessa tela, mas sim na interface dos livros, ao lado do nome do autor/editora.
 
-**US26** - "Como autor/editora, quero que o sistema tenha mecanismos de prevenção de exploração da funcionalidade de XP pelos leitores para conseguirem benefícios de forma mais fácil"
+**US25** - "Como autor/editora, quero que o sistema tenha mecanismos de prevenção de exploração da funcionalidade de XP pelos leitores para conseguirem benefícios de forma mais fácil"
 
 **Critérios de Aceitação**:
 - O leitor de livros contará com um contador de tempo de leitura baseado no tempo de leitura médio do leitor, calculado durante as primeiras páginas lidas em um livro na aplicação e sendo sempre atualizado. Caso o leitor demore menos de 20% do seu tempo de leitura habitual para ler uma página, a sua pontuação de XP é penalizada de acordo com o quão rápido ele foi, fazendo com que a virada instantânea de páginas não dê nenhum XP para o leitor e assim prevenindo o exploit.
 - O índice de dificuldade do livro, informado durante seu cadastro, será utilizada para regular o XP obtido pelas suas páginas.
 
-**US27** - "Como leitor, quero poder folhear livros e mesmo assim manter a minha pontuação de XP intacta durante a leitura de fato. Não quero ter a minha leitura presa à um sistema de recompensas contra a minha vontade."
+**US26** - "Como leitor, quero poder folhear livros e mesmo assim manter a minha pontuação de XP intacta durante a leitura de fato. Não quero ter a minha leitura presa à um sistema de recompensas contra a minha vontade."
 
 **Critérios de Avaliação**:
 - O sistema trata a leitura de livros valendo XP como opcional, sendo assim, para cada interface de leitura de livro irá existir um botão para alterar o modo de leitura de "casual" para "ranqueado" e vice-versa, com o primeiro sendo o modo padrão. Quando o leitor define o modo como casual, o sistema para de contar o seu tempo para prevenção de exploit e passa a usar o contador apenas para atualizar sua velocidade média de leitura.
@@ -175,27 +170,27 @@
 
 ## 🪙 Épico - Sistema de Moedas
 
-**US28** - "Como leitor, quero que exista um sistema de gamificação complementar ao XP para adquirir de fato os benefícios que o XP desbloqueia para serem adquiridos na loja."
+**US27** - "Como leitor, quero que exista um sistema de gamificação complementar ao XP para adquirir de fato os benefícios que o XP desbloqueia para serem adquiridos na loja."
 
 **Critérios de Aceitação**:
 - O sistema terá uma moeda própria para adquirir benefícios da loja. As moedas são obtidas em menor quantidade como recompensa por subir de nível de XP e em maior quantidade por finalizar livros, que varia de acordo com a dificuldade do livro em si.
 
 ## 🛍️ Épico - Loja
 
-**US29** - "Como leitor, quero que exista uma funcionalidade do sistema para que eu possa trocar as moedas por alguma forma de benefício."
+**US28** - "Como leitor, quero que exista uma funcionalidade do sistema para que eu possa trocar as moedas por alguma forma de benefício."
 
 **Critérios de Aceitação**:
 - O sistema terá uma seção "Loja" assível pelo menu do feed de livros.
 - A loja terá três tipos padrão de benefício, sendo eles: Cosméticos (para decoração de perfil, biblioteca e tema), Cupons de Empréstimo (aumentam o tempo de empréstimo de livros) e Cupons de Desconto (dão descontos na compra de livros), cada um com seu próprio preço em moedas.
 
-**US30** - "Como autor/editora, quero que os benefícios da loja relacionados ao empréstimo e compra de livros sejam limitados para não prejudicar a receita."
+**US29** - "Como autor/editora, quero que os benefícios da loja relacionados ao empréstimo e compra de livros sejam limitados para não prejudicar a receita."
 
 **Critérios de Aceitação**:
 - O efeito dos benefícios na loja será compatível ao nível de XP do leitor, e mesmo nos níveis mais altos possíveis, terá um limite.
 
 ## 💸 Épico - CRUD de Promoções
 
-**US31** - "Como autor/editora, quero poder criar promoções para determinados livros e anunciá-las nas páginas deles."
+**US30** - "Como autor/editora, quero poder criar promoções para determinados livros e anunciá-las nas páginas deles."
 
 **Critérios de Aceitação**
 - O autor/editora preencherá um formulário para criar uma promoção, informando o valor da promoção, o número de dias de empréstimo extra (caso aplicável), a duração da promoção e os livros da sua biblioteca que participarão dela.
@@ -203,17 +198,17 @@
 - A promoção deve ser registrada na seção "Minhas Promoções" na biblioteca do autor/editora, com o status definido como "Ativa".
 - Assim que a promoção acabar, serão restaurados os dados padrão do livro, salvos durante a última edição desses dados via CRUD de livros, e o status da promoção será atualizado para "Inativa".
 
-**US32** - "Como autor/editora, quero poder interromper promoções caso seja necessário."
+**US31** - "Como autor/editora, quero poder interromper promoções caso seja necessário."
 
 **Critérios de Aceitação**:
 - O autor/editora poderá clicar no botão "interromper" da promoção desejada, e a promoção será interrompida, com o status definido como "Inativa". Caso deseje retomá-la, basta clicar no botão "retomar", e a promoção terá seu status definido como "Ativa" novamente.
 
-**US33** - "Como autor/editora, quero poder editar detalhes da promoção enquanto ela está ativa."
+**US32** - "Como autor/editora, quero poder editar detalhes da promoção enquanto ela está ativa."
 
 **Critérios de Aceitação**:
 - O autor/editora poderá editar o valor da promoção e adiar ou adiantar o seu vencimento, tal como adicionar e remover livros da promoção.
 
-**US34** - "Como autor/editora, quero poder excluir promoções da minha seção de promoções, caso decida que a promoção não será feita novamente."
+**US33** - "Como autor/editora, quero poder excluir promoções da minha seção de promoções, caso decida que a promoção não será feita novamente."
 
 **Critérios de Aceitação**:
 - O autor/editora clicará no botão "Excluir" da promoção e ela será removida permanentemente.
@@ -223,7 +218,7 @@
 >[!NOTE] Apagar após diagrama de componentes
 > Considerar microsserviço implementado com Python pela análise pesada de dados nessa feature.
 
-**US35** - "Como autor/editora, quero ter acesso aos dados sobre as minhas vendas na aplicação, com análises avançadas relacionadas à receita obtida, as avaliações dos livros com dados sobre o nível de XP para aquele livro dos usuários que o avaliaram para que eu tenha noção sobre qual exatamente é o meu público de leitores, além de gráficos exibindo esses dados em relação ao tempo."
+**US34** - "Como autor/editora, quero ter acesso aos dados sobre as minhas vendas na aplicação, com análises avançadas relacionadas à receita obtida, as avaliações dos livros com dados sobre o nível de XP para aquele livro dos usuários que o avaliaram para que eu tenha noção sobre qual exatamente é o meu público de leitores, além de gráficos exibindo esses dados em relação ao tempo."
 
 **Critérios de Aceitação**
 - O sistema terá como página inicial para autores/editoras o seu Dashboard, com todas essas informações organizadas em um só lugar. Podem ser aplicados diversos filtros e análises por uma gama de critérios.

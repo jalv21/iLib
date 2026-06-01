@@ -111,5 +111,17 @@ inserir_estante_adquiridos ..> remover_emprestimo_adquiridos: <<extend>>
 SubsistemaBiblioteca --> inserir_estante_avaliados
 SubsistemaBiblioteca --> inserir_historico_livros
 
+usecase "Criar nova estante" as criar_estante
+usecase "Adicionar à estante" as adicionar_livro_estante
+usecase "Remover da estante" as remover_livro_estante
+usecase "Criar sub-estante" as criar_sub_estante
+
+Leitor --> criar_estante
+Leitor --> adicionar_livro_estante
+Leitor --> remover_livro_estante
+
+criar_estante ..> criar_sub_estante : <<extend>>
+
+
 
 @enduml
