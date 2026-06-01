@@ -21,11 +21,15 @@ Usuario --> login
 ' Feature - CRUD de Livros
 
 usecase "Cadastrar livros" as cadastrar_livros
+usecase "Fazer upload EPUB" as upload_epub
+usecase "Autenticar" as autenticar
 usecase "Editar livros" as editar_livros
 usecase "Arquivar livros" as arquivar_livros
 usecase "Remover livros" as remover_livros
 
 UsuarioEditorial --> cadastrar_livros
+cadastrar_livros ..> upload_epub : <<include>>
+cadastrar_livros ..> autenticar : <<include>>
 UsuarioEditorial --> editar_livros
 UsuarioEditorial --> arquivar_livros
 
@@ -39,12 +43,15 @@ usecase "Receber por livro" as receber_por_livro
 usecase "Aplicar cupom de desconto" as aplicar_cupom
 usecase "Filtrar livros" as filtrar_livros
 usecase "Pesquisar livros" as pesquisar_livros
+usecase "Aplicar Filtros" as aplicar_filtros
 
 Leitor --> comprar_livros
 UsuarioEditorial --> receber_por_livro
 
 Leitor --> filtrar_livros
 Leitor --> pesquisar_livros
+
+pesquisar_livros ..> aplicar_filtros : <<extend>>
 
 comprar_livros ..> selecionar_metodo_pgto : <<include>>
 comprar_livros ..> aplicar_cupom : <<extend>>
@@ -53,6 +60,7 @@ comprar_livros ..> aplicar_cupom : <<extend>>
 
 usecase "Pegar livro emprestado" as pegar_livro_emprestado
 usecase "Devolver livro" as devolver_livro
+usecase "Receber notificação" as receber_notificacao
 usecase "Aplicar cupom de extensão de prazo" as aplicar_cupom_prazo
 
 Leitor --> pegar_livro_emprestado
@@ -60,24 +68,30 @@ Leitor --> pegar_livro_emprestado
 pegar_livro_emprestado ..> devolver_livro : <<include>>
 pegar_livro_emprestado ..> aplicar_cupom_prazo : <<extend>>
 
+devolver_livro ..> receber_notificacao : <<include>>
+
 ' Feature - Leitura de Livros
 
 usecase "Ler livros" as ler_livros
 usecase "Marcar página" as marcar_pagina
+usecase "Alterar modo de leitura" as alterar_modo_leitura
 
 Leitor --> ler_livros
 
 ler_livros ..> marcar_pagina : <<extend>>
+ler_livros ..> alterar_modo_leitura : <<extend>>
 
 ' Feature - Avaliação de Livros
 
 usecase "Avaliar livros" as avaliar_livros
 usecase "Adicionar comentário" as adicionar_comentario
 usecase "Comentar em avaliações" as comentar_avaliacoes
-usecase "Responder avaliações" as responder_avaliacoes 
+usecase "Responder avaliações de leitores" as responder_avaliacoes 
 
 Leitor --> avaliar_livros
 Leitor --> comentar_avaliacoes
+
+UsuarioEditorial --> responder_avaliacoes
 
 avaliar_livros ..> adicionar_comentario : <<extend>>
 
