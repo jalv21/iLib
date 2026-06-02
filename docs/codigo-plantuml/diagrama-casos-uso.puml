@@ -76,12 +76,14 @@ devolver_livro ..> receber_notificacao : <<include>>
 
 usecase "Ler livros" as ler_livros
 usecase "Marcar página" as marcar_pagina
-usecase "Alterar modo de leitura" as alterar_modo_leitura
+usecase "Ativar recompensas de leitura" as ativar_recompensas_leitura
+usecase "Finalizar livro" as finalizar_livro
 
 Leitor --> ler_livros
 
 ler_livros ..> marcar_pagina : <<extend>>
-ler_livros ..> alterar_modo_leitura : <<extend>>
+ler_livros ..> ativar_recompensas_leitura : <<extend>>
+ler_livros ..> finalizar_livro : <<extend>>
 
 ' Feature - Avaliação de Livros
 
@@ -124,6 +126,25 @@ Usuario --> remover_livro_estante
 
 criar_estante ..> criar_sub_estante : <<extend>>
 
+' Feature - Sistema de XP
+
+usecase "Consultar níveis de XP" as consultar_xp
+usecase "Receber XP" as receber_xp
+usecase "Subir de nível de XP" as subir_nivel_xp
+
+Leitor --> consultar_xp
+
+ativar_recompensas_leitura ..> receber_xp : <<extend>>
+finalizar_livro ..> receber_xp : <<extend>>
+receber_xp ..> subir_nivel_xp : <<extend>>
+
+actor "Subsistema de Leitura" as subsistema_leitura
+
+usecase "Calcular tempo médio de leitura" as calcular_media_leitura
+usecase "Reduzir recompensas por página" as reduzir_recompensas_pagina
+
+subsistema_leitura --> calcular_media_leitura
+subsistema_leitura --> reduzir_recompensas_pagina
 
 
 @enduml
