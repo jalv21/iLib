@@ -8,28 +8,40 @@ abstract class Usuario {
     # email: String
     # senha: String
     # Usuario(...)
-    # login(email: String, senha: String)
+    # login(email: String, senha: String) {abstract}
 }
 
 class Leitor {
-    
+    - livros: List<Livro>
+    - estantes: List<Estante>
+    - pontuacaoXP : PontuacaoXP
+    - saldoMoedas : int
+    - avaliacoes : List<Avaliacao>
+    - cupons : List<Cupom>
+    + comprarLivro(livro : Livro, cupom: Cupom)
+    + pegarLivro(livro: Livro, cupom: Cupom)
+    + lerLivro(livro: Livro)
 }
 Leitor --|> Usuario
 
-interface IPublicador {
-
+abstract class UsuarioEditorial {
+    # endereco : String
+    # livros : List<Livro>
+    # respostasAvaliacoes : List<ComentarioAvaliacao>
+    # publicarLivro(livro: Livro) {abstract}
 }
+UsuarioEditorial --|> Usuario
 
 class AutorIndependente {
-
+    - cpf : String
+    + publicarLivro(livro: Livro)
 }
-AutorIndependente --|> Usuario
-AutorIndependente ..|> IPublicador
+AutorIndependente --|> UsuarioEditorial
 
 class Editora {
-
+    - cnpj : String
+    + publicarLivro(livro: Livro) 
 }
-Editora --|> Usuario
-Editora ..|> IPublicador
+Editora --|> UsuarioEditorial
 
 @enduml
