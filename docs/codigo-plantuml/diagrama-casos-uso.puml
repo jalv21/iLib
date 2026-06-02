@@ -146,5 +146,12 @@ usecase "Reduzir recompensas por página" as reduzir_recompensas_pagina
 subsistema_leitura --> calcular_media_leitura
 subsistema_leitura --> reduzir_recompensas_pagina
 
+' Feature - Sistema de Moedas
+
+usecase "Receber moedas" as receber_moedas
+
+finalizar_livro ..> receber_moedas : <<extend>>
+subir_nivel_xp ..> receber_moedas : <<include>>
+
 
 @enduml
