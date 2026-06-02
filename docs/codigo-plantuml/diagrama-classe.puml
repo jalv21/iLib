@@ -1,0 +1,35 @@
+@startuml diagrama-de-classes
+
+' Usuários e suas funções e permissões no sistema
+
+abstract class Usuario {
+    # nome: String
+    # username: String
+    # email: String
+    # senha: String
+    # Usuario(...)
+    # login(email: String, senha: String)
+}
+
+class Leitor {
+    
+}
+Leitor --|> Usuario
+
+interface IPublicador {
+
+}
+
+class AutorIndependente {
+
+}
+AutorIndependente --|> Usuario
+AutorIndependente ..|> IPublicador
+
+class Editora {
+
+}
+Editora --|> Usuario
+Editora ..|> IPublicador
+
+@enduml
