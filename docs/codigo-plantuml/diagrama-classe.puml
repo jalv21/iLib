@@ -20,6 +20,7 @@ class Leitor {
     - cupons : List<Cupom>
     + comprarLivro(livro : Livro)
     + pegarLivro(livro: Livro)
+    + renovarEmprestimo(livro: Livro, cupom: Cupom)
     + aplicarCupom(cupom: Cupom)
     + removerCupom(cupom: Cupom)
     + lerLivro(livro: Livro)
@@ -31,18 +32,25 @@ abstract class UsuarioEditorial {
     # livros : List<Livro>
     # respostasAvaliacoes : List<ComentarioAvaliacao>
     # publicarLivro(livro: Livro) {abstract}
+    # removerLivro(livro: Livro)
+    # editarLivro(livro: Livro)
 }
 UsuarioEditorial --|> Usuario
 
 class AutorIndependente {
     - cpf : String
     + publicarLivro(livro: Livro)
+    + removerLivro(livro: Livro)
+    + editarLivro(livro: Livro)
 }
 AutorIndependente --|> UsuarioEditorial
 
 class Editora {
     - cnpj : String
-    + publicarLivro(livro: Livro) 
+    - autores : List<String>
+    + publicarLivro(livro: Livro)
+    + removerLivro(livro: Livro)
+    + editarLivro(livro: Livro)
 }
 Editora --|> UsuarioEditorial
 
@@ -61,14 +69,23 @@ class Livro {
     - sinopse: String
     - capa: String
     - arquivo: String
-    - leitorArquivo: LeitorArquivo
-    - cuponsAtivos: List<Cupom>
+    - leitorEbook: LeitorEbook
+    - cupons: List<Cupom>
+    - emprestimos: List<EmprestimoLivro>
     + Livro(...)
     + aplicarCupom(cupom: Cupom)
     + removerCupom(cupom: Cupom)
     + precoFinal(): float
     + duracaoEmprestimo(): int
 }
-UsuarioEditorial "1" o-- "0..*" Livro : publica
+
+class EmprestimoLivro {
+    - livro: Livro
+    - dataEmprestimo: LocalDate
+    - dataDevolucao: LocalDate
+    - expirado : boolean
+    + renovar(cupom: Cupom)
+    + expirado(): boolean
+}
 
 @enduml
