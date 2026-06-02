@@ -188,37 +188,11 @@
 **Critérios de Aceitação**:
 - O efeito dos benefícios na loja será compatível ao nível de XP do leitor, e mesmo nos níveis mais altos possíveis, terá um limite.
 
-## 💸 Épico - CRUD de Promoções
-
-**US30** - "Como autor/editora, quero poder criar promoções para determinados livros e anunciá-las nas páginas deles."
-
-**Critérios de Aceitação**
-- O autor/editora preencherá um formulário para criar uma promoção, informando o valor da promoção, o número de dias de empréstimo extra (caso aplicável), a duração da promoção e os livros da sua biblioteca que participarão dela.
-- A promoção deve ser exibida nas páginas dos livros participantes, e os dados dos livros devem ser atualizados de acordo.
-- A promoção deve ser registrada na seção "Minhas Promoções" na biblioteca do autor/editora, com o status definido como "Ativa".
-- Assim que a promoção acabar, serão restaurados os dados padrão do livro, salvos durante a última edição desses dados via CRUD de livros, e o status da promoção será atualizado para "Inativa".
-
-**US31** - "Como autor/editora, quero poder interromper promoções caso seja necessário."
-
-**Critérios de Aceitação**:
-- O autor/editora poderá clicar no botão "interromper" da promoção desejada, e a promoção será interrompida, com o status definido como "Inativa". Caso deseje retomá-la, basta clicar no botão "retomar", e a promoção terá seu status definido como "Ativa" novamente.
-
-**US32** - "Como autor/editora, quero poder editar detalhes da promoção enquanto ela está ativa."
-
-**Critérios de Aceitação**:
-- O autor/editora poderá editar o valor da promoção e adiar ou adiantar o seu vencimento, tal como adicionar e remover livros da promoção.
-
-**US33** - "Como autor/editora, quero poder excluir promoções da minha seção de promoções, caso decida que a promoção não será feita novamente."
-
-**Critérios de Aceitação**:
-- O autor/editora clicará no botão "Excluir" da promoção e ela será removida permanentemente.
-- O sistema irá exibir um modal de confirmação para prevenir exclusões acidentais.
-
 ## 📋 Épico - Dashboard de Autores e Editoras
 >[!NOTE] Apagar após diagrama de componentes
 > Considerar microsserviço implementado com Python pela análise pesada de dados nessa feature.
 
-**US34** - "Como autor/editora, quero ter acesso aos dados sobre as minhas vendas na aplicação, com análises avançadas relacionadas à receita obtida, as avaliações dos livros com dados sobre o nível de XP para aquele livro dos usuários que o avaliaram para que eu tenha noção sobre qual exatamente é o meu público de leitores, além de gráficos exibindo esses dados em relação ao tempo."
+**US30** - "Como autor/editora, quero ter acesso aos dados sobre as minhas vendas na aplicação, com análises avançadas relacionadas à receita obtida, as avaliações dos livros com dados sobre o nível de XP para aquele livro dos usuários que o avaliaram para que eu tenha noção sobre qual exatamente é o meu público de leitores, além de gráficos exibindo esses dados em relação ao tempo."
 
 **Critérios de Aceitação**
 - O sistema terá como página inicial para autores/editoras o seu Dashboard, com todas essas informações organizadas em um só lugar. Podem ser aplicados diversos filtros e análises por uma gama de critérios.
