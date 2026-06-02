@@ -1,0 +1,318 @@
+@startuml diagrama-casos-uso
+
+skinparam usecase<<CRUDUsuarios>> {
+    BackgroundColor #dfccff
+    BorderColor #6b43b0
+}
+
+skinparam usecase<<CRUDLivros>> {
+    BackgroundColor #c1ece2ff
+    BorderColor #278b72ff
+}
+
+skinparam usecase<<CatalogoLivros>> {
+   BackgroundColor #b5e4e8
+    BorderColor #1f7c8c
+}
+
+skinparam usecase<<EmprestimoLivros>> {
+   BackgroundColor #eedac9ff
+   BorderColor #6e5d52ff
+}
+
+skinparam usecase<<AvaliacaoLivros>> {
+   BackgroundColor #fff2c6ff
+   BorderColor #756025ff
+}
+
+skinparam usecase<<OrganizacaoLivros>> {
+   BackgroundColor #cbffc6ff
+   BorderColor #327525ff
+}
+
+skinparam usecase<<LeituraLivros>> {
+   BackgroundColor #ffc6c6ff
+   BorderColor #752525ff
+}
+
+skinparam usecase<<SistemaXP>> {
+   BackgroundColor #c7c6ffff
+   BorderColor #2d2575ff
+}
+
+skinparam usecase<<SistemaMoedas>> {
+   BackgroundColor #ffe0c6ff
+   BorderColor #755025ff
+}
+
+skinparam usecase<<Loja>> {
+   BackgroundColor #e4ffc6ff
+   BorderColor #697525ff
+}
+
+skinparam usecase<<Dashboard>> {
+   BackgroundColor #c5ceddff
+   BorderColor #484f77ff
+}
+
+actor Usuario
+actor UsuarioEditorial
+actor Leitor
+actor Autor
+actor Editora
+
+Leitor --|> Usuario
+Autor --|> UsuarioEditorial
+Editora --|> UsuarioEditorial
+UsuarioEditorial --|> Usuario
+
+' Feature - CRUD de Usuários
+
+usecase "Fazer cadastro" as cadastrar
+usecase "Fazer login" as login
+
+Usuario --> cadastrar
+Usuario --> login
+
+(cadastrar) <<CRUDUsuarios>>
+(login) <<CRUDUsuarios>>
+
+' Feature - CRUD de Livros
+
+usecase "Cadastrar livros" as cadastrar_livros
+usecase "Fazer upload EPUB" as upload_epub
+usecase "Autenticar" as autenticar
+usecase "Editar livros" as editar_livros
+usecase "Arquivar livros" as arquivar_livros
+usecase "Remover livros" as remover_livros
+
+UsuarioEditorial --> cadastrar_livros
+cadastrar_livros ..> upload_epub : <<include>>
+cadastrar_livros ..> autenticar : <<include>>
+UsuarioEditorial --> editar_livros
+UsuarioEditorial --> arquivar_livros
+
+arquivar_livros ..> remover_livros : <<extend>>
+
+(cadastrar_livros) <<CRUDLivros>>
+(editar_livros) <<CRUDLivros>>
+(arquivar_livros) <<CRUDLivros>>
+(remover_livros) <<CRUDLivros>>
+(upload_epub) <<CRUDLivros>>
+
+(autenticar) <<CRUDUsuarios>>
+
+
+' Feature - Catálogo de Livros
+
+usecase "Comprar livros" as comprar_livros
+usecase "Selecionar método pagamento" as selecionar_metodo_pgto
+usecase "Receber por livro" as receber_por_livro
+usecase "Aplicar cupom de desconto" as aplicar_cupom
+usecase "Filtrar livros" as filtrar_livros
+usecase "Pesquisar livros" as pesquisar_livros
+usecase "Aplicar Filtros" as aplicar_filtros
+usecase "Acessar Estante" as acessar_estante
+
+Leitor --> comprar_livros
+UsuarioEditorial --> receber_por_livro
+
+Leitor --> filtrar_livros
+Leitor --> pesquisar_livros
+
+pesquisar_livros ..> aplicar_filtros : <<extend>>
+pesquisar_livros ..> acessar_estante : <<extend>>
+
+comprar_livros ..> selecionar_metodo_pgto : <<include>>
+comprar_livros ..> aplicar_cupom : <<extend>>
+
+(comprar_livros) <<CatalogoLivros>>
+(filtrar_livros) <<CatalogoLivros>>
+(pesquisar_livros) <<CatalogoLivros>>
+(acessar_estante) <<CatalogoLivros>>
+(aplicar_filtros) <<CatalogoLivros>>
+(selecionar_metodo_pgto) <<CatalogoLivros>>
+(aplicar_cupom) <<CatalogoLivros>>
+(receber_por_livro) <<CatalogoLivros>>
+
+' Feature - Emprésitmo de Livros
+
+usecase "Pegar livro emprestado" as pegar_livro_emprestado
+usecase "Devolver livro" as devolver_livro
+usecase "Receber notificação" as receber_notificacao
+usecase "Aplicar cupom de extensão de prazo" as aplicar_cupom_prazo
+
+Leitor --> pegar_livro_emprestado
+
+pegar_livro_emprestado ..> devolver_livro : <<include>>
+pegar_livro_emprestado ..> aplicar_cupom_prazo : <<extend>>
+
+devolver_livro ..> receber_notificacao : <<include>>
+
+(pegar_livro_emprestado) <<EmprestimoLivros>>
+(devolver_livro) <<EmprestimoLivros>>
+(receber_notificacao) <<EmprestimoLivros>>
+(aplicar_cupom_prazo) <<EmprestimoLivros>>
+
+' Feature - Leitura de Livros
+
+usecase "Ler livros" as ler_livros
+usecase "Marcar página" as marcar_pagina
+usecase "Ativar recompensas de leitura" as ativar_recompensas_leitura
+usecase "Finalizar livro" as finalizar_livro
+
+Leitor --> ler_livros
+
+ler_livros ..> marcar_pagina : <<extend>>
+ler_livros ..> ativar_recompensas_leitura : <<extend>>
+ler_livros ..> finalizar_livro : <<extend>>
+
+(ler_livros) <<LeituraLivros>>
+(marcar_pagina) <<LeituraLivros>>
+(ativar_recompensas_leitura) <<LeituraLivros>>
+(finalizar_livro) <<LeituraLivros>> 
+
+' Feature - Avaliação de Livros
+
+usecase "Avaliar livros" as avaliar_livros
+usecase "Adicionar comentário" as adicionar_comentario
+usecase "Comentar em avaliações" as comentar_avaliacoes
+usecase "Responder avaliações de leitores" as responder_avaliacoes 
+
+Leitor --> avaliar_livros
+Leitor --> comentar_avaliacoes
+
+UsuarioEditorial --> responder_avaliacoes
+
+avaliar_livros ..> adicionar_comentario : <<extend>>
+
+(avaliar_livros) <<AvaliacaoLivros>>
+(adicionar_comentario) <<AvaliacaoLivros>>
+(comentar_avaliacoes) <<AvaliacaoLivros>>
+(responder_avaliacoes) <<AvaliacaoLivros>>
+
+' Feature - Organização de Livros
+
+actor "Subsistema de Bibliotecas" as SubsistemaBiblioteca
+
+usecase "Criar biblioteca" as criar_biblioteca
+usecase "Inserir na estante de adquiridos" as inserir_estante_adquiridos
+usecase "Remover empréstimo de adquiridos" as remover_emprestimo_adquiridos
+usecase "Inserir na estante de avaliados" as inserir_estante_avaliados
+usecase "Inserir no histórico de livros" as inserir_historico_livros
+
+SubsistemaBiblioteca --> criar_biblioteca
+SubsistemaBiblioteca --> inserir_estante_adquiridos
+inserir_estante_adquiridos ..> remover_emprestimo_adquiridos: <<extend>>
+SubsistemaBiblioteca --> inserir_estante_avaliados
+SubsistemaBiblioteca --> inserir_historico_livros
+
+usecase "Criar nova estante" as criar_estante
+usecase "Adicionar à estante" as adicionar_livro_estante
+usecase "Remover da estante" as remover_livro_estante
+usecase "Criar sub-estante" as criar_sub_estante
+
+Usuario --> criar_estante
+Usuario --> adicionar_livro_estante
+Usuario --> remover_livro_estante
+
+criar_estante ..> criar_sub_estante : <<extend>>
+
+(criar_biblioteca) <<OrganizacaoLivros>>
+(inserir_estante_adquiridos) <<OrganizacaoLivros>>
+(remover_emprestimo_adquiridos) <<OrganizacaoLivros>>
+(inserir_estante_avaliados) <<OrganizacaoLivros>>
+(inserir_historico_livros) <<OrganizacaoLivros>>
+(criar_estante) <<OrganizacaoLivros>>
+(adicionar_livro_estante) <<OrganizacaoLivros>>
+(remover_livro_estante) <<OrganizacaoLivros>>
+(criar_sub_estante) <<OrganizacaoLivros>>
+
+' Feature - Sistema de XP
+
+usecase "Consultar níveis de XP" as consultar_xp
+usecase "Receber XP" as receber_xp
+usecase "Subir de nível de XP" as subir_nivel_xp
+
+Leitor --> consultar_xp
+
+ativar_recompensas_leitura ..> receber_xp : <<extend>>
+finalizar_livro ..> receber_xp : <<extend>>
+receber_xp ..> subir_nivel_xp : <<extend>>
+
+actor "Subsistema de Leitura" as subsistema_leitura
+
+usecase "Calcular tempo médio de leitura" as calcular_media_leitura
+usecase "Reduzir recompensas por página" as reduzir_recompensas_pagina
+
+subsistema_leitura --> calcular_media_leitura
+subsistema_leitura --> reduzir_recompensas_pagina
+
+(consultar_xp) <<SistemaXP>>
+(receber_xp) <<SistemaXP>>
+(subir_nivel_xp) <<SistemaXP>>
+
+' Feature - Sistema de Moedas
+
+usecase "Receber moedas" as receber_moedas
+
+finalizar_livro ..> receber_moedas : <<extend>>
+subir_nivel_xp ..> receber_moedas : <<include>>
+
+(calcular_media_leitura) <<LeituraLivros>>
+(reduzir_recompensas_pagina) <<LeituraLivros>>
+
+(receber_moedas) <<SistemaMoedas>>
+
+' Feature - Loja
+
+usecase "Adquirir cupons" as adquirir_cupons
+usecase "Adquirir customizações" as adquirir_customizacoes
+usecase "Gastar moedas" as gastar_moedas
+
+Leitor --> adquirir_cupons
+Leitor --> adquirir_customizacoes
+
+adquirir_cupons ..> gastar_moedas : <<include>>
+adquirir_customizacoes ..> gastar_moedas : <<include>>
+
+actor "Subsistema de Loja" as loja
+
+usecase "Criar cupons personalizados" as criar_cupons
+usecase "Cadastrar customizações" as cadastrar_customizacoes
+
+loja --> criar_cupons
+loja --> cadastrar_customizacoes
+
+(adquirir_cupons) <<Loja>>
+(adquirir_customizacoes) <<Loja>>
+(criar_cupons) <<Loja>>
+(cadastrar_customizacoes) <<Loja>>
+
+(gastar_moedas) <<SistemaMoedas>>
+
+' Feature - Dashboard Editorial
+
+actor "Subsistema de Dashboard" as dashboard
+
+usecase "Calcular receita" as calcular_receita
+usecase "Analisar perfil do público" as analisar_publico
+usecase "Analisar avaliações" as analisar_avaliacoes 
+usecase "Analisar livros" as analisar_livros
+usecase "Analisar estantes" as analisar_estantes
+
+dashboard --> calcular_receita
+dashboard --> analisar_publico
+dashboard --> analisar_avaliacoes
+dashboard --> analisar_livros
+dashboard --> analisar_estantes
+
+(calcular_receita) <<Dashboard>>
+(analisar_publico) <<Dashboard>>
+(analisar_avaliacoes) <<Dashboard>>
+(analisar_livros) <<Dashboard>>
+(analisar_estantes) <<Dashboard>>
+
+
+
+@enduml
