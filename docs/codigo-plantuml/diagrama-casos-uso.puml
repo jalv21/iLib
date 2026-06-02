@@ -44,6 +44,7 @@ usecase "Aplicar cupom de desconto" as aplicar_cupom
 usecase "Filtrar livros" as filtrar_livros
 usecase "Pesquisar livros" as pesquisar_livros
 usecase "Aplicar Filtros" as aplicar_filtros
+usecase "Acessar Estante" as acessar_estante
 
 Leitor --> comprar_livros
 UsuarioEditorial --> receber_por_livro
@@ -52,6 +53,7 @@ Leitor --> filtrar_livros
 Leitor --> pesquisar_livros
 
 pesquisar_livros ..> aplicar_filtros : <<extend>>
+pesquisar_livros ..> acessar_estante : <<extend>>
 
 comprar_livros ..> selecionar_metodo_pgto : <<include>>
 comprar_livros ..> aplicar_cupom : <<extend>>
@@ -116,12 +118,9 @@ usecase "Adicionar à estante" as adicionar_livro_estante
 usecase "Remover da estante" as remover_livro_estante
 usecase "Criar sub-estante" as criar_sub_estante
 
-Leitor --> criar_estante
-UsuarioEditorial --> criar_estante
-Leitor --> adicionar_livro_estante
-UsuarioEditorial --> adicionar_livro_estante
-Leitor --> remover_livro_estante
-UsuarioEditorial --> remover_livro_estante
+Usuario --> criar_estante
+Usuario --> adicionar_livro_estante
+Usuario --> remover_livro_estante
 
 criar_estante ..> criar_sub_estante : <<extend>>
 
