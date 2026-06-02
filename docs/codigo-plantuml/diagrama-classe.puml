@@ -32,7 +32,7 @@ abstract class UsuarioEditorial {
     # livros : List<Livro>
     # respostasAvaliacoes : List<ComentarioAvaliacao>
     # publicarLivro(livro: Livro) {abstract}
-    # removerLivro(livro: Livro)
+    # arquivarLivro(livro: Livro)
     # editarLivro(livro: Livro)
 }
 UsuarioEditorial --|> Usuario
@@ -40,7 +40,7 @@ UsuarioEditorial --|> Usuario
 class AutorIndependente {
     - cpf : String
     + publicarLivro(livro: Livro)
-    + removerLivro(livro: Livro)
+    + arquivarLivro(livro: Livro)
     + editarLivro(livro: Livro)
 }
 AutorIndependente --|> UsuarioEditorial
@@ -49,7 +49,7 @@ class Editora {
     - cnpj : String
     - autores : List<String>
     + publicarLivro(livro: Livro)
-    + removerLivro(livro: Livro)
+    + arquivarLivro(livro: Livro)
     + editarLivro(livro: Livro)
 }
 Editora --|> UsuarioEditorial
@@ -68,7 +68,7 @@ class Livro {
     - dificuldade: int
     - sinopse: String
     - capa: String
-    - arquivo: String
+    - arquivoEPUB: String
     - leitorEbook: LeitorEbook
     - cupons: List<Cupom>
     - emprestimos: List<EmprestimoLivro>
@@ -90,6 +90,8 @@ class EmprestimoLivro {
 
 enum EGenero {
     AVENTURA
+    BIOGRAFIA
+    CONTOS
     FANTASIA
     FICCAO
     FICCAO_CIENTIFICA
