@@ -173,5 +173,21 @@ usecase "Cadastrar customizações" as cadastrar_customizacoes
 loja --> criar_cupons
 loja --> cadastrar_customizacoes
 
+' Feature - Dashboard Editorial
+
+actor "Subsistema de Dashboard" as dashboard
+
+usecase "Calcular receita" as calcular_receita
+usecase "Analisar perfil do público" as analisar_publico
+usecase "Analisar avaliações" as analisar_avaliacoes 
+usecase "Analisar livros" as analisar_livros
+usecase "Analisar estantes" as analisar_estantes
+
+dashboard --> calcular_receita
+dashboard --> analisar_publico
+dashboard --> analisar_avaliacoes
+dashboard --> analisar_livros
+dashboard --> analisar_estantes
+
 
 @enduml
