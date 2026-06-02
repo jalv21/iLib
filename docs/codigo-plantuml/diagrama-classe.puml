@@ -88,4 +88,18 @@ class EmprestimoLivro {
     + expirado(): boolean
 }
 
+enum EGenero {
+    AVENTURA
+    FANTASIA
+    FICCAO
+    FICCAO_CIENTIFICA
+    FICCAO_LITERARIA
+    MISTÉRIO
+    NAO_FICCAO
+    ROMANCE
+    SUSPENSE
+    TERROR
+    [...]
+}
+
 @enduml
