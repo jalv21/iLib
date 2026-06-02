@@ -18,8 +18,10 @@ class Leitor {
     - saldoMoedas : int
     - avaliacoes : List<Avaliacao>
     - cupons : List<Cupom>
-    + comprarLivro(livro : Livro, cupom: Cupom)
-    + pegarLivro(livro: Livro, cupom: Cupom)
+    + comprarLivro(livro : Livro)
+    + pegarLivro(livro: Livro)
+    + aplicarCupom(cupom: Cupom)
+    + removerCupom(cupom: Cupom)
     + lerLivro(livro: Livro)
 }
 Leitor --|> Usuario
@@ -43,5 +45,30 @@ class Editora {
     + publicarLivro(livro: Livro) 
 }
 Editora --|> UsuarioEditorial
+
+' Livros, compras e empréstimos
+
+class Livro {
+    - isbn : String
+    - titulo: String
+    - autor: String
+    - publicador: UsuarioEditorial
+    - genero: EGenero
+    - ano: int
+    - preco: float
+    - duracaoEmprestimo: int
+    - dificuldade: int
+    - sinopse: String
+    - capa: String
+    - arquivo: String
+    - leitorArquivo: LeitorArquivo
+    - cuponsAtivos: List<Cupom>
+    + Livro(...)
+    + aplicarCupom(cupom: Cupom)
+    + removerCupom(cupom: Cupom)
+    + precoFinal(): float
+    + duracaoEmprestimo(): int
+}
+UsuarioEditorial "1" o-- "0..*" Livro : publica
 
 @enduml
