@@ -153,5 +153,25 @@ usecase "Receber moedas" as receber_moedas
 finalizar_livro ..> receber_moedas : <<extend>>
 subir_nivel_xp ..> receber_moedas : <<include>>
 
+' Feature - Loja
+
+usecase "Adquirir cupons" as adquirir_cupons
+usecase "Adquirir customizações" as adquirir_customizacoes
+usecase "Gastar moedas" as gastar_moedas
+
+Leitor --> adquirir_cupons
+Leitor --> adquirir_customizacoes
+
+adquirir_cupons ..> gastar_moedas : <<include>>
+adquirir_customizacoes ..> gastar_moedas : <<include>>
+
+actor "Subsistema de Loja" as loja
+
+usecase "Criar cupons personalizados" as criar_cupons
+usecase "Cadastrar customizações" as cadastrar_customizacoes
+
+loja --> criar_cupons
+loja --> cadastrar_customizacoes
+
 
 @enduml
