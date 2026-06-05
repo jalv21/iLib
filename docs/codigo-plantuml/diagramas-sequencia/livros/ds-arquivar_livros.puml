@@ -1,0 +1,40 @@
+@startuml ds-arquivar_livros
+autonumber
+skinparam style strictuml
+
+actor UsuarioEditorial as "UsuárioEditorial"
+participant Client        as "Aplicação Cliente"
+participant ServiceLivros as "Serviço de Livros"
+participant ServiceAuth   as "Serviço de Autenticação"
+database    BD            as "Banco de Dados"
+
+UsuarioEditorial -> Client : clica em "Arquivar Livro"
+activate Client
+
+Client --> UsuarioEditorial : exibe prompt de confirmação\nde identidade (senha)
+UsuarioEditorial -> Client  : informa senha
+
+Client -> ServiceAuth : POST /autenticar(email, senha)
+activate ServiceAuth
+ServiceAuth -> BD : consulta credenciais
+activate BD
+BD --> ServiceAuth : credenciais válidas
+deactivate BD
+ServiceAuth --> Client : 200 OK — token de autenticação
+deactivate ServiceAuth
+
+Client -> ServiceLivros : PATCH /livros/{id}/arquivar(token)
+activate ServiceLivros
+
+ServiceLivros -> BD : UPDATE livro SET arquivado = true\nWHERE id = {id}
+activate BD
+BD --> ServiceLivros : livro atualizado
+deactivate BD
+
+ServiceLivros --> Client : 200 OK
+deactivate ServiceLivros
+
+Client --> UsuarioEditorial : remove livro do catálogo\ne exibe na seção "Livros Arquivados"
+deactivate Client
+
+@enduml
