@@ -7,7 +7,7 @@ skinparam linetype ortho
 ' ──────────────────────────────────────────
 
 abstract class Usuario {
-  - id: UUID
+  - id: Long
   - nome: String
   - username: String
   - email: String
@@ -86,7 +86,7 @@ enum GeneroLiterario {
 }
 
 class Venda {
-  - id: UUID
+  - id: Long
   - dataHora: DateTime
   - valorFinal: Decimal
   - valorDesconto: Decimal
@@ -103,7 +103,7 @@ Venda "0..*" --* "1" Leitor             : realizadaPor
 ' ──────────────────────────────────────────
 
 class Emprestimo {
-  - id: UUID
+  - id: Long
   - dataInicio: DateTime
   - dataExpiracao: DateTime
   - tempoExtraConceido: Integer
@@ -113,7 +113,7 @@ class Emprestimo {
 }
 
 class Notificacao {
-  - id: UUID
+  - id: Long
   - mensagem: String
   - dataHora: DateTime
   - lida: Boolean
@@ -135,7 +135,7 @@ Notificacao "0..*" --* "1" Leitor : destinadaAo
 ' ──────────────────────────────────────────
 
 class Carrinho {
-  - id: UUID
+  - id: Long
   + adicionarItem(livro: Livro)
   + removerItem(livro: Livro)
   + finalizarCompra(metodoPgto: MetodoPagamento): List<Venda>
@@ -154,7 +154,7 @@ Carrinho "1" --* "1" Leitor          : pertenceAo
 ' ──────────────────────────────────────────
 
 class Avaliacao {
-  - id: UUID
+  - id: Long
   - nota: Integer
   - texto: String
   - dataHora: DateTime
@@ -162,7 +162,7 @@ class Avaliacao {
 }
 
 class ComentarioAvaliacao {
-  - id: UUID
+  - id: Long
   - texto: String
   - dataHora: DateTime
   - deAutorEditora: Boolean
@@ -178,17 +178,17 @@ ComentarioAvaliacao "0..*" --* "1" Usuario   : escritoPor
 ' ──────────────────────────────────────────
 
 class Biblioteca {
-  - id: UUID
+  - id: Long
 }
 
 class Acervo {
-  - id: UUID
+  - id: Long
   - nome: String
   - publico: Boolean
 }
 
 class Estante {
-  - id: UUID
+  - id: Long
   - nome: String
   - publico: Boolean
 }
@@ -220,7 +220,7 @@ class XPAutorEditora {
 }
 
 class SessaoLeitura {
-  - id: UUID
+  - id: Long
   - paginaAtual: Integer
   - modoRanqueado: Boolean
   - tempoInicioPagina: DateTime
@@ -250,7 +250,7 @@ MarcadorPagina "0..1" --* "1" SessaoLeitura : marcador
 ' ──────────────────────────────────────────
 
 abstract class ItemLoja {
-  - id: UUID
+  - id: Long
   - nome: String
   - descricao: String
   - custoMoedas: Integer
@@ -298,7 +298,7 @@ CupomEmprestimo "0..1" -- "0..*" Emprestimo  : aplicadoEm
 ' ──────────────────────────────────────────
 
 class MetodoPagamento {
-  - id: UUID
+  - id: Long
   - tipo: TipoPagamento
   - token: String
 }
