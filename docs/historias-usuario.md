@@ -22,14 +22,14 @@
 **US04** - "Como Autor/Editora, quero poder cadastrar meus livros no catálogo da aplicação para que leitores possam lê-los."
 
 **Critérios de Aceitação**:
-- O Autor/Editora clica em um botão "Novo livro" na sua página de "Livros cadastrados", O botão leva o usuário à um formulário de cadastro de livros, onde ele irá inserir o **ISBN** e os dados adicionais **Gênero(s)** (da lista de gêneros do sistema) e selecionará um **índice de dificuldade** do livro entre 1 e 100. Finalmente, ele irá fazer **upload do arquivo EPUB do livro**, definirá um **preço para compra vitalícia** e a **duração do empréstimo gratuito** em dias.
+- O Autor/Editora clica em um botão "Novo livro" na sua página de "Livros cadastrados", O botão leva o usuário à um formulário de cadastro de livros, onde ele irá inserir o **ISBN** e os dados adicionais **Gênero(s)** (da lista de gêneros do sistema) e irá fazer **upload do arquivo EPUB do livro** e definirá um **preço para compra**.
 - Antes da castrar o livro, o Autor/Editora terá que confirmar sua identidade usando sua **Senha**.
 - Uma vez cadastrado, a **API de livros** (*Google Books API*, *OpenLibrary API*, etc.) consumida pela aplicação vai retornar os dados completos do livro na sua interface front-end com base no ISBN inserido no cadastro.
 
 **US05** - "Como Autor/Editora, quero poder editar dados dos meus livros para corrigir informações incorretas ou atualizar detalhes"
 
 **Critérios de Aceitação**:
-- O Autor/Editora poderá editar diretamente dados como **Gênero(s) do livro**, a **autodeclarção de dificuldade**, o **preço para compra vitalícia** e a **duração do empréstimo gratuito**, porém para a edição de um livro a nível de conteúdo pode ser feita apenas **substituindo o arquivo EPUB**. O **ISBN** do livro deve ser um dado imutável.
+- O Autor/Editora poderá editar diretamente dados como **Gênero(s) do livro** e o **preço**, porém para a edição de um livro a nível de conteúdo pode ser feita apenas **substituindo o arquivo EPUB**. O **ISBN** do livro deve ser um dado imutável.
 
 **US06** - "Como Autor/Editora, quero poder remover meus livros do catálogo da aplicação caso deseje."
 
@@ -49,50 +49,29 @@
 - A **API de Transações** consumida pelo sistema vai realizar uma transação entre o leitor e o autor/editora, fazendo com que ele receba o valor do livro na sua conta bancária.
 - O valor do livro será registrado no seu histórico de vendas e aparecerá no seu dashboard integrando a quantia total vendida.
 
-**US09** - "Como leitor, quero poder aplicar os meus cupons de desconto para os livros que eu quero comprar."
-
-**Critérios de Aceitação**:
-- O leitor irá incluir um cupom na sua compra na tela de checkout. Um leitor só pode aplicar um cupom por livro.
-
-**US10** - "Como leitor, quero poder adicionar livros que desejo comprar em um 'carrinho', para que não precise comprá-los separadamente em compras de múltiplos livros."
+**US09** - "Como leitor, quero poder adicionar livros que desejo comprar em um 'carrinho', para que não precise comprá-los separadamente em compras de múltiplos livros."
 
 **Critérios de Aceitação**:
 - O leitor irá clicar em um botão próximo de "Comprar" no card do livro que deseja, e isso o adicionará ao seu *Carrinho*, para que compre múltiplos livros de uma só vez.
 
-**US11** - "Como leitor, quero poder filtrar os livros que aparecem no feed por dados como faixa de preço, gênero, autor, editora e gênero, tal como selecionar filtros pré-estabelecidos, como 'Livros em Alta' ou 'Novidades'."
+**US10** - "Como leitor, quero poder filtrar os livros que aparecem no feed por dados como faixa de preço, gênero, autor, editora e gênero, tal como selecionar filtros pré-estabelecidos, como 'Livros em Alta' ou 'Novidades'."
 
 **Critérios de Aceitação**:
 - O leitor irá selecionar filtros na barra de pesquisa selecionando os critérios de filtro desejados, ou selecionar no menu de filtros pré-estabelecidos no topo do feed o filtro que deseja.
 
-**US12** - "Como leitor, quero poder pesquisar livros de forma eficaz. Minha pesquisa deve retornar os livros mais populares que contém o texto pesquisado no título ou autor." 
+**US11** - "Como leitor, quero poder pesquisar livros de forma eficaz. Minha pesquisa deve retornar os livros mais populares que contém o texto pesquisado no título ou autor." 
 
 **Critérios de Aceitação**:
 - O leitor irá digitar o que procura na barra de pesquisa, e os livros correspondentes serão retornados em ordem de popularidade.
 
-## 🔃 Épico - Empréstimo de Livros
-
-**US13** - "Como leitor, quero pegar livros emprestados por um determinado período de tempo antes de comprá-los de forma vitalícia. Caso eu não encerre a amostra manualmente até o fim do prazo, o sistema deve fazer isso por mim para impedir que eu contraia dívidas."
-
-**Critérios de Aceitação**:
-- O leitor irá clicar no botão "Pegar emprestado" no card do livro que deseja, e o livro será adicionado na sua tela "*Minha Biblioteca*" com um contador regressivo em cima da capa, indicando quanto falta para o fim do empréstimo. O tempo padrão do empréstimo é definido pelo Autor/Editora no cadastro do livro, mas pode aumentar se o leitor aplicar **cupons especiais** comprados com **moedas do sistema** na **loja** (funcionalidades que serão detalhadas mais à frente no documento.)
-- Um leitor só pode pegar **um** livro emprestado por vez por padrão, mas ele pode aplicar **cupons da loja** para adicionar outro livro ao empréstimo.
-- Após o fim do prazo, o livro será automaticamente removido da sua biblioteca e uma **notificação** será criada na **página de notificações** informando a expiração do empréstimo. Caso o leitor queira voltar a lê-lo, deverá **comprá-lo de forma vitalícia** ou **esperar o mesmo tempo do seu empréstimo** (excetuando tempo extra de cupons) para solicitar um novo.
-
-**US14** - "Como Autor/Editora, quero que o sistema tenha regras para os empréstimos de livros para não prejudicar a minha receita na aplicação."
-
-**Critérios de Aceitação**:
-- A duração padrão do empréstimo de livros é definida diretamente pelos Autores/Editoras durante o cadastro dos livros.
-- Mesmo com cupons de tempo extra aplicados, esses cupons terão um limite de tempo que podem conceder ao leitor, e somente um cupom desse tipo pode ser aplicado por livro no empréstimo.
-- Cupons com maiores benefícios só estarão disponíveis para compra na loja para leitores acima de determinado nível de XP (funcionalidade será detalhada mais à frente).
-
 ## 🔖 Épico - Leitura de Livros
 
-**US15** - "Como leitor, quero poder ler os ebooks em formato EPUB diretamente na aplicação, com uma interface intuitiva em relação à experiência de leitura de livros físicos."
+**US12** - "Como leitor, quero poder ler os ebooks em formato EPUB diretamente na aplicação, com uma interface intuitiva em relação à experiência de leitura de livros físicos."
 
 **Critérios de Aceitação**:
 - O sistema deve fornecer uma interface de usuário para leitura dos arquivos EPUB dos livros. Na aplicação mobile, isso seria feito com movimentos como deslize (*scroll*) da tela para a esquerda e direita virem páginas para frente e para trás, respectivamente. Na aplicação web, as teclas de seta para esquerda e direita (e alternativamente as teclas A e D) fariam esse papel.
 
-**US16** - "Como leitor, quero poder marcar a página onde eu parei para que eu não tenha que procurá-la manualmente quando abrir novamente o livro depois de fechá-lo."
+**US13** - "Como leitor, quero poder marcar a página onde eu parei para que eu não tenha que procurá-la manualmente quando abrir novamente o livro depois de fechá-lo."
 
 **Critérios de Aceitação**:
 - Na aplicação mobile, o leitor poderá deslizar a tela para baixo e para cima no canto superior direito da interface para colocar e retirar o marcador de página, respectivamente. Na aplicação web, ele poderá clicar no canto superior direito para fazer isso.
@@ -101,98 +80,49 @@
 > [!NOTE] Nota temporária (Apagar após o diagrama de componentes)
 > Devido à alta carga de I/O da funcionalidade, essa feature poderia ser implementada dentro de um microsserviço em uma linguagem performática como Go.
 
-**US17** - "Como leitor, quero poder avaliar os livros lidos em um sistema de 5 estrelas e dar meu feedback para o autor/editora."
+**US14** - "Como leitor, quero poder avaliar os livros lidos em um sistema de 5 estrelas e dar meu feedback para o autor/editora."
 
 **Critérios de Aceitação**:
 - O leitor poderá avaliar o livro em uma seção "Avaliar", dando uma nota de 1 à 5 estrelas e deixando um comentário.
 - Leitores podem comentar nas avaliações de outros leitores, porém as respostas do autor/editora, caso existam, estarão sempre em destaque no topo da seção de comentários da avaliação.
 
-**US18** - "Como autor/editora, quero que as avaliações do meu livro sejam combinadas em uma média que será exibida junto com as informações gerais do livro."
+**US15** - "Como autor/editora, quero que as avaliações do meu livro sejam combinadas em uma média que será exibida junto com as informações gerais do livro."
 
 **Critérios de Aceitação**:
 - Será calculada uma média à partir das avaliações dos leitores, que será registrada como a média de avaliações do livro. Este dado então será usado para definir a prioridade do livro em pesquisas dos leitores, e vai passar a integrar o dashboard de autor/editora.
 
 ## 📚 Épico - Organização de Livros
 
-**US19** - "Como leitor, quero que os livros que eu interagi sejam categorizados de forma diferente dentro da minha biblioteca para poder gerenciá-los de forma mais fácil e melhorar a experiência de navegação no sistema."
+**US16** - "Como leitor, quero que os livros que eu interagi sejam categorizados de forma diferente dentro da minha biblioteca para poder gerenciá-los de forma mais fácil e melhorar a experiência de navegação no sistema."
 
 **Critérios de Aceitação**:
 - Ao interagir com um livro, seja comprando, pegando emprestado, avaliando ou comentando, esse livro será exibido de forma diferente na biblioteca do leitor.
     - Livros que forem comprados pelo leitor irão para uma seção "Meus livros" dentro de "Minha Biblioteca"
-    - Livros que estiverem dentro de um empréstimo ativo serão colocados nessa seção até o empréstimo acabar.
     - Livros que receberam uma avaliação do leitor serão colocados na seção "Minhas Avaliações"
-    - Livros que não foram adquiridos, não foram avaliados nem estão em um empréstimo ativo não estarão na biblioteca. Caso o livro seja parte de um empréstimo que expirou, ele será registrado no histórico de empréstimos.
+    - Livros que não foram adquiridos e não foram avaliados não estarão na biblioteca. Caso o livro seja parte de um empréstimo que expirou, ele será registrado no histórico de empréstimos.
 
-**US20** - "Como leitor, quero poder organizar os meus livros em pastas da forma que eu desejar."
+**US17** - "Como leitor, quero poder organizar os meus livros em pastas da forma que eu desejar."
 
 **Critérios de Aceitação**:
 - O leitor pode criar *Estantes* (pastas) para livros. Qualquer livro pode ser adicionado à qualquer estante, sem restrições.
 - Essas pastas podem ser divididas em subpastas para uma camada extra de organização. Ao fazer isso, a estante se torna um *Acervo*, com as subpastas recebendo o nome de *Estantes* agora.
 
-**US21** - "Como Autor/Editora, quero que os meus livros sejam organizados dentro da minha biblioteca para gerenciá-los de forma mais fácil e melhorar a minha experiência no sistema."
+**US18** - "Como Autor/Editora, quero que os meus livros sejam organizados dentro da minha biblioteca para gerenciá-los de forma mais fácil e melhorar a minha experiência no sistema."
 
 **Critérios de Aceitação**:
 - Livros cadastrados no catálogo serão inseridos na seção "Meus livros" da biblioteca do autor/editora. 
 - Livros arquivados serão movidos para a seção "Arquivo"
 
-**US22** - "Como Autor/Editora, quero poder criar minhas próprias estantes com meus livros, para que os leitores acessem através da seção 'Estantes' do feed de livros ou pela minha biblioteca de autor/editora."
+**US19** - "Como Autor/Editora, quero poder criar minhas próprias estantes com meus livros, para que os leitores acessem através da seção 'Estantes' do feed de livros ou pela minha biblioteca de autor/editora."
 
 **Critérios de Aceitação**:
 - O autor/editora pode adicionar seus livros à estantes assim como o leitor, porém todas as estantes criadas por autores/editores são necessariamente públicas, não sendo possível a criação de estantes privadas.
-
-## 🔹 Épico - Sistema de XP
->[!NOTE] Apagar depois do diagrama de componentes
-> Pode ser implementado como um microsserviço em Go assim como as avaliações.
-
-**US23** - "Como leitor, quero que o sistema de gamificação de leitura da aplicação crie uma medida de progresso que permite ter acesso à benefícios maiores na loja"
-
-**Critérios de Aceitação**:
-- O sistema deve ter como uma funcionalidade gamificada o "Lit-XP" (***Lit**erary e***X***perience **P**oints*) O leitor ganha pontos de Lit-XP (abreviando para apenas XP por conveniência) ao ler livros, e à medida que ele ganha esses pontos de XP, seu nível de XP aumenta em 1. Para cada novo nível alcançado, mais XP será necessário para subir para o próximo.
-
-**US24** - "Como leitor, quero que a minha dedicação aos livros de um determinado gênero ou autor/editora seja recompensada de alguma forma pelo sistema de XP."
-
-**Critérios de Aceitação**:
-- Existirão pontuações de XP paralelas que afetam um escopo específico de benefícios, incluindo XP de Gênero Literário e XP de Autor/Editora. Caso haja uma promoção de livros de determinado gênero ou autor por parte de uma editora, essas pontuações podem garantir ao leitor uma série de benefícios especiais na loja.
-- O leitor terá uma tela dedicada à exibição das pontuações de XP no seu perfil, incluindo a pontuação de XP geral no topo da tela, e uma lista de pontuações de XP para cada gênero literário. O XP de Autor/Editora não exibido nessa tela, mas sim na interface dos livros, ao lado do nome do autor/editora.
-
-**US25** - "Como autor/editora, quero que o sistema tenha mecanismos de prevenção de exploração da funcionalidade de XP pelos leitores para conseguirem benefícios de forma mais fácil"
-
-**Critérios de Aceitação**:
-- O leitor de livros contará com um contador de tempo de leitura baseado no tempo de leitura médio do leitor, calculado durante as primeiras páginas lidas em um livro na aplicação e sendo sempre atualizado. Caso o leitor demore menos de 20% do seu tempo de leitura habitual para ler uma página, a sua pontuação de XP é penalizada de acordo com o quão rápido ele foi, fazendo com que a virada instantânea de páginas não dê nenhum XP para o leitor e assim prevenindo o exploit.
-- O índice de dificuldade do livro, informado durante seu cadastro, será utilizada para regular o XP obtido pelas suas páginas.
-
-**US26** - "Como leitor, quero poder folhear livros e mesmo assim manter a minha pontuação de XP intacta durante a leitura de fato. Não quero ter a minha leitura presa à um sistema de recompensas contra a minha vontade."
-
-**Critérios de Avaliação**:
-- O sistema trata a leitura de livros valendo XP como opcional, sendo assim, para cada interface de leitura de livro irá existir um botão para alterar o modo de leitura de "casual" para "ranqueado" e vice-versa, com o primeiro sendo o modo padrão. Quando o leitor define o modo como casual, o sistema para de contar o seu tempo para prevenção de exploit e passa a usar o contador apenas para atualizar sua velocidade média de leitura.
-    - Por isso, a opção de leitura ranqueada só fica disponível à partir do instante em que o primeiro dado consistente sobre a velocidade média é calculado.
-- O sistema deve dar instruções em forma de pop-up para o usuário sobre essas funcionalidades para melhorar a usabilidade.
-
-## 🪙 Épico - Sistema de Moedas
-
-**US27** - "Como leitor, quero que exista um sistema de gamificação complementar ao XP para adquirir de fato os benefícios que o XP desbloqueia para serem adquiridos na loja."
-
-**Critérios de Aceitação**:
-- O sistema terá uma moeda própria para adquirir benefícios da loja. As moedas são obtidas em menor quantidade como recompensa por subir de nível de XP e em maior quantidade por finalizar livros, que varia de acordo com a dificuldade do livro em si.
-
-## 🛍️ Épico - Loja
-
-**US28** - "Como leitor, quero que exista uma funcionalidade do sistema para que eu possa trocar as moedas por alguma forma de benefício."
-
-**Critérios de Aceitação**:
-- O sistema terá uma seção "Loja" assível pelo menu do feed de livros.
-- A loja terá três tipos padrão de benefício, sendo eles: Cosméticos (para decoração de perfil, biblioteca e tema), Cupons de Empréstimo (aumentam o tempo de empréstimo de livros) e Cupons de Desconto (dão descontos na compra de livros), cada um com seu próprio preço em moedas.
-
-**US29** - "Como autor/editora, quero que os benefícios da loja relacionados ao empréstimo e compra de livros sejam limitados para não prejudicar a receita."
-
-**Critérios de Aceitação**:
-- O efeito dos benefícios na loja será compatível ao nível de XP do leitor, e mesmo nos níveis mais altos possíveis, terá um limite.
 
 ## 📋 Épico - Dashboard de Autores e Editoras
 >[!NOTE] Apagar após diagrama de componentes
 > Considerar microsserviço implementado com Python pela análise pesada de dados nessa feature.
 
-**US30** - "Como autor/editora, quero ter acesso aos dados sobre as minhas vendas na aplicação, com análises avançadas relacionadas à receita obtida, as avaliações dos livros com dados sobre o nível de XP para aquele livro dos usuários que o avaliaram para que eu tenha noção sobre qual exatamente é o meu público de leitores, além de gráficos exibindo esses dados em relação ao tempo."
+**US20** - "Como autor/editora, quero ter acesso aos dados sobre as minhas vendas na aplicação, com análises avançadas relacionadas à receita obtida, as avaliações dos livros com dados sobre o nível de XP para aquele livro dos usuários que o avaliaram para que eu tenha noção sobre qual exatamente é o meu público de leitores, além de gráficos exibindo esses dados em relação ao tempo."
 
 **Critérios de Aceitação**
 - O sistema terá como página inicial para autores/editoras o seu Dashboard, com todas essas informações organizadas em um só lugar. Podem ser aplicados diversos filtros e análises por uma gama de critérios.
