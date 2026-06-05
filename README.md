@@ -7,7 +7,7 @@
 
 ---
 
-# 📗🏅 iLib - Livraria de Ebooks e Leitura Gamificada
+# 📗 iLib - Livraria de Ebooks
 
 > [!NOTE]
 > Breve descrição do projeto. **Foque no principal valor/benefício.**  
