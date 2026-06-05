@@ -1,0 +1,28 @@
+@startuml ds-login-usuario
+skinparam style strictuml
+autonumber
+
+actor "Usuário" as Usuario
+
+participant "Aplicação Cliente" as Cliente
+participant "Serviço de Autenticação" as AuthService
+database "Banco de Dados" as BD
+
+Usuario -> Cliente: preenche form. login
+activate Cliente
+
+Cliente -> AuthService: POST / login(dados)
+activate AuthService
+
+AuthService -> BD: consulta usuário(dados)
+activate BD
+
+BD --> AuthService: resultado consulta
+deactivate BD
+
+AuthService --> Cliente: HTTP STATUS / resposta login
+deactivate AuthService
+
+Cliente --> Usuario: pág. inicial / erro
+deactivate Cliente
+@enduml
