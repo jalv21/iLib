@@ -1,0 +1,65 @@
+@startuml ds-comprar_livros
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client          as "Aplicação Cliente"
+participant ServiceCatalogo as "Serviço de Catálogo"
+participant ServicePgto     as "Serviço de Pagamento"
+participant APITransacao     as "API de Transações"
+database    BD              as "Banco de Dados"
+
+Leitor -> Client : clica em "Comprar" no card do livro
+activate Client
+
+Client -> ServiceCatalogo : GET /livros/{id}
+activate ServiceCatalogo
+ServiceCatalogo -> BD : SELECT livro WHERE id = {id}
+activate BD
+BD --> ServiceCatalogo : dados do livro (preço, título…)
+deactivate BD
+ServiceCatalogo --> Client : dados do livro
+deactivate ServiceCatalogo
+
+Client --> Leitor : exibe tela de checkout\n(resumo do livro e preço)
+
+' ── include: selecionar_metodo_pgto ──────
+Leitor -> Client : seleciona método de pagamento
+Client -> ServicePgto : GET /metodos-pagamento(leitorId)
+activate ServicePgto
+ServicePgto -> BD : SELECT metodosPagamento WHERE leitorId = {id}
+activate BD
+BD --> ServicePgto : lista de métodos cadastrados
+deactivate BD
+ServicePgto --> Client : métodos disponíveis
+deactivate ServicePgto
+Client --> Leitor : exibe opções de pagamento
+Leitor -> Client  : confirma método de pagamento escolhido
+' ─────────────────────────────────────────
+
+Leitor -> Client : confirma compra
+Client -> ServicePgto : POST /pagamentos/processar(livroId,\nleitorId, metodoPgtoId, valorFinal)
+activate ServicePgto
+
+ServicePgto -> APITransacao : POST /transacoes(valor, destinatario,\norigem, referencia)
+activate APITransacao
+APITransacao --> ServicePgto : transação aprovada (id)
+deactivate APITransacao
+
+ServicePgto -> BD : INSERT venda(livroId, leitorId,\nvalorFinal, valorDesconto,\nmetodoPgtoId, dataHora)
+activate BD
+BD --> ServicePgto : venda registrada
+deactivate BD
+
+ServicePgto --> Client : 200 OK — compra confirmada
+deactivate ServicePgto
+
+Client -> BD : UPDATE biblioteca — move livro\npara seção "Meus Livros"
+activate BD
+BD --> Client : atualizado
+deactivate BD
+
+Client --> Leitor : exibe confirmação de compra\ne redireciona para "Minha Biblioteca"
+deactivate Client
+
+@enduml
