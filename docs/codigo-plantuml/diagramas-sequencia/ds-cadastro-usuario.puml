@@ -1,0 +1,27 @@
+@startuml ds-cadastro-usuario
+autonumber
+skinparam style strictuml
+
+actor Usuario as "Usuário"
+
+participant Client as "Aplicação Cliente"
+participant Service as "Serviço de Cadastro"
+database BD as "Banco de Dados"
+
+Usuario -> Client: seleciona perfil
+activate Client
+Client --> Usuario: exibe form. cadastro do perfil 
+Usuario -> Client: preenche form. cadastro
+Client -> Service: POST / cadastrar(dados)
+activate Service
+Service -> BD : insere dados
+activate BD
+
+BD --> Service: resposta inserção
+deactivate BD
+Service --> Client: resposta cadastro (status HTTP)
+deactivate Service
+Client --> Usuario: exibe pág. inicial
+deactivate Client
+
+@enduml
