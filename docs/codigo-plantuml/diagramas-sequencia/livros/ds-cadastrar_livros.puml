@@ -54,7 +54,7 @@ deactivate BD
 ServiceLivros --> Client : 201 Created — dados do livro
 deactivate ServiceLivros
 
-Client --> UsuarioEditorial : insere livro na biblioteca e catálogo 
+Client --> UsuarioEditorial : insere livro na biblioteca e catálogo
 deactivate Client
 
 @enduml
