@@ -1,0 +1,316 @@
+@startuml iLib - Diagrama de Classes de Domínio
+
+skinparam linetype ortho
+
+' ──────────────────────────────────────────
+' HIERARQUIA DE USUÁRIOS
+' ──────────────────────────────────────────
+
+abstract class Usuario {
+  - id: Long
+  - nome: String
+  - username: String
+  - email: String
+  - senhaHash: String
+  + cadastrar()
+  + login()
+  + autenticar(senha: String): Boolean
+}
+
+abstract class UsuarioEditorial {
+  + cadastrarLivro(livro: Livro)
+  + editarLivro(livro: Livro)
+  + arquivarLivro(livro: Livro)
+  + receberPorLivro(venda: Venda)
+  + responderAvaliacao(avaliacao: Avaliacao, texto: String)
+}
+
+class AutorIndependente {
+  - cpf: String
+}
+
+class Editora {
+  - cnpj: String
+  - autores: List<String>
+}
+
+class Leitor {
+  - moedas: Integer
+  - velocidadeMediaLeitura: Float
+  + comprarLivro(livro: Livro, cupom: CupomDesconto)
+  + pegarLivroEmprestado(livro: Livro, cupom: CupomEmprestimo)
+  + devolverLivro(emprestimo: Emprestimo)
+  + avaliarLivro(livro: Livro, nota: Integer, comentario: String)
+  + adquirirCupom(item: ItemLoja)
+  + adquirirCustomizacao(item: ItemLoja)
+  + consultarXP(): PerfilXP
+}
+
+Usuario <|-- UsuarioEditorial
+Usuario <|-- Leitor
+UsuarioEditorial <|-- AutorIndependente
+UsuarioEditorial <|-- Editora
+
+' ──────────────────────────────────────────
+' LIVRO
+' ──────────────────────────────────────────
+
+class Livro {
+  - isbn: String
+  - titulo: String
+  - sinopse: String
+  - capaBucketKey: String
+  - epubBucketKey: String
+  - precoPermanente: Decimal
+  - duracaoEmprestimoPadrao: Integer
+  - indiceDificuldade: Integer
+  - mediaAvaliacoes: Float
+  - totalVendas: Integer
+  - arquivado: Boolean
+  + calcularMediaAvaliacoes()
+  + atualizarEpub(epubBucketKey: String)
+}
+
+enum GeneroLiterario {
+  FICCAO_CIENTIFICA
+  FANTASIA
+  ROMANCE
+  MISTERIO
+  TERROR
+  BIOGRAFIA
+  HISTORIA
+  AUTOAJUDA
+  INFANTIL
+  POESIA
+  ' ... outros gêneros
+}
+
+class Venda {
+  - id: Long
+  - dataHora: DateTime
+  - valorFinal: Decimal
+  - valorDesconto: Decimal
+}
+
+' Relacionamentos de Livro
+Livro "0..*" -- "1..*" GeneroLiterario : géneros
+Livro "0..*" -- "1" UsuarioEditorial   : publicadoPor
+Venda "0..*" --* "1" Livro              : refereAo
+Venda "0..*" --* "1" Leitor             : realizadaPor
+
+' ──────────────────────────────────────────
+' EMPRÉSTIMO
+' ──────────────────────────────────────────
+
+class Emprestimo {
+  - id: Long
+  - dataInicio: DateTime
+  - dataExpiracao: DateTime
+  - tempoExtraConceido: Integer
+  - ativo: Boolean
+  + expirar()
+  + calcularDataExpiracao(): DateTime
+}
+
+class Notificacao {
+  - id: Long
+  - mensagem: String
+  - dataHora: DateTime
+  - lida: Boolean
+  - tipo: TipoNotificacao
+}
+
+enum TipoNotificacao {
+  EXPIRACAO_EMPRESTIMO
+  COMPRA_CONFIRMADA
+  NOVO_NIVEL_XP
+}
+
+Emprestimo "0..*" --* "1" Leitor  : pertenceAo
+Emprestimo "0..*" --* "1" Livro   : refereAo
+Notificacao "0..*" --* "1" Leitor : destinadaAo
+
+' ──────────────────────────────────────────
+' CARRINHO DE COMPRAS
+' ──────────────────────────────────────────
+
+class Carrinho {
+  - id: Long
+  + adicionarItem(livro: Livro)
+  + removerItem(livro: Livro)
+  + finalizarCompra(metodoPgto: MetodoPagamento): List<Venda>
+}
+
+class ItemCarrinho {
+  - cupomAplicado: CupomDesconto
+}
+
+Carrinho "1" *-- "0..*" ItemCarrinho : itens
+ItemCarrinho "0..*" --* "1" Livro    : livro
+Carrinho "1" --* "1" Leitor          : pertenceAo
+
+' ──────────────────────────────────────────
+' AVALIAÇÕES
+' ──────────────────────────────────────────
+
+class Avaliacao {
+  - id: Long
+  - nota: Integer
+  - texto: String
+  - dataHora: DateTime
+  - xpDoLeitorNoLivro: Integer
+}
+
+class ComentarioAvaliacao {
+  - id: Long
+  - texto: String
+  - dataHora: DateTime
+  - deAutorEditora: Boolean
+}
+
+Avaliacao "0..*" --* "1" Livro    : avaliaO
+Avaliacao "0..*" --* "1" Leitor   : escritaPor
+ComentarioAvaliacao "0..*" --* "1" Avaliacao : comentaA
+ComentarioAvaliacao "0..*" --* "1" Usuario   : escritoPor
+
+' ──────────────────────────────────────────
+' ORGANIZAÇÃO / BIBLIOTECA
+' ──────────────────────────────────────────
+
+class Biblioteca {
+  - id: Long
+}
+
+class Acervo {
+  - id: Long
+  - nome: String
+  - publico: Boolean
+}
+
+class Estante {
+  - id: Long
+  - nome: String
+  - publico: Boolean
+}
+
+Biblioteca "1" *-- "0..*" Acervo   : acervos
+Biblioteca "1" *-- "0..*" Estante  : estantesRaiz
+Acervo    "1" *-- "1..*" Estante   : subEstantes
+Estante   "0..*" -- "0..*" Livro   : contem
+Biblioteca "1" --* "1" Usuario     : doUsuario
+
+' ──────────────────────────────────────────
+' SISTEMA DE XP
+' ──────────────────────────────────────────
+
+class PerfilXP {
+  - xpGeral: Integer
+  - nivel: Integer
+  + calcularXpParaProximoNivel(): Integer
+  + subirNivel()
+}
+
+class XPGenero {
+  - xp: Integer
+  - genero: GeneroLiterario
+}
+
+class XPAutorEditora {
+  - xp: Integer
+}
+
+class SessaoLeitura {
+  - id: Long
+  - paginaAtual: Integer
+  - modoRanqueado: Boolean
+  - tempoInicioPagina: DateTime
+  - velocidadeMediaAtualizada: Float
+  + registrarViradaPagina(tempoGasto: Float): Integer
+  + calcularMultiplicadorXP(): Float
+  + ativarModoRanqueado()
+  + desativarModoRanqueado()
+}
+
+class MarcadorPagina {
+  - pagina: Integer
+  - dataHora: DateTime
+}
+
+PerfilXP    "1"    --*  "1" Leitor        : pertenceAo
+XPGenero    "0..*" --*  "1" PerfilXP      : pontuacoesGenero
+XPAutorEditora "0..*" --* "1" PerfilXP   : pontuacoesEditorial
+XPAutorEditora "0..*" --* "1" UsuarioEditorial : referenteA
+XPGenero    "0..*" --*  "1" GeneroLiterario : doGenero
+SessaoLeitura "0..*" --* "1" Leitor       : doLeitor
+SessaoLeitura "0..*" --* "1" Livro        : doLivro
+MarcadorPagina "0..1" --* "1" SessaoLeitura : marcador
+
+' ──────────────────────────────────────────
+' LOJA E CUPONS
+' ──────────────────────────────────────────
+
+abstract class ItemLoja {
+  - id: Long
+  - nome: String
+  - descricao: String
+  - custoMoedas: Integer
+  - nivelXPMinimo: Integer
+}
+
+class Cosmetico {
+  - tipo: TipoCosmetico
+  - assetBucketKey: String
+}
+
+enum TipoCosmetico {
+  PERFIL
+  BIBLIOTECA
+  TEMA
+}
+TipoCosmetico --* Cosmetico
+
+class CupomDesconto {
+  - percentualDesconto: Float
+  - codigo: String
+  - utilizado: Boolean
+}
+
+class CupomEmprestimo {
+  - diasExtras: Integer
+  - limiteMaximoDias: Integer
+  - codigo: String
+  - utilizado: Boolean
+}
+
+ItemLoja <|-- Cosmetico
+ItemLoja <|-- CupomDesconto
+ItemLoja <|-- CupomEmprestimo
+
+' Itens adquiridos
+Leitor "0..*" -- "0..*" ItemLoja : possuiItens
+
+' Cupons aplicados
+CupomDesconto  "0..1" -- "0..*" ItemCarrinho : aplicadoEm
+CupomEmprestimo "0..1" -- "0..*" Emprestimo  : aplicadoEm
+
+' ──────────────────────────────────────────
+' PAGAMENTO
+' ──────────────────────────────────────────
+
+class MetodoPagamento {
+  - id: Long
+  - tipo: TipoPagamento
+  - token: String
+}
+
+enum TipoPagamento {
+  CARTAO_CREDITO
+  CARTAO_DEBITO
+  PIX
+  BOLETO
+}
+
+MetodoPagamento "0..*" --* "1" Leitor : pertenceAo
+Venda           "0..*" --* "1" MetodoPagamento : usou
+
+@enduml
