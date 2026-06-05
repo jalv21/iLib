@@ -1,0 +1,27 @@
+@startuml ds-cadastrar-livros
+skinparam style strictuml
+autonumber
+actor "Usuário Editorial" as UsuarioEditorial
+
+participant "Tela de Cadastro de Livros" as TelaCadastro
+participant "Livro" as Livro
+database "Banco de Dados" as BD
+
+UsuarioEditorial -> TelaCadastro: preenche form. cadastro
+activate TelaCadastro
+
+TelaCadastro -> Livro : criar livro(dados)
+activate Livro
+
+Livro -> BD : salvar livro(dados)
+activate BD
+
+BD --> Livro : confirmação de salvamento
+deactivate BD
+
+Livro --> TelaCadastro : livro criado
+deactivate Livro
+
+TelaCadastro --> UsuarioEditorial : exibir status
+deactivate TelaCadastro
+@enduml
