@@ -1,0 +1,32 @@
+@startuml ds-inserir_estante_adquiridos
+autonumber
+skinparam style strictuml
+
+participant Sistema           as "Subsistema de Bibliotecas"
+participant ServiceBiblioteca as "Serviço de Biblioteca"
+database    BD                as "Banco de Dados"
+
+[-> Sistema : evento: compra confirmada\n(leitorId, livroId)
+activate Sistema
+
+Sistema -> ServiceBiblioteca : GET /bibliotecas/acervos\n(leitorId, nome="Adquiridos")
+activate ServiceBiblioteca
+ServiceBiblioteca -> BD : SELECT acervo WHERE\nbibliotecaId IN (SELECT id FROM biblioteca\nWHERE usuarioId = {leitorId})\nAND nome = "Adquiridos"
+activate BD
+BD --> ServiceBiblioteca : acervoId
+deactivate BD
+ServiceBiblioteca --> Sistema : acervoId
+deactivate ServiceBiblioteca
+
+Sistema -> ServiceBiblioteca : POST /acervos/{acervoId}/livros(livroId)
+activate ServiceBiblioteca
+ServiceBiblioteca -> BD : INSERT estante_livro\n(acervoId, livroId)
+activate BD
+BD --> ServiceBiblioteca : livro inserido
+deactivate BD
+ServiceBiblioteca --> Sistema : 201 Created
+deactivate ServiceBiblioteca
+
+deactivate Sistema
+
+@enduml
