@@ -1,0 +1,46 @@
+@startuml ds-analisar_avaliacoes
+autonumber
+skinparam style strictuml
+
+actor UsuarioEditorial as "UsuárioEditorial"
+participant Client           as "Aplicação Cliente"
+participant ServiceDashboard as "Serviço de Dashboard"
+database    BD               as "Banco de Dados"
+
+UsuarioEditorial -> Client : acessa o Dashboard\ne seleciona "Avaliações"
+activate Client
+
+Client --> UsuarioEditorial : exibe seletor de período\ne filtro por livro (opcional)
+
+UsuarioEditorial -> Client : seleciona período e\nlivro (ou "Todos os livros")
+
+Client -> ServiceDashboard : GET /dashboard/avaliacoes\n(usuarioEditorialId, dataInicio,\ndataFim, livroId?)
+activate ServiceDashboard
+
+ServiceDashboard -> BD : SELECT AVG(nota) AS mediaGeral,\nCOUNT(id) AS totalAvaliacoes\nFROM avaliacao\nWHERE livroId IN (SELECT id FROM livro\nWHERE publicadorId = {id})\nAND dataHora BETWEEN {dataInicio} AND {dataFim}\n[AND livroId = {livroId}]
+activate BD
+BD --> ServiceDashboard : mediaGeral, totalAvaliacoes
+deactivate BD
+
+ServiceDashboard -> BD : SELECT nota, COUNT(*) AS quantidade\nFROM avaliacao\nWHERE livroId IN (SELECT id FROM livro\nWHERE publicadorId = {id})\nAND dataHora BETWEEN {dataInicio} AND {dataFim}\nGROUP BY nota ORDER BY nota DESC
+activate BD
+BD --> ServiceDashboard : distribuição de notas (1 a 5)
+deactivate BD
+
+ServiceDashboard -> BD : SELECT livroId, titulo, AVG(nota) AS media,\nCOUNT(id) AS totalAvaliacoes\nFROM avaliacao a JOIN livro l ON l.id = a.livroId\nWHERE l.publicadorId = {id}\nAND a.dataHora BETWEEN {dataInicio} AND {dataFim}\nGROUP BY livroId ORDER BY media DESC
+activate BD
+BD --> ServiceDashboard : média por livro
+deactivate BD
+
+ServiceDashboard -> BD : SELECT DATE_TRUNC({granularidade}, dataHora)\nAS periodo, AVG(nota) AS media\nFROM avaliacao\nWHERE livroId IN (SELECT id FROM livro\nWHERE publicadorId = {id})\nAND dataHora BETWEEN {dataInicio} AND {dataFim}\nGROUP BY periodo ORDER BY periodo ASC
+activate BD
+BD --> ServiceDashboard : evolução temporal da média
+deactivate BD
+
+ServiceDashboard --> Client : 200 OK — mediaGeral, totalAvaliacoes,\ndistribuicaoNotas, mediaPorLivro,\nserieTemporal
+deactivate ServiceDashboard
+
+Client --> UsuarioEditorial : exibe painel com média geral,\ndistribuição de notas,\nranking de livros por avaliação\ne evolução temporal
+deactivate Client
+
+@enduml
