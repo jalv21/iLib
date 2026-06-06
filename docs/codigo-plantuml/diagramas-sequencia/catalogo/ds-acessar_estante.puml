@@ -1,0 +1,39 @@
+@startuml ds-acessar_estante
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client          as "Aplicação Cliente"
+participant ServiceCatalogo as "Serviço de Catálogo"
+database    BD              as "Banco de Dados"
+
+Leitor -> Client : clica em uma estante\n(nos resultados ou no feed)
+activate Client
+
+Client -> ServiceCatalogo : GET /estantes/{id}
+activate ServiceCatalogo
+ServiceCatalogo -> BD : SELECT estante WHERE id = {id}\nAND publico = true
+activate BD
+BD --> ServiceCatalogo : dados da estante\n(nome, criador, livros)
+deactivate BD
+ServiceCatalogo --> Client : conteúdo da estante
+deactivate ServiceCatalogo
+
+Client --> Leitor : exibe página da estante com\nlista de livros e dados do criador
+
+opt Leitor clica em um livro da estante
+    Leitor -> Client : seleciona livro da estante
+    Client -> ServiceCatalogo : GET /livros/{id}
+    activate ServiceCatalogo
+    ServiceCatalogo -> BD : SELECT livro WHERE id = {id}
+    activate BD
+    BD --> ServiceCatalogo : dados do livro
+    deactivate BD
+    ServiceCatalogo --> Client : dados do livro
+    deactivate ServiceCatalogo
+    Client --> Leitor : exibe página do livro\n(comprar)
+end
+
+deactivate Client
+
+@enduml

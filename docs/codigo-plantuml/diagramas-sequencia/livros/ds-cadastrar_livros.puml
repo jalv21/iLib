@@ -1,0 +1,60 @@
+@startuml ds-cadastrar_livros
+autonumber
+skinparam style strictuml
+
+actor UsuarioEditorial as "UsuárioEditorial"
+participant Client      as "Aplicação Cliente"
+participant ServiceLivros  as "Serviço de Livros"
+participant ServiceAuth    as "Serviço de Autenticação"
+participant StorageService as "Serviço de Storage"
+participant BookAPI        as "API de Livros\n(Google Books / OpenLibrary)"
+database    BD             as "Banco de Dados"
+
+UsuarioEditorial -> Client : clica em "Novo Livro"
+activate Client
+
+Client --> UsuarioEditorial : exibe formulário de cadastro de livro
+
+UsuarioEditorial -> Client : preenche ISBN, gênero(s), índice de\ndificuldade, preço, duração do\nempréstimo e seleciona arquivo EPUB
+Client -> Client : solicita confirmação de identidade
+
+' ── include: autenticar ──────────────────
+Client --> UsuarioEditorial : exibe prompt de senha
+UsuarioEditorial -> Client  : informa senha
+Client -> ServiceAuth : POST /autenticar(email, senha)
+activate ServiceAuth
+ServiceAuth -> BD : consulta credenciais
+activate BD
+BD --> ServiceAuth : credenciais válidas
+deactivate BD
+ServiceAuth --> Client : 200 OK — token de autenticação
+deactivate ServiceAuth
+' ─────────────────────────────────────────
+
+Client -> ServiceLivros : POST /livros/cadastrar(isbn, generos,\nindiceDificuldade, preco,\nduracaoEmprestimo, token)
+activate ServiceLivros
+
+' ── include: upload_epub ─────────────────
+ServiceLivros -> StorageService : upload(arquivoEPUB)
+activate StorageService
+StorageService --> ServiceLivros : epubBucketKey
+deactivate StorageService
+' ─────────────────────────────────────────
+
+ServiceLivros -> BookAPI : GET /livros?isbn={isbn}
+activate BookAPI
+BookAPI --> ServiceLivros : titulo, sinopse, capa, autores…
+deactivate BookAPI
+
+ServiceLivros -> BD : inserir livro (dados)
+activate BD
+BD --> ServiceLivros : livro inserido (id)
+deactivate BD
+
+ServiceLivros --> Client : 201 Created — dados do livro
+deactivate ServiceLivros
+
+Client --> UsuarioEditorial : insere livro na biblioteca e catálogo
+deactivate Client
+
+@enduml
