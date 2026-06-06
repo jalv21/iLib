@@ -1,0 +1,52 @@
+@startuml ds-criar_biblioteca
+autonumber
+skinparam style strictuml
+
+participant Sistema           as "Subsistema de Bibliotecas"
+participant ServiceBiblioteca as "Serviço de Biblioteca"
+database    BD                as "Banco de Dados"
+
+[-> Sistema : evento: novo usuário cadastrado\n(usuarioId)
+activate Sistema
+
+Sistema -> ServiceBiblioteca : POST /bibliotecas(usuarioId)
+activate ServiceBiblioteca
+
+ServiceBiblioteca -> BD : INSERT biblioteca(usuarioId)
+activate BD
+BD --> ServiceBiblioteca : biblioteca criada (id)
+deactivate BD
+
+ServiceBiblioteca --> Sistema : 201 Created — bibliotecaId
+deactivate ServiceBiblioteca
+
+Sistema -> ServiceBiblioteca : POST /bibliotecas/{bibliotecaId}/acervos\n(nome="Adquiridos")
+activate ServiceBiblioteca
+ServiceBiblioteca -> BD : INSERT acervo(bibliotecaId, nome="Adquiridos")
+activate BD
+BD --> ServiceBiblioteca : acervo criado
+deactivate BD
+ServiceBiblioteca --> Sistema : 201 Created
+deactivate ServiceBiblioteca
+
+Sistema -> ServiceBiblioteca : POST /bibliotecas/{bibliotecaId}/acervos\n(nome="Avaliados")
+activate ServiceBiblioteca
+ServiceBiblioteca -> BD : INSERT acervo(bibliotecaId, nome="Avaliados")
+activate BD
+BD --> ServiceBiblioteca : acervo criado
+deactivate BD
+ServiceBiblioteca --> Sistema : 201 Created
+deactivate ServiceBiblioteca
+
+Sistema -> ServiceBiblioteca : POST /bibliotecas/{bibliotecaId}/acervos\n(nome="Histórico")
+activate ServiceBiblioteca
+ServiceBiblioteca -> BD : INSERT acervo(bibliotecaId, nome="Histórico")
+activate BD
+BD --> ServiceBiblioteca : acervo criado
+deactivate BD
+ServiceBiblioteca --> Sistema : 201 Created
+deactivate ServiceBiblioteca
+
+deactivate Sistema
+
+@enduml
