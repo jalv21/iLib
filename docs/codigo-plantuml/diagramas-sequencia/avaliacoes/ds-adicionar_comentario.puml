@@ -1,0 +1,40 @@
+@startuml ds-adicionar_comentario
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client           as "Aplicação Cliente"
+participant ServiceAvaliacao as "Serviço de Avaliação"
+database    BD               as "Banco de Dados"
+
+Leitor -> Client : clica em "Adicionar comentário"\nou "Editar comentário" na sua avaliação
+activate Client
+
+Client -> ServiceAvaliacao : GET /avaliacoes/{id}(leitorId)
+activate ServiceAvaliacao
+ServiceAvaliacao -> BD : SELECT avaliacao WHERE\nid = {id} AND leitorId = {id}
+activate BD
+BD --> ServiceAvaliacao : avaliação existente
+deactivate BD
+ServiceAvaliacao --> Client : dados da avaliação
+deactivate ServiceAvaliacao
+
+Client --> Leitor : exibe campo de texto\ncom conteúdo atual (se houver)
+
+Leitor -> Client : digita ou edita o texto\ndo comentário e confirma
+
+Client -> ServiceAvaliacao : PATCH /avaliacoes/{id}(texto)
+activate ServiceAvaliacao
+
+ServiceAvaliacao -> BD : UPDATE avaliacao SET texto = {texto},\ndataHora = NOW() WHERE id = {id}
+activate BD
+BD --> ServiceAvaliacao : comentário atualizado
+deactivate BD
+
+ServiceAvaliacao --> Client : 200 OK — comentário salvo
+deactivate ServiceAvaliacao
+
+Client --> Leitor : exibe avaliação atualizada\ncom o novo comentário
+deactivate Client
+
+@enduml
