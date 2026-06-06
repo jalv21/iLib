@@ -1,0 +1,41 @@
+@startuml ds-calcular_receita
+autonumber
+skinparam style strictuml
+
+actor UsuarioEditorial as "UsuárioEditorial"
+participant Client            as "Aplicação Cliente"
+participant ServiceDashboard  as "Serviço de Dashboard"
+database    BD                as "Banco de Dados"
+
+UsuarioEditorial -> Client : acessa o Dashboard\ne seleciona "Receita"
+activate Client
+
+Client --> UsuarioEditorial : exibe seletor de período\n(últimos 7 dias, 30 dias,\n12 meses ou intervalo customizado)
+
+UsuarioEditorial -> Client : seleciona período desejado
+
+Client -> ServiceDashboard : GET /dashboard/receita\n(usuarioEditorialId, dataInicio, dataFim)
+activate ServiceDashboard
+
+ServiceDashboard -> BD : SELECT SUM(valorFinal) AS receitaBruta,\nCOUNT(id) AS totalVendas\nFROM venda\nWHERE publicadorId = {id}\nAND dataHora BETWEEN {dataInicio} AND {dataFim}
+activate BD
+BD --> ServiceDashboard : receitaBruta, totalVendas
+deactivate BD
+
+ServiceDashboard -> BD : SELECT livroId, titulo,\nSUM(valorFinal) AS receitaPorLivro\nFROM venda\nWHERE publicadorId = {id}\nAND dataHora BETWEEN {dataInicio} AND {dataFim}\nGROUP BY livroId ORDER BY receitaPorLivro DESC
+activate BD
+BD --> ServiceDashboard : receita detalhada por livro
+deactivate BD
+
+ServiceDashboard -> BD : SELECT DATE_TRUNC({granularidade}, dataHora)\nAS periodo, SUM(valorFinal) AS receita\nFROM venda WHERE publicadorId = {id}\nAND dataHora BETWEEN {dataInicio} AND {dataFim}\nGROUP BY periodo ORDER BY periodo ASC
+activate BD
+BD --> ServiceDashboard : série temporal de receita
+deactivate BD
+
+ServiceDashboard --> Client : 200 OK — receitaBruta,\ntotalVendas,\nreceitaPorLivro, serieTemporal
+deactivate ServiceDashboard
+
+Client --> UsuarioEditorial : exibe painel com receita total,\ngráfico de evolução temporal\ne ranking de receita por livro
+deactivate Client
+
+@enduml
