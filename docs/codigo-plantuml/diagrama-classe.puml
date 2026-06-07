@@ -18,28 +18,27 @@ interface IComentador {
     + excluirComentario(): void
 }
 
-abstract class UsuarioEditorial {
+interface IPublicador {
     + cadastrarLivro(): void {abstract}
     + editarLivro(): void {abstract}
     + arquivarLivro(): void {abstract}
     + removerLivro(): void {abstract}
-    + comentarAvaliacao() : void
-    + editarComentario() : void
-    + excluirComentario() : void
 }
-UsuarioEditorial --|> Usuario
-UsuarioEditorial ..|> IComentador
 
 class AutorIndependente {
     - cpf: String
 }
-AutorIndependente --|> UsuarioEditorial
+AutorIndependente --|> Usuario
+AutorIndependente ..|> IPublicador
+AutorIndependente ..|> IComentador
 
 class Editora {
     - cnpj: String
     - autoresLicenciados: List<String>
 }
-Editora --|> UsuarioEditorial
+Editora --|> Usuario
+Editora ..|> IPublicador
+Editora ..|> IComentador
 
 interface IAvaliador {
     + avaliarLivro(): void
