@@ -1,0 +1,35 @@
+@startuml diagrama-classe
+skinparam linetype ortho
+
+abstract class Usuario {
+    # nome: String
+    # email: String
+    # username: String
+    # senha: String
+    + cadastrar(): void
+    + login(): void
+}
+
+abstract class UsuarioEditorial {
+    # biblioteca: List<Estante>
+    + cadastrarLivro(): void {abstract}
+    + editarLivro(): void {abstract}
+    + arquivarLivro(): void
+    + removerLivro(): void
+}
+UsuarioEditorial --|> Usuario
+
+class AutorIndependente {
+    - cpf: String
+    + cadastrarLivro(): void
+    + editarLivro(): void
+}
+AutorIndependente --|> UsuarioEditorial
+
+class Editora {
+    - autoresLicenciados: List<String>
+    + cadastrarLivro(): void
+    + editarLivro(): void
+}
+Editora --|> UsuarioEditorial
+@enduml
