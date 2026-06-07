@@ -6,30 +6,53 @@ abstract class Usuario {
     # email: String
     # username: String
     # senha: String
-    + cadastrar(): void
-    + login(): void
+    # biblioteca: Biblioteca
+    # comentariosAvaliacao: List<ComentarioAvaliacao>
+    + cadastrar(): void {abstract}
+    + login(): void {abstract}
+}
+
+interface IComentador {
+    + comentarAvaliacao(): void
+    + editarComentario(): void
+    + excluirComentario(): void
 }
 
 abstract class UsuarioEditorial {
-    # biblioteca: List<Estante>
     + cadastrarLivro(): void {abstract}
     + editarLivro(): void {abstract}
-    + arquivarLivro(): void
-    + removerLivro(): void
+    + arquivarLivro(): void {abstract}
+    + removerLivro(): void {abstract}
+    + comentarAvaliacao() : void
+    + editarComentario() : void
+    + excluirComentario() : void
 }
 UsuarioEditorial --|> Usuario
+UsuarioEditorial ..|> IComentador
 
 class AutorIndependente {
     - cpf: String
-    + cadastrarLivro(): void
-    + editarLivro(): void
 }
 AutorIndependente --|> UsuarioEditorial
 
 class Editora {
+    - cnpj: String
     - autoresLicenciados: List<String>
-    + cadastrarLivro(): void
-    + editarLivro(): void
 }
 Editora --|> UsuarioEditorial
+
+interface IAvaliador {
+    + avaliarLivro(): void
+    + editarAvaliacao(): void
+    + excluirAvaliacao(): void
+}
+
+class Leitor {
+    - avaliacoes: List<Avaliacao>
+    + comprarLivro(): void
+    + lerLivro(): void
+}
+Leitor --|> Usuario
+Leitor ..|> IComentador
+Leitor ..|> IAvaliador
 @enduml
