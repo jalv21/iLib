@@ -6,23 +6,27 @@ abstract class Usuario {
     # email: String
     # username: String
     # senha: String
-    # biblioteca: Biblioteca
+    # biblioteca: List<Estante>
     # comentariosAvaliacao: List<ComentarioAvaliacao>
     + cadastrar(): void {abstract}
     + login(): void {abstract}
+    + criarEstante(): void
+    + removerEstante(): void
 }
+Usuario "1" *-- "*" Estante
 
 interface IComentador {
     + comentarAvaliacao(): void
     + editarComentario(): void
     + excluirComentario(): void
 }
+Usuario ..|> IComentador
 
 interface IPublicador {
-    + cadastrarLivro(): void {abstract}
-    + editarLivro(): void {abstract}
-    + arquivarLivro(): void {abstract}
-    + removerLivro(): void {abstract}
+    + cadastrarLivro(): void
+    + editarLivro(): void
+    + arquivarLivro(): void
+    + removerLivro(): void
 }
 
 class AutorIndependente {
@@ -30,7 +34,6 @@ class AutorIndependente {
 }
 AutorIndependente --|> Usuario
 AutorIndependente ..|> IPublicador
-AutorIndependente ..|> IComentador
 
 class Editora {
     - cnpj: String
@@ -38,7 +41,6 @@ class Editora {
 }
 Editora --|> Usuario
 Editora ..|> IPublicador
-Editora ..|> IComentador
 
 interface IAvaliador {
     + avaliarLivro(): void
@@ -52,6 +54,47 @@ class Leitor {
     + lerLivro(): void
 }
 Leitor --|> Usuario
-Leitor ..|> IComentador
 Leitor ..|> IAvaliador
+
+class Estante {
+    - nome: String
+    - criador: Usuario
+    - livros: List<Livro>
+    - subEstantes: List<Estante> 
+    - editorial: boolean
+    - privada : boolean
+    + adicionarLivro(): void
+    + removerLivro(): void
+    + criarSubEstante(): void
+    + removerSubEstante(): void
+}
+Estante "*" *-- "1..*" Livro
+
+class Livro <<record>>{
+    - titulo: String
+    - nomeAutor: String
+    - publicador: IPublicador
+    - isbn: String
+    - preco: Double
+    - generos: List<EGenero>
+    - dataPublicacao: Date
+    - sinopse: String
+    - mediaAvaliacao: Double
+    - avaliacoes: List<Avaliacao>
+    - capaUrl: String
+    - arquivoBucketKey: String
+}
+Livro "*" *-- "1..*" EGenero
+
+enum EGenero {
+    ACAO,
+    AVENTURA,
+    DRAMA,
+    FANTASIA,
+    FICCAO,
+    FICCAO-CIENTIFICA,
+    FICCAO-HISTORICA,
+    FICCAO-LITERARIA,
+    NAO-FICCAO,
+}
 @enduml
