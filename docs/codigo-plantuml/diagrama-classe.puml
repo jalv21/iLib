@@ -28,6 +28,7 @@ interface IPublicador {
     + editarLivro(): void
     + arquivarLivro(): void
     + removerLivro(): void
+    + destacarComentario(): void
 }
 
 class AutorIndependente {
@@ -124,10 +125,12 @@ class Avaliacao {
 }
 Avaliacao "1" *-- "0..*" ComentarioAvaliacao
 
-class ComentarioAvaliacao <<record>>{
+class ComentarioAvaliacao {
+    - posicao: int
     - criador: Usuario
     - texto: String
     - ehDoPublicador: boolean
+    + destacar(): void
 }
 
 class LeitorEPUB {
