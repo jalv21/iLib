@@ -14,6 +14,7 @@ abstract class Usuario {
     + removerEstante(): void
 }
 Usuario "1" *-- "*" Estante
+Usuario "1" *-- "0..*" ComentarioAvaliacao
 
 interface IComentador {
     + comentarAvaliacao(): void
@@ -55,36 +56,53 @@ class Leitor {
 }
 Leitor --|> Usuario
 Leitor ..|> IAvaliador
+Leitor "1" *-- "0..*" Avaliacao
 
-class Estante {
-    - nome: String
-    - criador: Usuario
-    - livros: List<Livro>
-    - subEstantes: List<Estante> 
-    - editorial: boolean
-    - privada : boolean
+abstract class Estante {
+    # nome: String
+    # criador: Usuario
+    # livros: List<Livro>
+    # editorial: boolean
+    # privada : boolean
     + adicionarLivro(): void
     + removerLivro(): void
-    + criarSubEstante(): void
-    + removerSubEstante(): void
 }
 Estante "*" *-- "1..*" Livro
+Estante <|-- EstanteComum
+Estante <|-- EstanteArquivados
 
-class Livro <<record>>{
+class EstanteComum {
+    - subEstantes: List<Estante>
+    + criarSubEstante(): void
+    + removerSubEstante(): void 
+}
+
+class EstanteArquivados {
+    + excluirLivro(): void
+    + restaurarLivro(): void
+}
+
+class Livro {
     - titulo: String
     - nomeAutor: String
     - publicador: IPublicador
     - isbn: String
     - preco: Double
     - generos: List<EGenero>
+    - numPaginas: int
     - dataPublicacao: Date
     - sinopse: String
-    - mediaAvaliacao: Double
     - avaliacoes: List<Avaliacao>
     - capaUrl: String
     - arquivoBucketKey: String
+    - leitorEPUB: LeitorEPUB
+    - arquivado: boolean
+    + mediaEstrelas(): Double
+    + quantAvaliacoes(): Double
 }
 Livro "*" *-- "1..*" EGenero
+Livro "1" *-- "0..*" Avaliacao
+Livro *-- LeitorEPUB
 
 enum EGenero {
     ACAO,
@@ -96,5 +114,39 @@ enum EGenero {
     FICCAO-HISTORICA,
     FICCAO-LITERARIA,
     NAO-FICCAO,
+}
+
+class Avaliacao {
+    - estrelas: int
+    - texto: String
+    - comentarios: List<ComentarioAvaliacao>
+    + comentar(): void
+}
+Avaliacao "1" *-- "0..*" ComentarioAvaliacao
+
+class ComentarioAvaliacao <<record>>{
+    - criador: Usuario
+    - texto: String
+    - ehDoPublicador: boolean
+}
+
+class LeitorEPUB {
+    - arquivoBucketKey: String
+    - paginas: List<Pagina> 
+    - paginaAtual: int
+    - finalizado: boolean
+    + avancarPagina(): void
+    + voltarPagina(): void
+    + fecharLivro(): void
+}
+LeitorEPUB "1" *-- "5..*" PaginaLeitorEPUB
+
+class PaginaLeitorEPUB {
+    - indice: int
+    - texto: String
+    - marcada: boolean
+    - ultima: boolean
+    + marcar(): void
+    + desmarcar(): void
 }
 @enduml
