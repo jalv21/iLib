@@ -42,5 +42,24 @@ state Logado {
         CompraRecusada --> [*]
     }
     Comprando --> Ocioso : compra finalizada\nou cancelada
+
+    Ocioso --> Lendo : lerLivro()\n[leitor EPUB incializado]
+
+    state Lendo {
+        [*] --> NaPaginaAtual
+        NaPaginaAtual --> NaPaginaAtual : avancarPagina()\n[not ultima]
+        NaPaginaAtual --> NaPaginaAtual : voltarPagina()\n[paginaAtual > 1]
+        NaPaginaAtual --> MarcandoPaginaAtual : PaginaLeitorEPUB.marcar()
+        MarcandoPaginaAtual --> NaPaginaAtual : PaginaLeitorEPUB.desmarcar()
+        MarcandoPaginaAtual --> MarcandoPaginaAtual : avancarPagina()\nvoltarPagina()
+
+        NaPaginaAtual --> LivroFinalizado : avancarPagina()\n[ultima == true]
+        MarcandoPaginaAtual --> LivroFinalizado : avancarPagina()\n[ultima == true]
+
+        LivroFinalizado --> [*]
+    }
+    
+    Lendo --> Ocioso : fecharLivro()\n[leitorEPUB.fecharLivro()]
+    Lendo --> AvaliacaoPendente : fecharLivro()\n[finalizado == true]
 }
 @enduml
