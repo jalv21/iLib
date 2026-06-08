@@ -30,5 +30,17 @@ state Logado {
     }
 
     GerenciandoEstante --> Ocioso : estante fechada
+
+    Ocioso --> Comprando : comprarLivro()
+
+    state Comprando {
+        [*] --> SelecionandoLivro
+        SelecionandoLivro --> ConfirmandoCompra : selecionar livro
+        ConfirmandoCompra --> CompraAprovada : pagamento aprovado
+        ConfirmandoCompra --> CompraRecusada : pagamento recusado
+        CompraAprovada --> [*]
+        CompraRecusada --> [*]
+    }
+    Comprando --> Ocioso : compra finalizada\nou cancelada
 }
 @enduml
