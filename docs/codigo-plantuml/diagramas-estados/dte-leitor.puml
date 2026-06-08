@@ -75,5 +75,14 @@ state Logado {
     Avaliando --> Ocioso : avaliação concluída\nou descartada
 
     Ocioso --> Comentando : comentarAvaliacao()\n[IComentador]
+
+    state Comentando {
+        [*] --> RascunhoComentario
+        RascunhoComentario --> ComentarioPublicado : confirmar comentário
+        ComentarioPublicado : editarComentario()\n[IComentador]
+        ComentarioPublicado --> [*] : excluirComentario()\n[IComentador]
+    }
+    
+    Comentando --> Ocioso : comentário concluído \nou descartado
 }
 @enduml
