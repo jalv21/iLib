@@ -1,0 +1,155 @@
+@startuml diagrama-classe
+skinparam linetype ortho
+
+abstract class Usuario {
+    # nome: String
+    # email: String
+    # username: String
+    # senha: String
+    # biblioteca: List<Estante>
+    # comentariosAvaliacao: List<ComentarioAvaliacao>
+    + cadastrar(): void {abstract}
+    + login(): void {abstract}
+    + criarEstante(): void
+    + removerEstante(): void
+}
+Usuario "1" *-- "*" Estante
+Usuario "1" *-- "0..*" ComentarioAvaliacao
+
+interface IComentador {
+    + comentarAvaliacao(): void
+    + editarComentario(): void
+    + excluirComentario(): void
+}
+Usuario ..|> IComentador
+
+interface IPublicador {
+    + cadastrarLivro(): void
+    + editarLivro(): void
+    + arquivarLivro(): void
+    + removerLivro(): void
+    + destacarComentario(): void
+}
+
+class AutorIndependente {
+    - cpf: String
+}
+AutorIndependente --|> Usuario
+AutorIndependente ..|> IPublicador
+
+class Editora {
+    - cnpj: String
+    - autoresLicenciados: List<String>
+}
+Editora --|> Usuario
+Editora ..|> IPublicador
+
+interface IAvaliador {
+    + avaliarLivro(): void
+    + editarAvaliacao(): void
+    + excluirAvaliacao(): void
+}
+
+class Leitor {
+    - avaliacoes: List<Avaliacao>
+    + comprarLivro(): void
+    + lerLivro(): void
+}
+Leitor --|> Usuario
+Leitor ..|> IAvaliador
+Leitor "1" *-- "0..*" Avaliacao
+
+abstract class Estante {
+    # nome: String
+    # criador: Usuario
+    # livros: List<Livro>
+    # editorial: boolean
+    # privada : boolean
+    + adicionarLivro(): void
+    + removerLivro(): void
+}
+Estante "*" *-- "1..*" Livro
+Estante <|-- EstanteComum
+Estante <|-- EstanteArquivados
+
+class EstanteComum {
+    - subEstantes: List<Estante>
+    + criarSubEstante(): void
+    + removerSubEstante(): void 
+}
+
+class EstanteArquivados {
+    + excluirLivro(): void
+    + restaurarLivro(): void
+}
+
+class Livro {
+    - titulo: String
+    - nomeAutor: String
+    - publicador: IPublicador
+    - isbn: String
+    - preco: Double
+    - generos: List<EGenero>
+    - numPaginas: int
+    - dataPublicacao: Date
+    - sinopse: String
+    - avaliacoes: List<Avaliacao>
+    - capaUrl: String
+    - arquivoBucketKey: String
+    - leitorEPUB: LeitorEPUB
+    - arquivado: boolean
+    + mediaEstrelas(): Double
+    + quantAvaliacoes(): Double
+}
+Livro "*" *-- "1..*" EGenero
+Livro "1" *-- "0..*" Avaliacao
+Livro *-- LeitorEPUB
+
+enum EGenero {
+    ACAO,
+    AVENTURA,
+    DRAMA,
+    FANTASIA,
+    FICCAO,
+    FICCAO-CIENTIFICA,
+    FICCAO-HISTORICA,
+    FICCAO-LITERARIA,
+    NAO-FICCAO,
+}
+
+class Avaliacao {
+    - estrelas: int
+    - texto: String
+    - comentarios: List<ComentarioAvaliacao>
+    + comentar(): void
+}
+Avaliacao "1" *-- "0..*" ComentarioAvaliacao
+
+class ComentarioAvaliacao {
+    - posicao: int
+    - criador: Usuario
+    - texto: String
+    - ehDoPublicador: boolean
+    + destacar(): void
+}
+
+class LeitorEPUB {
+    - arquivoBucketKey: String
+    - paginas: List<Pagina> 
+    - paginaAtual: int
+    - finalizado: boolean
+    + avancarPagina(): void
+    + voltarPagina(): void
+    + fecharLivro(): void
+}
+LeitorEPUB "1" *-- "5..*" PaginaLeitorEPUB
+
+class PaginaLeitorEPUB {
+    - indice: int
+    - texto: String
+    - marcada: boolean
+    - ultima: boolean
+    + marcar(): void
+    + desmarcar(): void
+}
+@enduml
