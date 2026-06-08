@@ -61,5 +61,19 @@ state Logado {
     
     Lendo --> Ocioso : fecharLivro()\n[leitorEPUB.fecharLivro()]
     Lendo --> AvaliacaoPendente : fecharLivro()\n[finalizado == true]
+
+    AvaliacaoPendente --> Avaliando : avaliarLivro()\n[IAvaliador]
+    AvaliacaoPendente --> Ocioso : ignorar avaliação
+
+    state Avaliando {
+        [*] --> RascunhoAvaliacao
+        RascunhoAvaliacao --> AvaliacaoPublicada : confirmar\n(estrelas + texto)
+        AvaliacaoPublicada --> AvaliacaoPublicada : editarAvaliacao()\n[IAvaliador]
+        AvaliacaoPublicada --> [*] : excluirAvalicao()\n[IAvaliador]
+    }
+
+    Avaliando --> Ocioso : avaliação concluída\nou descartada
+
+    Ocioso --> Comentando : comentarAvaliacao()\n[IComentador]
 }
 @enduml
