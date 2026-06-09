@@ -1,0 +1,29 @@
+@startuml dte-pagina-leitor-epub
+skinparam style strictuml
+
+[*] --> PaginaCapa
+
+PaginaCapa : avancarPagina()[Leitor]
+
+PaginaCapa --> PaginaComum : avancarPagina()
+PaginaComum --> PaginaCapa : voltarPagina()
+
+PaginaComum : voltarPagina()[Leitor]
+PaginaComum : marcarPagina()[Leitor]
+
+PaginaComum --> PaginaComum : avancarPagina()\n[indice > 1]
+
+PaginaComum --> PaginaMarcada : marcarPagina()
+PaginaMarcada : desmarcar()[Leitor]
+PaginaMarcada --> PaginaComum : desmarcarPagina()
+
+PaginaMarcada --> UltimaPagina : avancarPagina()\n[indice == ultimaPagina]
+PaginaMarcada --> PaginaComum : avancarPagina()\n[indice < ultimaPagina]
+PaginaComum --> PaginaMarcada : voltarPagina()\n[paginaAnterior.marcada()]
+
+PaginaComum --> UltimaPagina : avancarPagina()\n[indice == ultimaPagina]
+UltimaPagina --> PaginaComum : voltarPagina()
+
+UltimaPagina --> [*]
+
+@enduml
