@@ -1,0 +1,112 @@
+@startuml diagrama-pacotes
+skinparam linetype ortho
+
+package Model <<Layer>> {
+    abstract class UsuarioEntity
+    class LeitorEntity
+    class AutorIndieEntity
+    class EditoraEntity
+    LeitorEntity --|> UsuarioEntity
+    AutorIndieEntity --|> UsuarioEntity
+    EditoraEntity --|> UsuarioEntity
+
+    abstract class EstanteEntity
+    class EstanteComumEntity
+    class EstanteArquivadosEntity
+    EstanteComumEntity --|> EstanteEntity
+    EstanteArquivadosEntity --|> EstanteEntity
+
+    class LivroEntity
+    class LeitorEPUBEntity
+    class PaginaEPUBEntity
+
+    class AvaliacaoEntity
+    class ComentarioAvaliacaoEntity
+}
+Model <-- Repository
+
+package Repository <<Layer>> {
+    class LeitorRepository
+    class AutorIndieRepository
+    class EditoraRepository
+    class EstanteComumRepository
+    class EstanteArquivadosRepository
+
+    class LivroRepository
+    class LeitorEPUBRepository
+    class PaginaEPUBRepository
+
+    class AvaliacaoRepository
+    class ComentarioAvaliacaoRepository
+}
+Repository <-- DTO
+
+package DTO {
+    package Request {
+        class AuthRequestDTO
+        class LeitorRequestDTO
+        class AutorIndieRequestDTO
+        class EditoraRequestDTO
+        class EstanteComumRequestDTO
+        class EstanteArquivadosRequestDTO
+
+        class LivroRequestDTO
+        class LeitorEPUBRequestDTO
+        class PaginaEPUBRequestDTO
+
+        class AvaliacaoRequestDTO
+        class ComentarioAvaliacaoRequestDTO
+    }
+
+    package Response {
+        class AuthResponseDTO
+        class LeitorResponseDTO
+        class AutorIndieResponseDTO
+        class EditoraResponseDTO
+        class EstanteComumResponseDTO
+        class EstanteArquivadosResponseDTO
+
+        class LivroResponseDTO
+        class LeitorEPUBResponseDTO
+        class PaginaEPUBResponseDTO
+
+        class AvaliacaoResponseDTO
+        class ComentarioAvaliacaoResponseDTO
+    }
+}
+DTO <-- Service
+
+package Service <<Layer>> {
+    class AuthService
+    class LeitorService
+    class AutorIndieService
+    class EditoraService
+    class EstanteComumService
+    class EstanteArquivadosService
+
+    class LivroService
+    class LeitorEPUBService
+    class PaginaEPUBService
+
+    class AvaliacaoService
+    class ComentarioAvaliacaoService
+}
+Service <-- Controller
+
+package Controller <<Layer>> {
+    class AuthController
+    class LeitorController
+    class AutorIndieController
+    class EditoraController
+    class EstanteComumController
+    class EstanteArquivadosController
+
+    class LivroController
+    class LeitorEPUBController
+    class PaginaEPUBController
+
+    class AvaliacaoController
+    class ComentarioAvaliacaoController
+}
+
+@enduml
