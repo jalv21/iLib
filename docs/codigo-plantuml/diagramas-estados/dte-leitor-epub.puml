@@ -6,7 +6,7 @@ LeitorEPUBIniciado --> AvancandoPagina : avancarPagina()
 AvancandoPagina --> AvancandoPagina : marcarPagina()\navancandoPagina()\n[paginaAtual < ultimaPagina]
 
 AvancandoPagina --> VoltandoPagina : voltarPagina()\n[paginaAtual > 1]
-VoltandoPagina --> VoltandoPagina : marcarPagina()
+VoltandoPagina --> VoltandoPagina : marcarPagina()\nvoltarPagina()[paginaAtual > 1]
 VoltandoPagina --> AvancandoPagina : avancarPagina()
 
 AvancandoPagina --> LeitorEPUBFinalizado : avancarPagina()\n[paginaAtual == ultimaPagina]
