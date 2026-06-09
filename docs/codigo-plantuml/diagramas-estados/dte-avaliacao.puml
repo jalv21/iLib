@@ -1,0 +1,28 @@
+@startuml dte-avaliacao
+skinparam style strictuml
+
+[*] --> RascunhoAvaliacao
+
+state RascunhoAvaliacao {
+    [*] --> AvaliacaoVazia
+    AvaliacaoVazia --> AdicionandoEstrelas : adicionarPontuacao()\n[IAvaliador]
+    AdicionandoEstrelas --> AdicionandoEstrelas : editarPontuacao()\n[IAvaliador]
+
+    AdicionandoEstrelas --> AdicionandoTexto : adiciona texto
+    AdicionandoTexto --> AdicionandoEstrelas : remove texto
+}
+
+RascunhoAvaliacao --> AvaliacaoPublicada
+AvaliacaoPublicada --> AvaliacaoPublicada : editarTextoAvaliacao()[IAvaliador]
+
+AvaliacaoPublicada --> AdicionandoComentario : comentarAvaliacao()
+AdicionandoComentario --> AvaliacaoPublicada : removerComentario()
+AdicionandoComentario --> AdicionandoComentario : editarComentario()
+
+AvaliacaoPublicada --> AvaliacaoExcluida : excluirAvaliacao()[IAvaliador]
+
+AvaliacaoPublicada --> [*]
+AvaliacaoExcluida --> [*]
+RascunhoAvaliacao --> [*] : avaliação descartada
+
+@enduml

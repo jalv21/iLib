@@ -1,0 +1,45 @@
+@startuml dte-estante-comum
+skinparam style strictuml
+
+[*] --> EstanteSimples
+
+state EstanteSimples {
+    [*] --> EstanteVazia
+    EstanteVazia : adicionarLivro()
+    EstanteVazia --> EstanteComLivros : adicionarLivro()/qtdLivros++
+    
+    EstanteComLivros : adicionarLivro()
+    EstanteComLivros : removerLivro()
+    EstanteComLivros : arquivarLivro()[IPublicador]
+    EstanteComLivros --> EstanteVazia : removerLivro()\n[qtdLivros == 1]/qtdLivros--\narquivarLivro()\n[qtdLivros == 1]/qtdLivros--
+
+    EstanteComLivros --> EstanteComLivros : adicionarLivro()[qtdLivros > 1]\n/qtdLivros++\nremoverLivro()[qtdLivros > 1]\n/qtdLivros--\narquivarLivro()[qtdLivros > 1]\n/qtdLivros--
+
+    EstanteVazia --> [*]
+    EstanteComLivros --> [*]    
+}
+
+EstanteSimples --> EstanteComposta : criarSubEstante()\n/qtdSubEstantes++
+
+state EstanteComposta {
+    [*] --> SubEstanteVazia
+    SubEstanteVazia : adicionarLivro()
+    SubEstanteVazia --> SubEstanteComLivros : adicionarLivro()/qtdLivros++
+    SubEstanteComLivros --> SubEstanteVazia : removerLivro()\n[qtdLivros == 1]/qtdLivros--\narquivarLivro()\n[qtdLivros == 1]/qtdLivros--
+
+    SubEstanteComLivros : adicionarLivro()
+    SubEstanteComLivros : removerLivro()
+    SubEstanteComLivros : arquivarLivro()[IPublicador]
+
+    SubEstanteComLivros --> SubEstanteComLivros : adicionarLivro()[qtdLivros > 1]\n/qtdLivros++\nremoverLivro()[qtdLivros > 1]\n/qtdLivros--\narquivarLivro()[qtdLivros > 1]\n/qtdLivros--
+
+    SubEstanteVazia --> [*]
+    SubEstanteComLivros --> [*]
+}
+
+EstanteComposta --> EstanteComposta : removerSubEstante()\n[qtdSubEstantes > 1]/qtdSubEstantes--\ncriarSubEstante()\n[qtdSubEstantes > 1]/qtdSubEstantes++
+EstanteComposta --> EstanteSimples : removerSubEstante()\n[qtdSubEstantes == 1]
+
+EstanteComposta --> [*]
+EstanteSimples --> [*]
+@enduml

@@ -1,0 +1,17 @@
+@startuml estante-arquivados
+skinparam style scrictuml
+
+[*] --> EstanteVazia
+EstanteVazia --> EstanteComLivros : arquivarLivro()\n[IPublicador]/qtdLivros++
+EstanteComLivros --> EstanteVazia : restaurarLivro()\n[qtdLivros == 1]/qtdLivros--\nexcluirLivro()\n[qtdLivros == 1]/qtdLivros--
+
+EstanteComLivros : restaurarLivro()[IPublicador]
+EstanteComLivros : excluirLivro()[IPublicador]
+
+EstanteComLivros --> EstanteComLivros : arquivarLivro()[qtdLivros > 1]\n/qtdLivros++
+EstanteComLivros --> EstanteComLivros : restaurarLivro()[qtdLivros > 1]\n/qtdLivros--\nexcluirLivro()[qtdLivros > 1]\n/qtdLivros--
+
+EstanteVazia --> [*]
+EstanteComLivros --> [*]
+
+@enduml

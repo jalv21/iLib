@@ -1,0 +1,60 @@
+@startuml dte-editora
+skinparam style strictuml
+
+[*] --> NaoCadastrado
+
+state NaoCadastrado {
+}
+
+NaoCadastrado --> Cadastrado : cadastrar()
+
+state Cadastrado {
+    [*] --> Deslogado
+    Deslogado --> Logado : login() [credenciais válidas]
+    Logado --> Deslogado : logout()
+}
+
+state Logado {
+    [*] --> Ocioso
+
+    Ocioso --> GerenciandoEstante : criarEstante()
+
+    state GerenciandoEstante {
+        [*] --> EstanteAtiva
+
+        EstanteAtiva --> EstanteAtiva : adicionarLivro()\nremoverLivro()
+        EstanteAtiva --> CriandoSubEstante : criarSubEstante()\n[EstanteComum]
+        CriandoSubEstante --> EstanteAtiva : sub-estante criada
+
+        EstanteAtiva --> [*] : removerEstante()
+    }
+
+    GerenciandoEstante --> Ocioso : estante fechada
+
+    Ocioso --> GerenciandoLivro : cadastrarLivro()
+
+    state GerenciandoLivro {
+        [*] --> RascunhoLivro
+
+        RascunhoLivro --> LivroPublicado : confirmar livro
+        LivroPublicado : editarLivro()\n[IPublicador]
+        LivroPublicado --> LivroArquivado : arquivarLivro()\n[IPublicador]
+
+        LivroArquivado --> LivroPublicado : restaurarLivro()\n[IPublicador]
+        LivroArquivado --> [*] : excluirLivro()\n[IPublicador]
+    }
+
+    GerenciandoLivro --> Ocioso : livro cadastrado \nou descartado
+
+    Ocioso --> Comentando : comentarAvaliacao()\n[IComentador]
+
+    state Comentando {
+        [*] --> RascunhoComentario
+        RascunhoComentario --> ComentarioPublicado : confirmar comentário
+        ComentarioPublicado : editarComentario()\n[IComentador]
+        ComentarioPublicado --> [*] : excluirComentario()\n[IComentador]
+    }
+    
+    Comentando --> Ocioso : comentário concluído \nou descartado
+}
+@enduml
