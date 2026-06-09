@@ -1,4 +1,4 @@
-@startuml dte-leitor
+@startuml dte-autor-independente
 skinparam style strictuml
 
 [*] --> NaoCadastrado
