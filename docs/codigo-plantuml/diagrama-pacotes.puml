@@ -25,6 +25,11 @@ package Model <<Layer>> {
 }
 Model <-- Repository
 
+package Enum {
+    enum EGenero
+}
+Model "1" o-- "1..*" EGenero
+
 package Repository <<Layer>> {
     class LeitorRepository
     class AutorIndieRepository
