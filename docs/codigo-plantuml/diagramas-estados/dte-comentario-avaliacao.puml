@@ -1,0 +1,14 @@
+@startuml comentario-avaliacao
+skinparam style strictuml
+
+[*] --> RascunhoComentario
+
+RascunhoComentario --> ComentarioPublicado : comentarAvaliacao()
+ComentarioPublicado --> ComentarioPublicado : editarComentario()
+ComentarioPublicado --> ComentarioExcluido : excluirComentario()
+
+RascunhoComentario --> [*] : comentário descartado
+ComentarioPublicado --> [*]
+ComentarioExcluido --> [*]
+
+@enduml
