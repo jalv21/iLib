@@ -1,0 +1,30 @@
+@startuml dte-estante-comum
+skinparam style strictuml
+
+[*] --> EstanteSimples
+
+state EstanteSimples {
+    [*] --> EstanteVazia
+    EstanteVazia --> EstanteComLivros : adicionarLivro()
+    EstanteComLivros --> EstanteVazia : removerLivro()\n[qtdLivros == 1]
+
+    EstanteVazia --> [*]
+    EstanteComLivros --> [*]    
+}
+
+EstanteSimples --> EstanteComposta : criarSubEstante()
+
+state EstanteComposta {
+    [*] --> SubEstanteVazia
+    SubEstanteVazia --> SubEstanteComLivros : adicionarLivro()
+    SubEstanteComLivros --> SubEstanteVazia : removerLivro()\n[qtdLivros == 1]
+
+    SubEstanteVazia --> [*]
+    SubEstanteComLivros --> [*]
+}
+
+EstanteComposta --> EstanteSimples : removerSubEstante()\n[qtdSubEstantes == 1]
+
+EstanteComposta --> [*]
+EstanteSimples --> [*]
+@enduml
