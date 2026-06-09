@@ -32,7 +32,9 @@ state LivroNaEstantePublicador {
     
     state LivroNaEstanteLeitor {
         [*] --> LivroComprado
+        
         LivroComprado : adicionarLivro()[Leitor]
+        LivroComprado : lerLivro()[Leitor]
 
         LivroComprado --> LivroEmOutraEstanteLeitor : adicionarLivro()[Leitor]
         LivroEmOutraEstanteLeitor --> LivroComprado : removerLivro()[Leitor]
@@ -40,6 +42,21 @@ state LivroNaEstantePublicador {
         LivroEmOutraEstanteLeitor : removerLivro()[Leitor]
         LivroComprado --> [*]
         LivroEmOutraEstanteLeitor --> [*]
+
+        LivroComprado --> LendoLivro : lerLivro()
+        LivroEmOutraEstanteLeitor --> LendoLivro : lerLivro()
+
+        LendoLivro : avancarPagina()[Leitor]
+        LendoLivro : voltarPagina()[Leitor]
+        LendoLivro : marcarPagina()[Leitor]
+
+        LendoLivro --> LendoLivro : avancarPagina()\n[paginaAtual < totalPaginas]\n/paginaAtual++\nvoltarPagina()\nmarcarPagina()
+
+        LendoLivro --> LivroFinalizado : avancarPagina()\n[paginaAtual == totalPaginas]
+        LendoLivro --> LivroEmOutraEstanteLeitor : fecharLivro()
+        LendoLivro --> LivroComprado : fecharLivro()
+
+        LivroFinalizado --> [*]
     }
 }
 
