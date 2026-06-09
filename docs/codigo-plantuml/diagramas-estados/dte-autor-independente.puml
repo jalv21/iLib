@@ -31,6 +31,21 @@ state Logado {
 
     GerenciandoEstante --> Ocioso : estante fechada
 
+    Ocioso --> GerenciandoLivro : cadastrarLivro()
+
+    state GerenciandoLivro {
+        [*] --> RascunhoLivro
+
+        RascunhoLivro --> LivroPublicado : confirmar livro
+        LivroPublicado : editarLivro()\n[IPublicador]
+        LivroPublicado --> LivroArquivado : arquivarLivro()\n[IPublicador]
+
+        LivroArquivado --> LivroPublicado : restaurarLivro()\n[IPublicador]
+        LivroArquivado --> [*] : excluirLivro()\n[IPublicador]
+    }
+
+    GerenciandoLivro --> Ocioso : livro cadastrado \nou descartado
+
     Ocioso --> Comentando : comentarAvaliacao()\n[IComentador]
 
     state Comentando {
