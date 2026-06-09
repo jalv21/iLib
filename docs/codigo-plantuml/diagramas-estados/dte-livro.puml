@@ -32,7 +32,7 @@ state LivroNaEstantePublicador {
     
     state LivroNaEstanteLeitor {
         [*] --> LivroComprado
-        
+
         LivroComprado : adicionarLivro()[Leitor]
         LivroComprado : lerLivro()[Leitor]
 
@@ -57,6 +57,13 @@ state LivroNaEstantePublicador {
         LendoLivro --> LivroComprado : fecharLivro()
 
         LivroFinalizado --> [*]
+        LivroFinalizado : avaliar()[IAvaliador]
+
+        LivroFinalizado --> LivroAvaliado : avaliar()
+        LivroAvaliado --> LivroFinalizado : removerAvaliacao()
+
+        LivroAvaliado : removerAvaliacao()[IAvaliador]
+        LivroAvaliado --> [*]
     }
 }
 
