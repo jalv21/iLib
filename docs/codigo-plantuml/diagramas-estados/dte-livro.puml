@@ -1,0 +1,46 @@
+@startuml dte-livro
+skinparam style strictuml
+
+[*] --> RascunhoLivro
+RascunhoLivro --> LivroNaEstantePublicador : cadastrarLivro()[IPublicador]
+
+state LivroNaEstantePublicador {
+    [*] --> LivroPublicado
+
+    LivroPublicado : editarLivro()[IPublicador]
+    LivroPublicado : arquivarLivro()[IPublicador]
+    LivroPublicado : adicionarLivro()[IPublicador]
+    LivroPublicado : comprarLivro()[Leitor]
+
+    LivroPublicado --> LivroPublicado : editarLivro()
+
+    LivroPublicado --> LivroArquivado : arquivarLivro()
+    LivroArquivado : restaurarLivro()[IPublicador]
+    LivroArquivado : excluirLivro()[IPublicador]
+
+    LivroArquivado --> LivroPublicado : restaurarLivro()
+
+    LivroArquivado --> [*] : excluirLivro()
+
+    LivroPublicado --> LivroEmOutraEstantePublicador : adicionarLivro()[IPublicador]
+    LivroEmOutraEstantePublicador --> LivroPublicado : removerLivro()[IPublicador]
+    LivroEmOutraEstantePublicador : removerLivro()[IPublicador]
+
+    LivroEmOutraEstantePublicador --> [*]
+
+    LivroPublicado --> LivroNaEstanteLeitor : comprarLivro()[Leitor]
+    
+    state LivroNaEstanteLeitor {
+        [*] --> LivroComprado
+        LivroComprado : adicionarLivro()[Leitor]
+
+        LivroComprado --> LivroEmOutraEstanteLeitor : adicionarLivro()[Leitor]
+        LivroEmOutraEstanteLeitor --> LivroComprado : removerLivro()[Leitor]
+
+        LivroEmOutraEstanteLeitor : removerLivro()[Leitor]
+        LivroComprado --> [*]
+        LivroEmOutraEstanteLeitor --> [*]
+    }
+}
+
+@enduml
