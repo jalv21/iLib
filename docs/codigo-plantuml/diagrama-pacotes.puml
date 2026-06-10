@@ -121,14 +121,21 @@ package Controller <<Layer>> {
 package Exception {
     class CredenciaisInvalidasException
     class PerfilLoginInvalidoException
+    class ArquivoEPUBInvalidoException
     class LivroIndisponivelException
     class EstanteIndisponivelException
     class MetodoPgtoInvalidoException
     class CompraCanceladaException
     class AvaliacaoNaoEncontradaException
     class ComentarioNaoEncontradoException
+    class LeitorEPUBIndisponivelException
 }
 Service "1..*" o-- "0..*" Exception
 Controller "1..*" o-- "0..*" Exception
+
+package Scheduler {
+    class ExclusaoLivroArquivadoScheduler
+}
+Service "1..*" o-- "0..*" Scheduler
 
 @enduml
