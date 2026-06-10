@@ -95,6 +95,8 @@ package Service <<Layer>> {
 
     class AvaliacaoService
     class ComentarioAvaliacaoService
+
+    class DashboardService
 }
 Service <-- Controller
 
@@ -112,6 +114,21 @@ package Controller <<Layer>> {
 
     class AvaliacaoController
     class ComentarioAvaliacaoController
+
+    class DashboardController
 }
+
+package Exception {
+    class CredenciaisInvalidasException
+    class PerfilLoginInvalidoException
+    class LivroIndisponivelException
+    class EstanteIndisponivelException
+    class MetodoPgtoInvalidoException
+    class CompraCanceladaException
+    class AvaliacaoNaoEncontradaException
+    class ComentarioNaoEncontradoException
+}
+Service "1..*" o-- "0..*" Exception
+Controller "1..*" o-- "0..*" Exception
 
 @enduml
