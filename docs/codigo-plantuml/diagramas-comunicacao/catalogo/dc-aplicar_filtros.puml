@@ -1,4 +1,4 @@
-@startuml ds-aplicar_filtros
+@startuml dc-aplicar_filtros
 autonumber
 skinparam style strictuml
 
@@ -8,31 +8,21 @@ participant ServiceCatalogo as "Serviço de Catálogo"
 database    BD              as "Banco de Dados"
 
 Leitor -> Client : abre painel de filtros
-activate Client
 
 Client -> ServiceCatalogo : GET /filtros/opcoes
-activate ServiceCatalogo
 ServiceCatalogo -> BD : SELECT generos, faixasPreco,\nautores, editoras disponíveis
-activate BD
 BD --> ServiceCatalogo : opções de filtro
-deactivate BD
 ServiceCatalogo --> Client : opções disponíveis
-deactivate ServiceCatalogo
 
 Client --> Leitor : exibe opções de filtro disponíveis
 
 Leitor -> Client : seleciona critérios\n(faixa de preço, gênero,\nautor e/ou editora)
 
 Client -> ServiceCatalogo : GET /livros?filtros={criterios}
-activate ServiceCatalogo
 ServiceCatalogo -> BD : SELECT livros WHERE {criterios}\nORDER BY popularidade DESC
-activate BD
 BD --> ServiceCatalogo : livros filtrados
-deactivate BD
 ServiceCatalogo --> Client : resultado filtrado
-deactivate ServiceCatalogo
 
 Client --> Leitor : exibe livros de acordo\ncom os critérios selecionados
-deactivate Client
 
 @enduml
