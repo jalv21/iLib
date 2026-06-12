@@ -1,4 +1,4 @@
-@startuml ds-editar_livros
+@startuml dc-editar_livros
 autonumber
 skinparam style strictuml
 
@@ -9,43 +9,28 @@ participant StorageService as "Serviço de Storage"
 database    BD             as "Banco de Dados"
 
 UsuarioEditorial -> Client : seleciona livro e clica em "Editar"
-activate Client
 
 Client -> ServiceLivros : GET /livros/{id}
-activate ServiceLivros
 ServiceLivros -> BD : SELECT livro WHERE id = {id}
-activate BD
 BD --> ServiceLivros : dados do livro
-deactivate BD
 ServiceLivros --> Client : dados atuais do livro
-deactivate ServiceLivros
 
 Client --> UsuarioEditorial : exibe formulário preenchido\ncom dados atuais
 
 UsuarioEditorial -> Client : altera gênero(s), índice de\ndificuldade, preço e/ou\nduração do empréstimo
 
-alt usuário optou por substituir o EPUB
-    UsuarioEditorial -> Client : seleciona novo arquivo EPUB
-    Client -> ServiceLivros : PUT /livros/{id}(campos alterados,\narquivoEPUB, token)
-    activate ServiceLivros
-    ServiceLivros -> StorageService : upload(novoArquivoEPUB)
-    activate StorageService
-    StorageService --> ServiceLivros : novaEpubBucketKey
-    deactivate StorageService
-else apenas dados textuais alterados
-    Client -> ServiceLivros : PUT /livros/{id}(campos alterados, token)
-    activate ServiceLivros
-end
+UsuarioEditorial -> Client : seleciona novo arquivo EPUB
+Client -> ServiceLivros : PUT /livros/{id}(campos alterados,\narquivoEPUB, token)
+ServiceLivros -> StorageService : upload(novoArquivoEPUB)
+StorageService --> ServiceLivros : novaEpubBucketKey
+Client -> ServiceLivros : PUT /livros/{id(campos alterados, token)
+
 
 ServiceLivros -> BD : UPDATE livro SET campos\nWHERE id = {id}
-activate BD
 BD --> ServiceLivros : livro atualizado
-deactivate BD
 
 ServiceLivros --> Client : 200 OK — dados atualizados do livro
-deactivate ServiceLivros
 
 Client --> UsuarioEditorial : exibe livro com\ndados atualizados
-deactivate Client
 
 @enduml
