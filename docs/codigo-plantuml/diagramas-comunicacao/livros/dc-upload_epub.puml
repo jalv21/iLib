@@ -1,0 +1,40 @@
+@startuml ds-upload_epub
+autonumber
+skinparam style strictuml
+
+actor UsuarioEditorial as "UsuárioEditorial"
+participant Client         as "Aplicação Cliente"
+participant ServiceLivros  as "Serviço de Livros"
+participant StorageService as "Serviço de Storage"
+database    BD             as "Banco de Dados"
+
+UsuarioEditorial -> Client : seleciona arquivo EPUB
+activate Client
+
+Client -> Client : valida formato do arquivo (.epub)
+
+alt formato inválido
+    Client --> UsuarioEditorial : exibe erro "Formato inválido.\nEnvie um arquivo .epub"
+else formato válido
+    Client -> ServiceLivros : POST /livros/upload-epub(arquivoEPUB, token)
+    activate ServiceLivros
+
+    ServiceLivros -> StorageService : upload(arquivoEPUB)
+    activate StorageService
+    StorageService --> ServiceLivros : epubBucketKey
+    deactivate StorageService
+
+    ServiceLivros -> BD : UPDATE livro SET epubBucketKey = {key}\nWHERE id = {id}
+    activate BD
+    BD --> ServiceLivros : atualizado
+    deactivate BD
+
+    ServiceLivros --> Client : 200 OK — epubBucketKey
+    deactivate ServiceLivros
+
+    Client --> UsuarioEditorial : exibe confirmação\nde upload concluído
+end
+
+deactivate Client
+
+@enduml
