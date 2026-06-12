@@ -1,4 +1,4 @@
-@startuml ds-pesquisar_livros
+@startuml dc-pesquisar_livros
 autonumber
 skinparam style strictuml
 
@@ -8,49 +8,26 @@ participant ServiceCatalogo as "Serviço de Catálogo"
 database    BD              as "Banco de Dados"
 
 Leitor -> Client : digita termo na barra de pesquisa
-activate Client
 
 Client -> ServiceCatalogo : GET /livros/pesquisar?q={termo}
-activate ServiceCatalogo
 ServiceCatalogo -> BD : SELECT livros WHERE titulo LIKE {termo}\nOR autor LIKE {termo}\nORDER BY popularidade DESC
-activate BD
 BD --> ServiceCatalogo : livros correspondentes ordenados
-deactivate BD
 ServiceCatalogo --> Client : resultado da pesquisa
-deactivate ServiceCatalogo
 
 Client --> Leitor : exibe livros encontrados\nem ordem de popularidade
 
-' ── extend: aplicar_filtros (opcional) ───
-opt Leitor deseja refinar os resultados com filtros adicionais
-    Leitor -> Client : aplica filtros sobre os resultados\n(faixa de preço, gênero, autor, editora)
-    Client -> ServiceCatalogo : GET /livros/pesquisar?q={termo}&filtros={criterios}
-    activate ServiceCatalogo
-    ServiceCatalogo -> BD : SELECT livros WHERE {termo}\nAND {criterios}\nORDER BY popularidade DESC
-    activate BD
-    BD --> ServiceCatalogo : resultados refinados
-    deactivate BD
-    ServiceCatalogo --> Client : resultados filtrados
-    deactivate ServiceCatalogo
-    Client --> Leitor : exibe resultados refinados
-end
-' ─────────────────────────────────────────
+Leitor -> Client : aplica filtros sobre os resultados\n(faixa de preço, gênero, autor, editora)
+Client -> ServiceCatalogo : GET /livros/pesquisar?q={termo}&filtros={criterios}
+ServiceCatalogo -> BD : SELECT livros WHERE {termo}\nAND {criterios}\nORDER BY popularidade DESC
+BD --> ServiceCatalogo : resultados refinados
+ServiceCatalogo --> Client : resultados filtrados
+Client --> Leitor : exibe resultados refinados
 
-' ── extend: acessar_estante (opcional) ───
-opt Leitor clica em uma estante nos resultados
-    Leitor -> Client : clica em uma estante\nexibida nos resultados
-    Client -> ServiceCatalogo : GET /estantes/{id}
-    activate ServiceCatalogo
-    ServiceCatalogo -> BD : SELECT estante e livros\nWHERE estanteId = {id}
-    activate BD
-    BD --> ServiceCatalogo : dados da estante e livros
-    deactivate BD
-    ServiceCatalogo --> Client : conteúdo da estante
-    deactivate ServiceCatalogo
-    Client --> Leitor : exibe página da estante
-end
-' ─────────────────────────────────────────
-
-deactivate Client
+Leitor -> Client : clica em uma estante\nexibida nos resultados
+Client -> ServiceCatalogo : GET /estantes/{id}
+ServiceCatalogo -> BD : SELECT estante e livros\nWHERE estanteId = {id}
+BD --> ServiceCatalogo : dados da estante e livros
+ServiceCatalogo --> Client : conteúdo da estante
+Client --> Leitor : exibe página da estante
 
 @enduml
