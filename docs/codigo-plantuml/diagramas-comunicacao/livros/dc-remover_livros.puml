@@ -1,4 +1,4 @@
-@startuml ds-remover_livros
+@startuml dc-remover_livros
 autonumber
 skinparam style strictuml
 
@@ -9,28 +9,20 @@ participant StorageService as "Serviço de Storage"
 database    BD             as "Banco de Dados"
 
 UsuarioEditorial -> Client : clica em "Excluir definitivamente"\nna seção "Livros Arquivados"
-activate Client
 
 Client --> UsuarioEditorial : exibe diálogo de confirmação\n"Esta ação é irreversível. Confirmar?"
 UsuarioEditorial -> Client  : confirma exclusão
 
 Client -> ServiceLivros : DELETE /livros/{id}(token)
-activate ServiceLivros
 
 ServiceLivros -> StorageService : delete(epubBucketKey)
-activate StorageService
 StorageService --> ServiceLivros : arquivo removido
-deactivate StorageService
 
 ServiceLivros -> BD : DELETE FROM livro WHERE id = {id}
-activate BD
 BD --> ServiceLivros : livro removido
-deactivate BD
 
 ServiceLivros --> Client : 200 OK
-deactivate ServiceLivros
 
 Client --> UsuarioEditorial : exibe confirmação e remove livro\nda seção "Livros Arquivados"
-deactivate Client
 
 @enduml
