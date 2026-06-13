@@ -1,4 +1,4 @@
-@startuml ds-inserir_historico_livros
+@startuml dc-inserir_historico_livros
 autonumber
 skinparam style strictuml
 
@@ -7,28 +7,17 @@ participant ServiceBiblioteca as "Serviço de Biblioteca"
 database    BD                as "Banco de Dados"
 
 [-> Sistema : evento: leitura finalizada\n(leitorId, livroId, dataFinalizacao)
-activate Sistema
 
 Sistema -> ServiceBiblioteca : GET /bibliotecas/acervos\n(leitorId, nome="Histórico")
-activate ServiceBiblioteca
 ServiceBiblioteca -> BD : SELECT acervo WHERE\nbibliotecaId IN (SELECT id FROM biblioteca\nWHERE usuarioId = {leitorId})\nAND nome = "Histórico"
-activate BD
 BD --> ServiceBiblioteca : acervoId
-deactivate BD
 ServiceBiblioteca --> Sistema : acervoId
-deactivate ServiceBiblioteca
 
 Sistema -> ServiceBiblioteca : POST /acervos/{acervoId}/historico\n(livroId, dataFinalizacao)
-activate ServiceBiblioteca
 
 ServiceBiblioteca -> BD : INSERT historicoLeitura\n(acervoId, livroId, dataFinalizacao)
-activate BD
 BD --> ServiceBiblioteca : entrada criada
-deactivate BD
 
 ServiceBiblioteca --> Sistema : 201 Created
-deactivate ServiceBiblioteca
-
-deactivate Sistema
 
 @enduml
