@@ -1,4 +1,4 @@
-@startuml ds-analisar_livros
+@startuml dc-analisar_livros
 autonumber
 skinparam style strictuml
 
@@ -8,34 +8,22 @@ participant ServiceDashboard as "Serviço de Dashboard"
 database    BD               as "Banco de Dados"
 
 UsuarioEditorial -> Client : acessa o Dashboard\ne seleciona "Livros"
-activate Client
 
 Client -> ServiceDashboard : GET /dashboard/livros\n(usuarioEditorialId)
-activate ServiceDashboard
 
 ServiceDashboard -> BD : SELECT id, titulo, mediaAvaliacoes,\ntotalVendas, arquivado\nFROM livro WHERE publicadorId = {id}\nORDER BY totalVendas DESC
-activate BD
 BD --> ServiceDashboard : lista de livros com métricas
-deactivate BD
 
 ServiceDashboard --> Client : 200 OK — lista de livros com\ntotalVendas e \nmediaAvaliacoes
-deactivate ServiceDashboard
 
 Client --> UsuarioEditorial : exibe painel com tabela de livros\ne métricas de desempenho (vendas e media de avaliações)
 
-opt UsuarioEditorial seleciona um livro específico
-    UsuarioEditorial -> Client : clica em um livro
-    Client -> ServiceDashboard : GET /dashboard/livros/{livroId}\n(usuarioEditorialId)
-    activate ServiceDashboard
-    ServiceDashboard -> BD : SELECT métricas detalhadas\nWHERE livroId = {id}
-    activate BD
-    BD --> ServiceDashboard : métricas detalhadas do livro
-    deactivate BD
-    ServiceDashboard --> Client : 200 OK — métricas detalhadas
-    deactivate ServiceDashboard
-    Client --> UsuarioEditorial : exibe painel detalhado do livro
-end
+UsuarioEditorial -> Client : clica em um livro
+Client -> ServiceDashboard : GET /dashboard/livros/{livroId}\n(usuarioEditorialId)
+ServiceDashboard -> BD : SELECT métricas detalhadas\nWHERE livroId = {id}
+BD --> ServiceDashboard : métricas detalhadas do livro
+ServiceDashboard --> Client : 200 OK — métricas detalhadas
+Client --> UsuarioEditorial : exibe painel detalhado do livro
 
-deactivate Client
 
 @enduml
