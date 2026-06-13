@@ -1,4 +1,4 @@
-@startuml ds-analisar_publico
+@startuml dc-analisar_publico
 autonumber
 skinparam style strictuml
 
@@ -8,34 +8,24 @@ participant ServiceDashboard as "Serviço de Dashboard"
 database    BD               as "Banco de Dados"
 
 UsuarioEditorial -> Client : acessa o Dashboard\ne seleciona "Público"
-activate Client
 
 Client --> UsuarioEditorial : exibe seletor de período\ne filtro por livro (opcional)
 
 UsuarioEditorial -> Client : seleciona período e\nlivro (ou "Todos os livros")
 
 Client -> ServiceDashboard : GET /dashboard/publico\n(usuarioEditorialId, dataInicio,\ndataFim, livroId?)
-activate ServiceDashboard
 
 ServiceDashboard -> BD : SELECT COUNT(DISTINCT leitorId)\nAS totalLeitoresUnicos\nFROM venda\nWHERE publicadorId = {id}\nAND dataHora BETWEEN {dataInicio} AND {dataFim}\n[AND livroId = {livroId}]
-activate BD
 BD --> ServiceDashboard : totalLeitoresUnicos
-deactivate BD
 
 ServiceDashboard -> BD : SELECT g.nome AS genero,\nCOUNT(DISTINCT v.leitorId) AS leitores\nFROM venda v\nJOIN livro_genero lg ON lg.livroId = v.livroId\nJOIN genero g ON g.id = lg.generoId\nWHERE v.publicadorId = {id}\nAND v.dataHora BETWEEN {dataInicio} AND {dataFim}\nGROUP BY g.nome ORDER BY leitores DESC
-activate BD
 BD --> ServiceDashboard : gêneros preferidos do público
-deactivate BD
 
 ServiceDashboard -> BD : SELECT DATE_TRUNC({granularidade}, dataHora)\nAS periodo, COUNT(DISTINCT leitorId) AS novosLeitores\nFROM venda WHERE publicadorId = {id}\nAND dataHora BETWEEN {dataInicio} AND {dataFim}\nGROUP BY periodo ORDER BY periodo ASC
-activate BD
 BD --> ServiceDashboard : série temporal de novos leitores
-deactivate BD
 
 ServiceDashboard --> Client : 200 OK — totalLeitoresUnicos,\ngenerosPreferidos, serieTemporal
-deactivate ServiceDashboard
 
 Client --> UsuarioEditorial : exibe painel com total de leitores,\ngêneros preferidos e\nevoluçao temporal do público
-deactivate Client
 
 @enduml
