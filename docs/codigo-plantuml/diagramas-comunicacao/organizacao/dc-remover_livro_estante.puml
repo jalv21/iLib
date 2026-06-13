@@ -1,4 +1,4 @@
-@startuml ds-remover_livro_estante
+@startuml dc-remover_livro_estante
 autonumber
 skinparam style strictuml
 
@@ -8,29 +8,21 @@ participant ServiceBiblioteca as "Serviço de Biblioteca"
 database    BD                as "Banco de Dados"
 
 Usuario -> Client : clica em "Remover da Estante"\nno livro dentro de uma estante
-activate Client
 
 Client --> Usuario : exibe diálogo de confirmação\n"Remover este livro da estante?"
 
 Usuario -> Client : confirma remoção
 
 Client -> ServiceBiblioteca : DELETE /estantes/{estanteId}/livros/{livroId}\n(usuarioId)
-activate ServiceBiblioteca
 
 ServiceBiblioteca -> BD : SELECT estante WHERE\nid = {estanteId} AND usuarioId = {id}
-activate BD
 BD --> ServiceBiblioteca : estante pertence ao usuário
-deactivate BD
 
 ServiceBiblioteca -> BD : DELETE FROM estante_livro WHERE\nestanteId = {id} AND livroId = {id}
-activate BD
 BD --> ServiceBiblioteca : associação removida
-deactivate BD
 
 ServiceBiblioteca --> Client : 200 OK
-deactivate ServiceBiblioteca
 
 Client --> Usuario : remove livro da estante\ne atualiza contador
-deactivate Client
 
 @enduml
