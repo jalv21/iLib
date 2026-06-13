@@ -1,0 +1,82 @@
+@startuml ds-ler_livros
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client         as "Aplicação Cliente"
+participant ServiceLeitura as "Serviço de Leitura"
+database    BD             as "Banco de Dados"
+
+Leitor -> Client : abre livro na biblioteca
+activate Client
+
+Client -> ServiceLeitura : POST /sessoes-leitura(leitorId, livroId)
+activate ServiceLeitura
+ServiceLeitura -> BD : SELECT marcadorPagina WHERE\nleitorId = {id} AND livroId = {id}
+activate BD
+BD --> ServiceLeitura : última página lida (ou página 1)
+deactivate BD
+ServiceLeitura -> BD : INSERT sessaoLeitura(leitorId, livroId,\npaginaAtual, dataInicio)
+activate BD
+BD --> ServiceLeitura : sessão criada (id)
+deactivate BD
+ServiceLeitura --> Client : 201 Created — sessão e página inicial
+deactivate ServiceLeitura
+
+Client --> Leitor : abre leitor na última\npágina marcada
+
+loop Leitor navega pelas páginas
+    Leitor -> Client : vira a página
+    Client -> ServiceLeitura : PATCH /sessoes-leitura/{id}\n(paginaAtual)
+    activate ServiceLeitura
+    ServiceLeitura -> BD : UPDATE sessaoLeitura SET\npaginaAtual = {pagina}
+    activate BD
+    BD --> ServiceLeitura : atualizado
+    deactivate BD
+    ServiceLeitura --> Client : 200 OK
+    deactivate ServiceLeitura
+
+    ' ── extend: marcar_pagina (opcional) ─
+    opt Leitor deseja marcar a página atual
+        Leitor -> Client : toca em "Marcar Página"
+        Client -> ServiceLeitura : POST /marcadores(sessaoId, pagina)
+        activate ServiceLeitura
+        ServiceLeitura -> BD : INSERT OR UPDATE marcadorPagina\n(leitorId, livroId, pagina, dataHora)
+        activate BD
+        BD --> ServiceLeitura : marcador salvo
+        deactivate BD
+        ServiceLeitura --> Client : 200 OK
+        deactivate ServiceLeitura
+        Client --> Leitor : ícone de marcador ativado
+    end
+    ' ─────────────────────────────────────
+end
+
+Leitor -> Client : fecha o leitor ou chega\nna última página
+
+' ── extend: finalizar_livro (opcional) ───
+opt Leitor chegou à última página
+    Client -> ServiceLeitura : PATCH /sessoes-leitura/{id}/finalizar
+    activate ServiceLeitura
+    ServiceLeitura -> BD : UPDATE sessaoLeitura SET ativo = false,\ndataFim = NOW()
+    activate BD
+    BD --> ServiceLeitura : sessão encerrada
+    deactivate BD
+    ServiceLeitura --> Client : 200 OK
+    deactivate ServiceLeitura
+    Client --> Leitor : exibe tela de conclusão do livro
+end
+' ─────────────────────────────────────────
+
+Client -> ServiceLeitura : DELETE /sessoes-leitura/{id}/encerrar
+activate ServiceLeitura
+ServiceLeitura -> BD : UPDATE sessaoLeitura SET ativo = false
+activate BD
+BD --> ServiceLeitura : sessão encerrada
+deactivate BD
+ServiceLeitura --> Client : 200 OK
+deactivate ServiceLeitura
+
+deactivate Client
+
+@enduml
