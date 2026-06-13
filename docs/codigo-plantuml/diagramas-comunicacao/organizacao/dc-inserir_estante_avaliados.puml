@@ -1,4 +1,4 @@
-@startuml ds-inserir_estante_avaliados
+@startuml dc-inserir_estante_avaliados
 autonumber
 skinparam style strictuml
 
@@ -7,39 +7,21 @@ participant ServiceBiblioteca as "Serviço de Biblioteca"
 database    BD                as "Banco de Dados"
 
 [-> Sistema : evento: avaliação publicada\n(leitorId, livroId)
-activate Sistema
 
 Sistema -> ServiceBiblioteca : GET /bibliotecas/acervos\n(leitorId, nome="Avaliados")
-activate ServiceBiblioteca
 ServiceBiblioteca -> BD : SELECT acervo WHERE\nbibliotecaId IN (SELECT id FROM biblioteca\nWHERE usuarioId = {leitorId})\nAND nome = "Avaliados"
-activate BD
 BD --> ServiceBiblioteca : acervoId
-deactivate BD
 ServiceBiblioteca --> Sistema : acervoId
-deactivate ServiceBiblioteca
 
 Sistema -> ServiceBiblioteca : GET /acervos/{acervoId}/livros/{livroId}
-activate ServiceBiblioteca
 ServiceBiblioteca -> BD : SELECT estante_livro WHERE\nacervoId = {id} AND livroId = {id}
-activate BD
 BD --> ServiceBiblioteca : resultado (presente ou ausente)
-deactivate BD
 ServiceBiblioteca --> Sistema : resultado
-deactivate ServiceBiblioteca
 
-alt livro ainda não está no acervo "Avaliados"
-    Sistema -> ServiceBiblioteca : POST /acervos/{acervoId}/livros(livroId)
-    activate ServiceBiblioteca
-    ServiceBiblioteca -> BD : INSERT estante_livro\n(acervoId, livroId)
-    activate BD
-    BD --> ServiceBiblioteca : livro inserido
-    deactivate BD
-    ServiceBiblioteca --> Sistema : 201 Created
-    deactivate ServiceBiblioteca
-else livro já presente (avaliação editada)
-    Sistema -> Sistema : nenhuma ação necessária
-end
-
-deactivate Sistema
+Sistema -> ServiceBiblioteca : POST /acervos/{acervoId}/livros(livroId)
+ServiceBiblioteca -> BD : INSERT estante_livro\n(acervoId, livroId)
+BD --> ServiceBiblioteca : livro inserido
+ServiceBiblioteca --> Sistema : 201 Created
+Sistema -> Sistema : nenhuma ação necessária
 
 @enduml
