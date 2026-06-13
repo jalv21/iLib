@@ -1,0 +1,133 @@
+@startuml dcomp-dimpl
+!define SPRITESURL https://raw.githubusercontent.com/plantuml-stdlib/gilbarbara-plantuml-sprites/v1.1/sprites
+!define IMAGESSURL https://raw.githubusercontent.com/plantuml-stdlib/gilbarbara-plantuml-sprites/v1.1/pngs
+
+skinparam node {
+    BackgroundColor #F5F5F5
+    BorderColor #555555
+    FontStyle bold
+}
+
+skinparam component {
+    BackgroundColor #e8f4ff
+    BorderColor #336699
+}
+
+skinparam database {
+    BackgroundColor #FFF5CC
+    BorderColor #AA8800
+}
+
+node "Dispositivo do Usuário" as client {
+    node "Navegador Web" as browser {
+        component "<img:IMAGESSURL/create-react-app.png>\nAplicação Front-End(Reactjs)" as frontend
+    }
+}
+
+node "Servidor de Aplicação\n(API REST Layer)" as server <<server>> {
+    component "<img:IMAGESSURL/gin.png>\nAPI REST (Gin)" as restApi
+    interface "HTTP" as HTTP_gateway_publicador
+    interface "HTTP" as HTTP_gateway_leitor
+}
+
+node "Servidor de Gateway\n(Auth. Publicador)" as gatewayPublicador <<server>> {
+    component "<img:IMAGESSURL/go.png>\nAPI Gateway (Go)" as apiGatewayPublicador
+    interface "REST" as REST_livros
+    interface "REST" as REST_dashboard
+    interface "REST" as REST_estantes_publicador
+}
+
+node "Servidor de Gateway\n(Auth. Leitor)" as gatewayLeitor <<server>> {
+    component "<img:IMAGESSURL/go.png>\nAPI Gateway (Go)" as apiGatewayLeitor
+    interface "REST" as REST_catalogo
+    interface "REST" as REST_leitura
+    interface "REST" as REST_avaliacoes
+    interface "REST" as REST_compras
+    interface "REST" as REST_estantes_leitor
+}
+
+node "Cluster de Microsserviços" as microserviceCluster <<cluster>> {
+    node "Serviço: Gerenciamento de Livros" as livroService <<server>> {
+        component "<img:IMAGESSURL/java.png>\nlivros" as livros
+    }
+    node "Serviço: Gerenciamento de Estantes" as estanteService <<server>> {
+        component "<img:IMAGESSURL/java.png>\nestantes" as estantes
+    }
+    node "Serviço: Avaliacoes" as avaliacoesService <<server>> {
+        component "<img:IMAGESSURL/go.png>\navaliacoes" as avaliacoes
+    }
+    node "Serviço: Leitura" as leituraService <<server>> {
+        component "<img:IMAGESSURL/java.png>\nleitura" as leitura
+    }
+    node "Serviço: Dashboard" as dashboardService <<server>> {
+        component "<img:IMAGESSURL/python.png>\ndashboard" as dashboard
+    }
+    node "Serviço: Catálogo" as catalogoService <<server>> {
+        component "<img:IMAGESSURL/java.png>\ncatalogo" as catalogo
+    }
+    node "Serviço: Compras" as comprasService <<server>> {
+        component "<img:IMAGESSURL/java.png>\ncompras" as compras
+    }
+}
+
+node "API de Livros (Google Books)" as livrosApi
+node "API de Pagamentos (Mercado Pago)" as pagamentoApi
+
+node "Cluster de Bancos de Dados" as bdCluster <<cluster>> {
+    database "<img:IMAGESSURL/aws-dynamodb.png>\nBD Bibliotecas" as bdBibliotecas
+    database "<img:IMAGESSURL/aws-dynamodb.png>\nBD Livros" as bdLivros
+    database "<img:IMAGESSURL/aws-dynamodb.png>\nBD Compras" as bdCompras
+    database "<img:IMAGESSURL/aws-dynamodb.png>\nBD Avaliacoes" as bdAvaliacoes
+}
+
+frontend --> restApi : <<HTTP>>
+
+restApi -down-> HTTP_gateway_publicador
+restApi -down-> HTTP_gateway_leitor
+
+HTTP_gateway_publicador -down-> apiGatewayPublicador
+HTTP_gateway_leitor -down-> apiGatewayLeitor
+
+apiGatewayPublicador -down-> REST_livros
+apiGatewayPublicador -down-> REST_dashboard
+apiGatewayPublicador -down-> REST_estantes_publicador
+
+REST_livros -down-> livros
+REST_dashboard -down-> dashboard
+REST_estantes_publicador -down-> estantes
+
+livros -left-> livrosApi : <<REST>>
+
+livros -down-> bdLivros : <<TCP/IP>>
+dashboard -down-> bdLivros : <<TCP/IP>>
+dashboard -down-> bdBibliotecas : <<TCP/IP>>
+dashboard -down-> bdAvaliacoes : <<TCP/IP>>
+dashboard -down-> bdCompras : <<TCP/IP>>
+
+apiGatewayLeitor -down-> REST_catalogo
+apiGatewayLeitor -down-> REST_compras
+apiGatewayLeitor -down-> REST_estantes_leitor
+apiGatewayLeitor -down-> REST_leitura
+apiGatewayLeitor -down-> REST_avaliacoes
+
+REST_catalogo -down-> catalogo
+REST_compras -down-> compras
+REST_estantes_leitor -> estantes
+REST_leitura -> leitura
+REST_avaliacoes -> avaliacoes
+
+compras -right-> pagamentoApi : <<REST>>
+
+catalogo -down-> bdLivros : <<TCP/IP>>
+estantes -down-> bdBibliotecas : <<TCP/IP>>
+compras -down-> bdCompras : <<TCP/IP>>
+leitura -down-> bdLivros : <<TCP/IP>>
+avaliacoes -down-> bdAvaliacoes : <<TCP/IP>>
+
+
+
+
+
+
+
+@enduml
