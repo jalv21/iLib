@@ -1,0 +1,33 @@
+@startuml dc-adicionar_livro_estante
+autonumber
+skinparam style strictuml
+
+actor Usuario as "Usuário"
+participant Client            as "Aplicação Cliente"
+participant ServiceBiblioteca as "Serviço de Biblioteca"
+database    BD                as "Banco de Dados"
+
+Usuario -> Client : clica em "Adicionar à Estante"\nna página do livro ou na biblioteca
+
+Client -> ServiceBiblioteca : GET /biblioteca/estantes(usuarioId)
+ServiceBiblioteca -> BD : SELECT estantes WHERE\nusuarioId = {id}
+BD --> ServiceBiblioteca : lista de estantes do usuário
+ServiceBiblioteca --> Client : estantes disponíveis
+
+Client --> Usuario : exibe seletor com as\nestantes disponíveis
+
+Usuario -> Client : seleciona a estante de destino\ne confirma
+
+Client -> ServiceBiblioteca : POST /estantes/{estanteId}/livros\n(usuarioId, livroId)
+
+ServiceBiblioteca -> BD : SELECT estante_livro WHERE\nestanteId = {id} AND livroId = {id}
+BD --> ServiceBiblioteca : nenhum registro (livro ainda não está na estante)
+
+ServiceBiblioteca -> BD : INSERT estante_livro\n(estanteId, livroId)
+BD --> ServiceBiblioteca : associação criada
+
+ServiceBiblioteca --> Client : 201 Created
+
+Client --> Usuario : exibe confirmação e atualiza\ncontador de livros da estante
+
+@enduml
