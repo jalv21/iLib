@@ -1,0 +1,117 @@
+@startuml modelo-dados
+skinparam linetype ortho
+
+entity "Livro" as Livro {
+    + id : INT <<PK>>
+    titulo : VARCHAR(100)
+    nomeAutor : VARCHAR(100)
+    publicador_id : INT <<FK>>
+    estante_id : INT <<FK>>
+    isbn : VARCHAR(20)
+    preco : DECIMAL
+    numPaginas : INT
+    dataPublicacao : DATETIME
+    sinopse : VARCHAR(300)
+    capaUrl : VARCHAR(300)
+    arquivoBucketKey : VARCHAR(300)
+    leitorEPUB_id : INT <<FK>>
+    arquivado : BOOLEAN
+}
+
+entity "Autor Independente" as AutorIndependente {
+    + id : INT <<PK>>
+    nome : VARCHAR(100)
+    username : VARCHAR(50)
+    email : VARCHAR(150)
+    senha : VARCHAR(100)
+    cpf : CHAR(11)
+}
+
+entity "Editora" as Editora {
+    + id : INT <<PK>>
+    nome : VARCHAR(100)
+    username : VARCHAR(50)
+    email : VARCHAR(150)
+    senha : VARCHAR(100)
+    cnpj : CHAR(11)
+}
+
+entity "Leitor" as Leitor {
+    + id : INT <<PK>>
+    nome : VARCHAR(100)
+    username : VARCHAR(50)
+    email : VARCHAR(150)
+    senha : VARCHAR(100)
+}
+
+entity "Estante Comum" as EstanteComum {
+    + id : INT <<PK>>
+    nome : VARCHAR(100)
+    criador_id : INT <<FK>>
+    editorial : BOOLEAN
+    privada : BOOLEAN
+    superestante_id : INT <<FK>>
+}
+
+entity "Estante Arquivados" as EstanteArquivados {
+    + id : INT <<PK>>
+    nome : VARCHAR(100)
+    criador_id : INT <<FK>>
+    editorial : BOOLEAN
+    privada : BOOLEAN
+}
+
+entity "Avaliação" as Avaliacao {
+    + id : INT <<PK>>
+    estrelas : INT
+    texto : VARCHAR(500)
+    livro_id : INT <<FK>>
+    avaliador_id : INT <<FK>>
+}
+
+entity "Comentário Avaliação" as ComentarioAvaliacao {
+    + id : INT <<PK>>
+    estrelas : INT
+    texto : VARCHAR(500)
+    avaliacao_id : INT <<FK>>
+    comentador_id : INT <<FK>>
+}
+
+entity "Leitor de EPUB" as LeitorEPUB {
+    + id : INT <<PK>>
+    estrelas : INT
+    paginaAtual_id : INT <<FK>>
+    finalizado : BOOLEAN
+}
+
+entity "Página de Leitor de EPUB" as PaginaLeitorEPUB {
+    + id : INT <<PK>>
+    leitor_id : INT <<FK>>
+    indice : INT
+    texto : VARCHAR(5000)
+    marcada : BOOLEAN
+    ultima : BOOLEAN
+}
+
+Livro }o--|| AutorIndependente : "cadastra"
+Livro }o--|| Editora : "cadastra"
+Livro }o--|| EstanteComum : "contém"
+Livro }o--|| EstanteArquivados : "contém"
+Livro -- LeitorEPUB : "contém"
+PaginaLeitorEPUB }o--|| LeitorEPUB : "possui"
+
+EstanteComum }o--|| AutorIndependente : "cria"
+EstanteComum }o--|| Editora : "cria"
+EstanteComum }o--|| Leitor : "cria"
+EstanteArquivados -- AutorIndependente : "possui"
+EstanteArquivados -- Editora : "possui"
+
+Avaliacao }o--|| Livro : "contém"
+
+ComentarioAvaliacao }o--|| Avaliacao : "possui"
+ComentarioAvaliacao }o--|| AutorIndependente : "cria"
+ComentarioAvaliacao }o--|| Editora : "cria"
+ComentarioAvaliacao }o--|| Leitor : "cria"
+
+
+@enduml
