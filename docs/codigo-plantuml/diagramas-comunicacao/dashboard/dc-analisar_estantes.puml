@@ -1,0 +1,37 @@
+@startuml ds-analisar_estantes
+autonumber
+skinparam style strictuml
+
+actor UsuarioEditorial as "UsuárioEditorial"
+participant Client           as "Aplicação Cliente"
+participant ServiceDashboard as "Serviço de Dashboard"
+database    BD               as "Banco de Dados"
+
+UsuarioEditorial -> Client : acessa o Dashboard\ne seleciona "Estantes"
+activate Client
+
+Client -> ServiceDashboard : GET /dashboard/estantes\n(usuarioEditorialId)
+activate ServiceDashboard
+
+ServiceDashboard -> BD : SELECT e.id, e.nome, e.publico,\nCOUNT(el.livroId) AS totalLivros\nFROM estante e\nJOIN estante_livro el ON el.estanteId = e.id\nWHERE e.livroId IN\n(SELECT id FROM livro WHERE publicadorId = {id})\nGROUP BY e.id ORDER BY totalLivros DESC
+activate BD
+BD --> ServiceDashboard : estantes que contêm livros do publicador,\ncom contagem de livros por estante
+deactivate BD
+
+ServiceDashboard -> BD : SELECT livroId, titulo,\nCOUNT(DISTINCT estanteId) AS totalEstantes\nFROM estante_livro el\nJOIN livro l ON l.id = el.livroId\nWHERE l.publicadorId = {id}\nGROUP BY livroId ORDER BY totalEstantes DESC
+activate BD
+BD --> ServiceDashboard : ranking de livros por\nquantidade de estantes em que aparecem
+deactivate BD
+
+ServiceDashboard -> BD : SELECT COUNT(DISTINCT e.usuarioId) AS leitoresQueOrganizaram\nFROM estante e\nJOIN estante_livro el ON el.estanteId = e.id\nJOIN livro l ON l.id = el.livroId\nWHERE l.publicadorId = {id}
+activate BD
+BD --> ServiceDashboard : total de leitores únicos que\nadicionaram algum livro a estantes
+deactivate BD
+
+ServiceDashboard --> Client : 200 OK — estantesComLivros,\nrankingLivrosPorEstante,\nleitoresQueOrganizaram
+deactivate ServiceDashboard
+
+Client --> UsuarioEditorial : exibe painel com ranking de estantes\npúblicas que contêm seus livros,\nranking de livros mais organizados\ne total de leitores que os catalogaram
+deactivate Client
+
+@enduml
