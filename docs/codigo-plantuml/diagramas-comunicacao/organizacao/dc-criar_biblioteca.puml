@@ -1,0 +1,33 @@
+@startuml dc-criar_biblioteca
+autonumber
+skinparam style strictuml
+
+participant Sistema           as "Subsistema de Bibliotecas"
+participant ServiceBiblioteca as "Serviço de Biblioteca"
+database    BD                as "Banco de Dados"
+
+[-> Sistema : evento: novo usuário cadastrado\n(usuarioId)
+
+Sistema -> ServiceBiblioteca : POST /bibliotecas(usuarioId)
+
+ServiceBiblioteca -> BD : INSERT biblioteca(usuarioId)
+BD --> ServiceBiblioteca : biblioteca criada (id)
+
+ServiceBiblioteca --> Sistema : 201 Created — bibliotecaId
+
+Sistema -> ServiceBiblioteca : POST /bibliotecas/{bibliotecaId}/acervos\n(nome="Adquiridos")
+ServiceBiblioteca -> BD : INSERT acervo(bibliotecaId, nome="Adquiridos")
+BD --> ServiceBiblioteca : acervo criado
+ServiceBiblioteca --> Sistema : 201 Created
+
+Sistema -> ServiceBiblioteca : POST /bibliotecas/{bibliotecaId}/acervos\n(nome="Avaliados")
+ServiceBiblioteca -> BD : INSERT acervo(bibliotecaId, nome="Avaliados")
+BD --> ServiceBiblioteca : acervo criado
+ServiceBiblioteca --> Sistema : 201 Created
+
+Sistema -> ServiceBiblioteca : POST /bibliotecas/{bibliotecaId}/acervos\n(nome="Histórico")
+ServiceBiblioteca -> BD : INSERT acervo(bibliotecaId, nome="Histórico")
+BD --> ServiceBiblioteca : acervo criado
+ServiceBiblioteca --> Sistema : 201 Created
+
+@enduml

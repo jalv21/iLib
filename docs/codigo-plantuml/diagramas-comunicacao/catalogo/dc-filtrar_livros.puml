@@ -1,0 +1,31 @@
+@startuml dc-filtrar_livros
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client          as "Aplicação Cliente"
+participant ServiceCatalogo as "Serviço de Catálogo"
+database    BD              as "Banco de Dados"
+
+Leitor -> Client : acessa o catálogo / feed de livros
+
+Client -> ServiceCatalogo : GET /livros(pagina=1)
+ServiceCatalogo -> BD : SELECT livros ORDER BY popularidade
+BD --> ServiceCatalogo : lista de livros (paginada)
+ServiceCatalogo --> Client : livros da página inicial
+
+Client --> Leitor : exibe feed de livros
+
+Leitor -> Client : seleciona "Livros em Alta"\nou "Novidades" no menu
+Leitor -> Client : abre barra de filtros e seleciona\ncritérios (faixa de preço, gênero,\nautor, editora)
+
+' ── extend: aplicar_filtros ──────────────
+Client -> ServiceCatalogo : GET /livros?filtros={criterios}
+ServiceCatalogo -> BD : SELECT livros WHERE {criterios}\nORDER BY popularidade
+BD --> ServiceCatalogo : livros filtrados
+ServiceCatalogo --> Client : resultado filtrado
+
+Client --> Leitor : exibe livros de acordo\ncom os filtros aplicados
+' ─────────────────────────────────────────
+
+@enduml

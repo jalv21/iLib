@@ -1,0 +1,30 @@
+@startuml ds-comentar_avaliacoes
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client           as "Aplicação Cliente"
+participant ServiceAvaliacao as "Serviço de Avaliação"
+database    BD               as "Banco de Dados"
+
+Leitor -> Client : clica em "Comentar" em uma\navaliação de outro leitor
+
+Client -> ServiceAvaliacao : GET /avaliacoes/{id}
+ServiceAvaliacao -> BD : SELECT avaliacao WHERE id = {id}
+BD --> ServiceAvaliacao : dados da avaliação
+ServiceAvaliacao --> Client : avaliação e comentários existentes
+
+Client --> Leitor : exibe avaliação com campo\nde resposta aberto
+
+Leitor -> Client : digita comentário e confirma envio
+
+Client -> ServiceAvaliacao : POST /avaliacoes/{id}/comentarios\n(leitorId, texto)
+
+ServiceAvaliacao -> BD : INSERT comentarioAvaliacao\n(avaliacaoId, autorId, texto,\ndeAutorEditora = false, dataHora)
+BD --> ServiceAvaliacao : comentário criado (id)
+
+ServiceAvaliacao --> Client : 201 Created — comentário publicado
+
+Client --> Leitor : exibe comentário publicado\nna thread da avaliação
+
+@enduml

@@ -1,0 +1,47 @@
+@startuml dc-comprar_livros
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client          as "Aplicação Cliente"
+participant ServiceCatalogo as "Serviço de Catálogo"
+participant ServicePgto     as "Serviço de Pagamento"
+participant APITransacao     as "API de Transações"
+database    BD              as "Banco de Dados"
+
+Leitor -> Client : clica em "Comprar" no card do livro
+
+Client -> ServiceCatalogo : GET /livros/{id}
+ServiceCatalogo -> BD : SELECT livro WHERE id = {id}
+BD --> ServiceCatalogo : dados do livro (preço, título…)
+ServiceCatalogo --> Client : dados do livro
+
+Client --> Leitor : exibe tela de checkout\n(resumo do livro e preço)
+
+' ── include: selecionar_metodo_pgto ──────
+Leitor -> Client : seleciona método de pagamento
+Client -> ServicePgto : GET /metodos-pagamento(leitorId)
+ServicePgto -> BD : SELECT metodosPagamento WHERE leitorId = {id}
+BD --> ServicePgto : lista de métodos cadastrados
+ServicePgto --> Client : métodos disponíveis
+Client --> Leitor : exibe opções de pagamento
+Leitor -> Client  : confirma método de pagamento escolhido
+' ─────────────────────────────────────────
+
+Leitor -> Client : confirma compra
+Client -> ServicePgto : POST /pagamentos/processar(livroId,\nleitorId, metodoPgtoId, valorFinal)
+
+ServicePgto -> APITransacao : POST /transacoes(valor, destinatario,\norigem, referencia)
+APITransacao --> ServicePgto : transação aprovada (id)
+
+ServicePgto -> BD : INSERT venda(livroId, leitorId,\nvalorFinal, valorDesconto,\nmetodoPgtoId, dataHora)
+BD --> ServicePgto : venda registrada
+
+ServicePgto --> Client : 200 OK — compra confirmada
+
+Client -> BD : UPDATE biblioteca — move livro\npara seção "Meus Livros"
+BD --> Client : atualizado
+
+Client --> Leitor : exibe confirmação de compra\ne redireciona para "Minha Biblioteca"
+
+@enduml

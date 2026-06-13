@@ -1,0 +1,29 @@
+@startuml dc-criar_estante
+autonumber
+skinparam style strictuml
+
+actor Usuario as "Usuário"
+participant Client             as "Aplicação Cliente"
+participant ServiceBiblioteca  as "Serviço de Biblioteca"
+database    BD                 as "Banco de Dados"
+
+Usuario -> Client : clica em "Nova Estante"\nna sua biblioteca
+
+Client --> Usuario : exibe formulário de criação\n(nome e visibilidade da estante)
+
+Usuario -> Client : preenche nome e visibilidade\n(pública ou privada) e confirma
+
+Client -> ServiceBiblioteca : POST /estantes(usuarioId, nome, publico)
+
+ServiceBiblioteca -> BD : SELECT COUNT(estantes) WHERE\nusuarioId = {id}
+BD --> ServiceBiblioteca : total de estantes do usuário
+
+ServiceBiblioteca --> Client : 422 Unprocessable — limite atingido
+Client --> Usuario : exibe mensagem de erro\n"Limite de estantes atingido"
+ServiceBiblioteca -> BD : INSERT estante(usuarioId, nome,\npublico, bibliotecaId)
+BD --> ServiceBiblioteca : estante criada (id)
+ServiceBiblioteca --> Client : 201 Created — dados da estante
+Client --> Usuario : exibe nova estante\nna biblioteca
+
+
+@enduml

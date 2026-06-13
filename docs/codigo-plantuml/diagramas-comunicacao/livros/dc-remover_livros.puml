@@ -1,0 +1,28 @@
+@startuml dc-remover_livros
+autonumber
+skinparam style strictuml
+
+actor UsuarioEditorial as "UsuárioEditorial"
+participant Client         as "Aplicação Cliente"
+participant ServiceLivros  as "Serviço de Livros"
+participant StorageService as "Serviço de Storage"
+database    BD             as "Banco de Dados"
+
+UsuarioEditorial -> Client : clica em "Excluir definitivamente"\nna seção "Livros Arquivados"
+
+Client --> UsuarioEditorial : exibe diálogo de confirmação\n"Esta ação é irreversível. Confirmar?"
+UsuarioEditorial -> Client  : confirma exclusão
+
+Client -> ServiceLivros : DELETE /livros/{id}(token)
+
+ServiceLivros -> StorageService : delete(epubBucketKey)
+StorageService --> ServiceLivros : arquivo removido
+
+ServiceLivros -> BD : DELETE FROM livro WHERE id = {id}
+BD --> ServiceLivros : livro removido
+
+ServiceLivros --> Client : 200 OK
+
+Client --> UsuarioEditorial : exibe confirmação e remove livro\nda seção "Livros Arquivados"
+
+@enduml

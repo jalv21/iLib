@@ -1,0 +1,30 @@
+@startuml dc-selecionar_metodo_pgto
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client      as "Aplicação Cliente"
+participant ServicePgto as "Serviço de Pagamento"
+database    BD          as "Banco de Dados"
+
+Leitor -> Client : acessa tela de checkout
+
+Client -> ServicePgto : GET /metodos-pagamento(leitorId)
+ServicePgto -> BD : SELECT metodosPagamento\nWHERE leitorId = {id}
+BD --> ServicePgto : lista de métodos cadastrados
+ServicePgto --> Client : métodos disponíveis
+
+Client --> Leitor : exibe opções de pagamento
+
+Leitor -> Client : seleciona método existente
+Client --> Leitor : confirma seleção
+Leitor -> Client : clica em "Adicionar novo método"
+Client --> Leitor : exibe formulário de novo método
+Leitor -> Client : preenche dados do novo método
+Client -> ServicePgto : POST /metodos-pagamento(leitorId, dados)
+ServicePgto -> BD : INSERT metodoPagamento(leitorId, tipo, token)
+BD --> ServicePgto : método salvo
+ServicePgto --> Client : 201 Created — novo método
+Client --> Leitor : exibe novo método selecionado
+
+@enduml

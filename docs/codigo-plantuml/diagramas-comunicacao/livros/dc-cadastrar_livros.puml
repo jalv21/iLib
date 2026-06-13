@@ -1,0 +1,49 @@
+@startuml dc-cadastrar_livros
+autonumber
+skinparam style strictuml
+
+actor UsuarioEditorial as "UsuárioEditorial"
+participant Client      as "Aplicação Cliente"
+participant ServiceLivros  as "Serviço de Livros"
+participant ServiceAuth    as "Serviço de Autenticação"
+participant StorageService as "Serviço de Storage"
+participant BookAPI        as "API de Livros\n(Google Books / OpenLibrary)"
+database    BD             as "Banco de Dados"
+
+UsuarioEditorial -> Client : clica em "Novo Livro"
+
+Client --> UsuarioEditorial : exibe formulário de cadastro de livro
+
+UsuarioEditorial -> Client : preenche ISBN, gênero(s), índice de\ndificuldade, preço, duração do\nempréstimo e seleciona arquivo EPUB
+Client -> Client : solicita confirmação de identidade
+
+' ── include: autenticar ──────────────────
+Client --> UsuarioEditorial : exibe prompt de senha
+UsuarioEditorial -> Client  : informa senha
+Client -> ServiceAuth : POST /autenticar(email, senha)
+ 
+ServiceAuth -> BD : consulta credenciais
+ 
+BD --> ServiceAuth : credenciais válidas
+
+ServiceAuth --> Client : 200 OK — token de autenticação
+' ─────────────────────────────────────────
+Client -> ServiceLivros : POST /livros/cadastrar(isbn, generos,\nindiceDificuldade, preco,\nduracaoEmprestimo, token)
+
+' ── include: upload_epub ─────────────────
+ServiceLivros -> StorageService : upload(arquivoEPUB)
+StorageService --> ServiceLivros : epubBucketKey
+' ─────────────────────────────────────────
+ServiceLivros -> BookAPI : GET /livros?isbn={isbn}
+BookAPI --> ServiceLivros : titulo, sinopse, capa, autores…
+
+ServiceLivros -> BD : inserir livro (dados)
+
+BD --> ServiceLivros : livro inserido (id)
+
+ServiceLivros --> Client : 201 Created — dados do livro
+
+Client --> UsuarioEditorial : insere livro na biblioteca e catálogo
+
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml dc-finalizar_livro
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client         as "Aplicação Cliente"
+participant ServiceLeitura as "Serviço de Leitura"
+participant ServiceBiblioteca as "Serviço de Biblioteca"
+database    BD             as "Banco de Dados"
+
+Client -> ServiceLeitura : PATCH /sessoes-leitura/{id}/finalizar
+
+ServiceLeitura -> BD : UPDATE sessaoLeitura\nSET ativo = false, dataFim = NOW()\nWHERE id = {id}
+BD --> ServiceLeitura : sessão encerrada
+
+ServiceLeitura -> ServiceBiblioteca : POST /historico(leitorId, livroId, dataFim)
+ServiceBiblioteca -> BD : INSERT historicoLeitura\n(leitorId, livroId, dataFinalizacao)
+BD --> ServiceBiblioteca : histórico registrado
+ServiceBiblioteca --> ServiceLeitura : 201 Created
+
+ServiceLeitura -> BD : DELETE marcadorPagina WHERE\nleitorId = {id} AND livroId = {id}
+BD --> ServiceLeitura : marcador removido
+
+ServiceLeitura --> Client : 200 OK — livro finalizado
+
+Client --> Leitor : exibe tela de conclusão\n("Você terminou o livro!")
+
+Leitor -> Client : toca em "Avaliar este livro"
+Client --> Leitor : redireciona para\nfluxo de avaliação
+
+@enduml

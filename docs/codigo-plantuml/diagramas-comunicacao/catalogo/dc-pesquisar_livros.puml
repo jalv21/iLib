@@ -1,0 +1,33 @@
+@startuml dc-pesquisar_livros
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client          as "Aplicação Cliente"
+participant ServiceCatalogo as "Serviço de Catálogo"
+database    BD              as "Banco de Dados"
+
+Leitor -> Client : digita termo na barra de pesquisa
+
+Client -> ServiceCatalogo : GET /livros/pesquisar?q={termo}
+ServiceCatalogo -> BD : SELECT livros WHERE titulo LIKE {termo}\nOR autor LIKE {termo}\nORDER BY popularidade DESC
+BD --> ServiceCatalogo : livros correspondentes ordenados
+ServiceCatalogo --> Client : resultado da pesquisa
+
+Client --> Leitor : exibe livros encontrados\nem ordem de popularidade
+
+Leitor -> Client : aplica filtros sobre os resultados\n(faixa de preço, gênero, autor, editora)
+Client -> ServiceCatalogo : GET /livros/pesquisar?q={termo}&filtros={criterios}
+ServiceCatalogo -> BD : SELECT livros WHERE {termo}\nAND {criterios}\nORDER BY popularidade DESC
+BD --> ServiceCatalogo : resultados refinados
+ServiceCatalogo --> Client : resultados filtrados
+Client --> Leitor : exibe resultados refinados
+
+Leitor -> Client : clica em uma estante\nexibida nos resultados
+Client -> ServiceCatalogo : GET /estantes/{id}
+ServiceCatalogo -> BD : SELECT estante e livros\nWHERE estanteId = {id}
+BD --> ServiceCatalogo : dados da estante e livros
+ServiceCatalogo --> Client : conteúdo da estante
+Client --> Leitor : exibe página da estante
+
+@enduml

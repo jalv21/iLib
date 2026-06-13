@@ -1,0 +1,36 @@
+@startuml dc-editar_livros
+autonumber
+skinparam style strictuml
+
+actor UsuarioEditorial as "UsuárioEditorial"
+participant Client         as "Aplicação Cliente"
+participant ServiceLivros  as "Serviço de Livros"
+participant StorageService as "Serviço de Storage"
+database    BD             as "Banco de Dados"
+
+UsuarioEditorial -> Client : seleciona livro e clica em "Editar"
+
+Client -> ServiceLivros : GET /livros/{id}
+ServiceLivros -> BD : SELECT livro WHERE id = {id}
+BD --> ServiceLivros : dados do livro
+ServiceLivros --> Client : dados atuais do livro
+
+Client --> UsuarioEditorial : exibe formulário preenchido\ncom dados atuais
+
+UsuarioEditorial -> Client : altera gênero(s), índice de\ndificuldade, preço e/ou\nduração do empréstimo
+
+UsuarioEditorial -> Client : seleciona novo arquivo EPUB
+Client -> ServiceLivros : PUT /livros/{id}(campos alterados,\narquivoEPUB, token)
+ServiceLivros -> StorageService : upload(novoArquivoEPUB)
+StorageService --> ServiceLivros : novaEpubBucketKey
+Client -> ServiceLivros : PUT /livros/{id(campos alterados, token)
+
+
+ServiceLivros -> BD : UPDATE livro SET campos\nWHERE id = {id}
+BD --> ServiceLivros : livro atualizado
+
+ServiceLivros --> Client : 200 OK — dados atualizados do livro
+
+Client --> UsuarioEditorial : exibe livro com\ndados atualizados
+
+@enduml

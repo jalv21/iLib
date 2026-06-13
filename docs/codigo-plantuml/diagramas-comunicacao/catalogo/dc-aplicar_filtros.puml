@@ -1,0 +1,28 @@
+@startuml dc-aplicar_filtros
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client          as "Aplicação Cliente"
+participant ServiceCatalogo as "Serviço de Catálogo"
+database    BD              as "Banco de Dados"
+
+Leitor -> Client : abre painel de filtros
+
+Client -> ServiceCatalogo : GET /filtros/opcoes
+ServiceCatalogo -> BD : SELECT generos, faixasPreco,\nautores, editoras disponíveis
+BD --> ServiceCatalogo : opções de filtro
+ServiceCatalogo --> Client : opções disponíveis
+
+Client --> Leitor : exibe opções de filtro disponíveis
+
+Leitor -> Client : seleciona critérios\n(faixa de preço, gênero,\nautor e/ou editora)
+
+Client -> ServiceCatalogo : GET /livros?filtros={criterios}
+ServiceCatalogo -> BD : SELECT livros WHERE {criterios}\nORDER BY popularidade DESC
+BD --> ServiceCatalogo : livros filtrados
+ServiceCatalogo --> Client : resultado filtrado
+
+Client --> Leitor : exibe livros de acordo\ncom os critérios selecionados
+
+@enduml
