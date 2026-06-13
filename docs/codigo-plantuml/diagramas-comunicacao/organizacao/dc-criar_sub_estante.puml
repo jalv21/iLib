@@ -1,4 +1,4 @@
-@startuml ds-criar_sub_estante
+@startuml dc-criar_sub_estante
 autonumber
 skinparam style strictuml
 
@@ -8,29 +8,21 @@ participant ServiceBiblioteca as "Serviço de Biblioteca"
 database    BD                as "Banco de Dados"
 
 Usuario -> Client : seleciona um Acervo e clica\nem "Nova Sub-estante"
-activate Client
 
 Client --> Usuario : exibe formulário de criação\n(nome e visibilidade da sub-estante)
 
 Usuario -> Client : preenche nome e visibilidade\ne confirma
 
 Client -> ServiceBiblioteca : POST /acervos/{acervoId}/estantes\n(usuarioId, nome, publico)
-activate ServiceBiblioteca
 
 ServiceBiblioteca -> BD : SELECT acervo WHERE\nid = {acervoId} AND usuarioId = {id}
-activate BD
 BD --> ServiceBiblioteca : acervo encontrado e pertence ao usuário
-deactivate BD
 
 ServiceBiblioteca -> BD : INSERT estante(acervoId, usuarioId,\nnome, publico)
-activate BD
 BD --> ServiceBiblioteca : sub-estante criada (id)
-deactivate BD
 
 ServiceBiblioteca --> Client : 201 Created — dados da sub-estante
-deactivate ServiceBiblioteca
 
 Client --> Usuario : exibe sub-estante aninhada\ndentro do acervo
-deactivate Client
 
 @enduml
