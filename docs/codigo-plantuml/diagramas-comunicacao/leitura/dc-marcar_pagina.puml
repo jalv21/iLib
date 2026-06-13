@@ -1,4 +1,4 @@
-@startuml ds-marcar_pagina
+@startuml dc-marcar_pagina
 autonumber
 skinparam style strictuml
 
@@ -8,32 +8,19 @@ participant ServiceLeitura as "Serviço de Leitura"
 database    BD             as "Banco de Dados"
 
 Leitor -> Client : toca no ícone "Marcar Página"\ndurante a leitura
-activate Client
 
 Client -> ServiceLeitura : POST /marcadores(leitorId, livroId, pagina)
-activate ServiceLeitura
 
 ServiceLeitura -> BD : SELECT marcadorPagina WHERE\nleitorId = {id} AND livroId = {id}
-activate BD
 BD --> ServiceLeitura : marcador existente (ou vazio)
-deactivate BD
 
-alt já existe marcador neste livro
-    ServiceLeitura -> BD : UPDATE marcadorPagina\nSET pagina = {pagina}, dataHora = NOW()\nWHERE leitorId = {id} AND livroId = {id}
-    activate BD
-    BD --> ServiceLeitura : marcador atualizado
-    deactivate BD
-else primeiro marcador neste livro
-    ServiceLeitura -> BD : INSERT marcadorPagina\n(leitorId, livroId, pagina, dataHora)
-    activate BD
-    BD --> ServiceLeitura : marcador criado
-    deactivate BD
-end
+ServiceLeitura -> BD : UPDATE marcadorPagina\nSET pagina = {pagina}, dataHora = NOW()\nWHERE leitorId = {id} AND livroId = {id}
+BD --> ServiceLeitura : marcador atualizado
+ServiceLeitura -> BD : INSERT marcadorPagina\n(leitorId, livroId, pagina, dataHora)
+BD --> ServiceLeitura : marcador criado
 
 ServiceLeitura --> Client : 200 OK — página marcada
-deactivate ServiceLeitura
 
 Client --> Leitor : ícone de marcador ativado\ne página salva confirmada
-deactivate Client
 
 @enduml
