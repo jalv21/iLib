@@ -1,4 +1,4 @@
-@startuml ds-criar_biblioteca
+@startuml dc-criar_biblioteca
 autonumber
 skinparam style strictuml
 
