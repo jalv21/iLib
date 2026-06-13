@@ -8,60 +8,37 @@ participant ServiceAvaliacao as "Serviço de Avaliação"
 database    BD               as "Banco de Dados"
 
 UsuarioEditorial -> Client : acessa dashboard e abre\na seção "Avaliações" do livro
-activate Client
 
 Client -> ServiceAvaliacao : GET /livros/{livroId}/avaliacoes
-activate ServiceAvaliacao
 ServiceAvaliacao -> BD : SELECT avaliacoes WHERE\nlivroId = {id} ORDER BY dataHora DESC
-activate BD
 BD --> ServiceAvaliacao : lista de avaliações
-deactivate BD
 ServiceAvaliacao --> Client : avaliações com seus comentários
-deactivate ServiceAvaliacao
 
 Client --> UsuarioEditorial : exibe lista de avaliações\ndo livro
 
 UsuarioEditorial -> Client : seleciona uma avaliação\ne clica em "Responder"
 
 Client -> ServiceAvaliacao : GET /avaliacoes/{id}
-activate ServiceAvaliacao
 ServiceAvaliacao -> BD : SELECT avaliacao WHERE id = {id}
-activate BD
 BD --> ServiceAvaliacao : dados da avaliação
-deactivate BD
 
 ServiceAvaliacao -> BD : SELECT comentarioAvaliacao WHERE\navaliacaoId = {id}\nAND autorId = {usuarioEditorialId}
-activate BD
 BD --> ServiceAvaliacao : resposta prévia (ou vazia)
-deactivate BD
 ServiceAvaliacao --> Client : avaliação e resposta prévia (se houver)
-deactivate ServiceAvaliacao
 
-alt ainda não respondeu esta avaliação
-    Client --> UsuarioEditorial : exibe campo de texto em branco
-    UsuarioEditorial -> Client  : digita resposta e confirma
-    Client -> ServiceAvaliacao  : POST /avaliacoes/{id}/comentarios\n(autorId, texto, deAutorEditora = true)
-    activate ServiceAvaliacao
-    ServiceAvaliacao -> BD : INSERT comentarioAvaliacao\n(avaliacaoId, autorId, texto,\ndeAutorEditora = true, dataHora)
-    activate BD
-    BD --> ServiceAvaliacao : resposta criada (id)
-    deactivate BD
-    ServiceAvaliacao --> Client : 201 Created
-    deactivate ServiceAvaliacao
-else já existe resposta do usuário editorial
-    Client --> UsuarioEditorial : exibe campo com texto atual
-    UsuarioEditorial -> Client  : edita resposta e confirma
-    Client -> ServiceAvaliacao  : PATCH /avaliacoes/{id}/comentarios/{comentId}\n(texto)
-    activate ServiceAvaliacao
-    ServiceAvaliacao -> BD : UPDATE comentarioAvaliacao\nSET texto = {texto}, dataHora = NOW()\nWHERE id = {comentId}
-    activate BD
-    BD --> ServiceAvaliacao : resposta atualizada
-    deactivate BD
-    ServiceAvaliacao --> Client : 200 OK
-    deactivate ServiceAvaliacao
-end
+Client --> UsuarioEditorial : exibe campo de texto em branco
+UsuarioEditorial -> Client  : digita resposta e confirma
+Client -> ServiceAvaliacao  : POST /avaliacoes/{id}/comentarios\n(autorId, texto, deAutorEditora = true)
+ServiceAvaliacao -> BD : INSERT comentarioAvaliacao\n(avaliacaoId, autorId, texto,\ndeAutorEditora = true, dataHora)
+BD --> ServiceAvaliacao : resposta criada (id)
+ServiceAvaliacao --> Client : 201 Created
+Client --> UsuarioEditorial : exibe campo com texto atual
+UsuarioEditorial -> Client  : edita resposta e confirma
+Client -> ServiceAvaliacao  : PATCH /avaliacoes/{id}/comentarios/{comentId}\n(texto)
+ServiceAvaliacao -> BD : UPDATE comentarioAvaliacao\nSET texto = {texto}, dataHora = NOW()\nWHERE id = {comentId}
+BD --> ServiceAvaliacao : resposta atualizada
+ServiceAvaliacao --> Client : 200 OK
 
 Client --> UsuarioEditorial : exibe resposta publicada\nna thread da avaliação\n(com badge "Autor" ou "Editora")
-deactivate Client
 
 @enduml
