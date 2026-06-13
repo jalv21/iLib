@@ -1,40 +1,5 @@
 @startuml diagrama-casos-uso
 
-skinparam usecase<<CRUDUsuarios>> {
-    BackgroundColor #dfccff
-    BorderColor #6b43b0
-}
-
-skinparam usecase<<CRUDLivros>> {
-    BackgroundColor #c1ece2ff
-    BorderColor #278b72ff
-}
-
-skinparam usecase<<CatalogoLivros>> {
-   BackgroundColor #b5e4e8
-    BorderColor #1f7c8c
-}
-
-skinparam usecase<<AvaliacaoLivros>> {
-   BackgroundColor #fff2c6ff
-   BorderColor #756025ff
-}
-
-skinparam usecase<<OrganizacaoLivros>> {
-   BackgroundColor #cbffc6ff
-   BorderColor #327525ff
-}
-
-skinparam usecase<<LeituraLivros>> {
-   BackgroundColor #ffc6c6ff
-   BorderColor #752525ff
-}
-
-skinparam usecase<<Dashboard>> {
-   BackgroundColor #c5ceddff
-   BorderColor #484f77ff
-}
-
 actor Usuario
 actor UsuarioEditorial
 actor Leitor
@@ -48,23 +13,20 @@ UsuarioEditorial --|> Usuario
 
 ' Feature - CRUD de Usuários
 
-usecase "Fazer cadastro" as cadastrar
-usecase "Fazer login" as login
+usecase "UC01\nFazer cadastro" as cadastrar
+usecase "UC02\nFazer login" as login
 
 Usuario --> cadastrar
 Usuario --> login
 
-(cadastrar) <<CRUDUsuarios>>
-(login) <<CRUDUsuarios>>
-
 ' Feature - CRUD de Livros
 
-usecase "Cadastrar livros" as cadastrar_livros
-usecase "Fazer upload EPUB" as upload_epub
-usecase "Autenticar" as autenticar
-usecase "Editar livros" as editar_livros
-usecase "Arquivar livros" as arquivar_livros
-usecase "Remover livros" as remover_livros
+usecase "UC03\nCadastrar livros" as cadastrar_livros
+usecase "UC04\nFazer upload EPUB" as upload_epub
+usecase "UC05\nAutenticar" as autenticar
+usecase "UC06\nEditar livros" as editar_livros
+usecase "UC07\nArquivar livros" as arquivar_livros
+usecase "UC08\nRemover livros" as remover_livros
 
 UsuarioEditorial --> cadastrar_livros
 cadastrar_livros ..> upload_epub : <<include>>
@@ -74,24 +36,16 @@ UsuarioEditorial --> arquivar_livros
 
 arquivar_livros ..> remover_livros : <<extend>>
 
-(cadastrar_livros) <<CRUDLivros>>
-(editar_livros) <<CRUDLivros>>
-(arquivar_livros) <<CRUDLivros>>
-(remover_livros) <<CRUDLivros>>
-(upload_epub) <<CRUDLivros>>
-
-(autenticar) <<CRUDUsuarios>>
-
 
 ' Feature - Catálogo de Livros
 
-usecase "Comprar livros" as comprar_livros
-usecase "Selecionar método pagamento" as selecionar_metodo_pgto
-usecase "Receber por livro" as receber_por_livro
-usecase "Filtrar livros" as filtrar_livros
-usecase "Pesquisar livros" as pesquisar_livros
-usecase "Aplicar Filtros" as aplicar_filtros
-usecase "Acessar Estante" as acessar_estante
+usecase "UC09\nComprar livros" as comprar_livros
+usecase "UC10\nSelecionar método pagamento" as selecionar_metodo_pgto
+usecase "UC11\nReceber por livro" as receber_por_livro
+usecase "UC12\nFiltrar livros" as filtrar_livros
+usecase "UC13\nPesquisar livros" as pesquisar_livros
+usecase "UC14\nAplicar Filtros" as aplicar_filtros
+usecase "UC15\nAcessar Estante" as acessar_estante
 
 Leitor --> comprar_livros
 UsuarioEditorial --> receber_por_livro
@@ -104,35 +58,23 @@ pesquisar_livros ..> acessar_estante : <<extend>>
 
 comprar_livros ..> selecionar_metodo_pgto : <<include>>
 
-(comprar_livros) <<CatalogoLivros>>
-(filtrar_livros) <<CatalogoLivros>>
-(pesquisar_livros) <<CatalogoLivros>>
-(acessar_estante) <<CatalogoLivros>>
-(aplicar_filtros) <<CatalogoLivros>>
-(selecionar_metodo_pgto) <<CatalogoLivros>>
-(receber_por_livro) <<CatalogoLivros>>
-
 ' Feature - Leitura de Livros
 
-usecase "Ler livros" as ler_livros
-usecase "Marcar página" as marcar_pagina
-usecase "Finalizar livro" as finalizar_livro
+usecase "UC16\nLer livros" as ler_livros
+usecase "UC17\nMarcar página" as marcar_pagina
+usecase "UC18\nFinalizar livro" as finalizar_livro
 
 Leitor --> ler_livros
 
 ler_livros ..> marcar_pagina : <<extend>>
 ler_livros ..> finalizar_livro : <<extend>>
 
-(ler_livros) <<LeituraLivros>>
-(marcar_pagina) <<LeituraLivros>>
-(finalizar_livro) <<LeituraLivros>> 
-
 ' Feature - Avaliação de Livros
 
-usecase "Avaliar livros" as avaliar_livros
-usecase "Adicionar comentário" as adicionar_comentario
-usecase "Comentar em avaliações" as comentar_avaliacoes
-usecase "Responder avaliações de leitores" as responder_avaliacoes 
+usecase "UC19\nAvaliar livros" as avaliar_livros
+usecase "UC20\nAdicionar comentário" as adicionar_comentario
+usecase "UC21\nComentar em avaliações" as comentar_avaliacoes
+usecase "UC22\nResponder avaliações de leitores" as responder_avaliacoes 
 
 Leitor --> avaliar_livros
 Leitor --> comentar_avaliacoes
@@ -141,29 +83,24 @@ UsuarioEditorial --> responder_avaliacoes
 
 avaliar_livros ..> adicionar_comentario : <<extend>>
 
-(avaliar_livros) <<AvaliacaoLivros>>
-(adicionar_comentario) <<AvaliacaoLivros>>
-(comentar_avaliacoes) <<AvaliacaoLivros>>
-(responder_avaliacoes) <<AvaliacaoLivros>>
-
 ' Feature - Organização de Livros
 
 actor "Subsistema de Bibliotecas" as SubsistemaBiblioteca
 
-usecase "Criar biblioteca" as criar_biblioteca
-usecase "Inserir na estante de adquiridos" as inserir_estante_adquiridos
-usecase "Inserir na estante de avaliados" as inserir_estante_avaliados
-usecase "Inserir no histórico de livros" as inserir_historico_livros
+usecase "UC23\nCriar biblioteca" as criar_biblioteca
+usecase "UC24\nInserir na estante de adquiridos" as inserir_estante_adquiridos
+usecase "UC25\nInserir na estante de avaliados" as inserir_estante_avaliados
+usecase "UC26\nInserir no histórico de livros" as inserir_historico_livros
 
 SubsistemaBiblioteca --> criar_biblioteca
 SubsistemaBiblioteca --> inserir_estante_adquiridos
 SubsistemaBiblioteca --> inserir_estante_avaliados
 SubsistemaBiblioteca --> inserir_historico_livros
 
-usecase "Criar nova estante" as criar_estante
-usecase "Adicionar à estante" as adicionar_livro_estante
-usecase "Remover da estante" as remover_livro_estante
-usecase "Criar sub-estante" as criar_sub_estante
+usecase "UC27\nCriar nova estante" as criar_estante
+usecase "UC28\nAdicionar à estante" as adicionar_livro_estante
+usecase "UC29\nRemover da estante" as remover_livro_estante
+usecase "UC30\nCriar sub-estante" as criar_sub_estante
 
 Usuario --> criar_estante
 Usuario --> adicionar_livro_estante
@@ -171,37 +108,20 @@ Usuario --> remover_livro_estante
 
 criar_estante ..> criar_sub_estante : <<extend>>
 
-(criar_biblioteca) <<OrganizacaoLivros>>
-(inserir_estante_adquiridos) <<OrganizacaoLivros>>
-(inserir_estante_avaliados) <<OrganizacaoLivros>>
-(inserir_historico_livros) <<OrganizacaoLivros>>
-(criar_estante) <<OrganizacaoLivros>>
-(adicionar_livro_estante) <<OrganizacaoLivros>>
-(remover_livro_estante) <<OrganizacaoLivros>>
-(criar_sub_estante) <<OrganizacaoLivros>>
-
 ' Feature - Dashboard Editorial
 
 actor "Subsistema de Dashboard" as dashboard
 
-usecase "Calcular receita" as calcular_receita
-usecase "Analisar perfil do público" as analisar_publico
-usecase "Analisar avaliações" as analisar_avaliacoes 
-usecase "Analisar livros" as analisar_livros
-usecase "Analisar estantes" as analisar_estantes
+usecase "UC31\nCalcular receita" as calcular_receita
+usecase "UC32\nAnalisar perfil do público" as analisar_publico
+usecase "UC33\nAnalisar avaliações" as analisar_avaliacoes 
+usecase "UC34\nAnalisar livros" as analisar_livros
+usecase "UC35\nAnalisar estantes" as analisar_estantes
 
 dashboard --> calcular_receita
 dashboard --> analisar_publico
 dashboard --> analisar_avaliacoes
 dashboard --> analisar_livros
 dashboard --> analisar_estantes
-
-(calcular_receita) <<Dashboard>>
-(analisar_publico) <<Dashboard>>
-(analisar_avaliacoes) <<Dashboard>>
-(analisar_livros) <<Dashboard>>
-(analisar_estantes) <<Dashboard>>
-
-
 
 @enduml
