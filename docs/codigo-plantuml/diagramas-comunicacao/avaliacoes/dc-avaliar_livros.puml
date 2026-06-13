@@ -1,0 +1,41 @@
+@startuml ds-avaliar_livros
+autonumber
+skinparam style strictuml
+
+actor Leitor as "Leitor"
+participant Client           as "Aplicação Cliente"
+participant ServiceAvaliacao as "Serviço de Avaliação"
+database    BD               as "Banco de Dados"
+
+Leitor -> Client : acessa página do livro\ne clica em "Avaliar"
+activate Client
+
+Client --> Leitor : exibe formulário de avaliação\n(nota de 1 a 5 e campo de texto)
+
+Leitor -> Client : preenche nota e texto\ne confirma envio
+
+Client -> ServiceAvaliacao : POST /avaliacoes(leitorId, livroId,\nnota, texto)
+activate ServiceAvaliacao
+
+ServiceAvaliacao -> BD : SELECT avaliacao WHERE\nleitorId = {id} AND livroId = {id}
+activate BD
+BD --> ServiceAvaliacao : nenhuma avaliação prévia
+deactivate BD
+
+ServiceAvaliacao -> BD : INSERT avaliacao(leitorId, livroId,\nnota, texto, dataHora)
+activate BD
+BD --> ServiceAvaliacao : avaliação criada (id)
+deactivate BD
+
+ServiceAvaliacao -> BD : UPDATE livro SET mediaAvaliacoes =\nAVG(nota) WHERE livroId = {id}
+activate BD
+BD --> ServiceAvaliacao : média atualizada
+deactivate BD
+
+ServiceAvaliacao --> Client : 201 Created — avaliação registrada
+deactivate ServiceAvaliacao
+
+Client --> Leitor : exibe avaliação publicada\nna seção de avaliações do livro
+deactivate Client
+
+@enduml
